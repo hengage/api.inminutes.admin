@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, HydratedDocument } from 'mongoose';
 import { AdminRole } from 'src/lib/constants';
 
 @Schema({ timestamps: true })
@@ -22,5 +22,6 @@ export class Admin extends Document {
 }
 
 export const AdminSchema = SchemaFactory.createForClass(Admin);
+export type AdminDocument = HydratedDocument<Admin>;
 
 AdminSchema.index({ email: 1 });

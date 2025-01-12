@@ -8,11 +8,11 @@ import {
   Delete,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
-import { CreateAdminDto, UpdateAdminDto } from './dto/admin.dto';
+import { CreateAdminDto, UpdateAdminDto } from './admin.dto';
 
 @Controller('admin')
 export class AdminController {
-  constructor(private readonly adminService: AdminService) { }
+  constructor(private readonly adminService: AdminService) {}
 
   @Post()
   create(@Body() createAdminDto: CreateAdminDto) {
