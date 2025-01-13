@@ -33,3 +33,9 @@ export class CreateAdminDto {
 }
 
 export class UpdateAdminDto extends PartialType(CreateAdminDto) {}
+
+export class LoginAdminDto {
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+}
