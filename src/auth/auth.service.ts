@@ -14,7 +14,7 @@ export class AuthService {
 
     if (admin) {
       throw new ConflictException(
-        `Admin  with email '${createAdminData.email}' already exists`,
+        `Admin  with email '${createAdminData.email.toLowerCase()}' already exists`,
       );
     }
     return this.adminService.create(createAdminData);

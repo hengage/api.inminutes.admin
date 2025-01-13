@@ -10,13 +10,31 @@ export class Admin extends Document {
   })
   _id: string;
 
-  @Prop({ required: true, minlength: 2, maxlength: 50 })
+  @Prop({
+    required: true,
+    trim: true,
+    minlength: 2,
+    maxlength: 50,
+    set: (value: string) => value.toLowerCase(),
+  })
   firstName: string;
 
-  @Prop({ required: true, minlength: 2, maxlength: 50 })
+  @Prop({
+    required: true,
+    trim: true,
+    minlength: 2,
+    maxlength: 50,
+    set: (value: string) => value.toLowerCase(),
+  })
   lastName: string;
 
-  @Prop({ required: true, unique: true, match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })
+  @Prop({
+    required: true,
+    trim: true,
+    unique: true,
+    match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    set: (value: string) => value.toLowerCase(),
+  })
   email: string;
 
   @Prop({
