@@ -1,16 +1,22 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument } from 'mongoose';
 import { AdminRole } from 'src/lib/constants';
-
+import { v4 as uuidv4 } from 'uuid';
 @Schema({ timestamps: true })
 export class Admin extends Document {
-  @Prop({ required: true })
+  @Prop({
+    type: String,
+    default: () => uuidv4(),
+  })
+  _id: string;
+
+  @Prop({ required: true, minlength: 2, maxlength: 50 })
   firstName: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, minlength: 2, maxlength: 50 })
   lastName: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({ required: true, unique: true, match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/ })
   email: string;
 
   @Prop({
@@ -18,7 +24,17 @@ export class Admin extends Document {
     enum: Object.values(AdminRole),
     default: AdminRole.ADMIN,
   })
-  role: string;
+  role: AdminRole;
+
+  @Prop({
+    type: Object,
+    default: null,
+  })
+  deleted: {
+    deletedAt: Date | null;
+    deletedBy: string | null;
+    reason: string | null;
+  };
 }
 
 export const AdminSchema = SchemaFactory.createForClass(Admin);

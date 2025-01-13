@@ -5,14 +5,20 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  MaxLength,
+  MinLength,
 } from 'class-validator';
 import { AdminRole } from 'src/lib/constants';
 
 export class CreateAdminDto {
+  @MinLength(2)
+  @MaxLength(50)
   @IsString()
   @IsNotEmpty()
   firstName: string;
 
+  @MinLength(2)
+  @MaxLength(50)
   @IsString()
   @IsNotEmpty()
   lastName: string;
