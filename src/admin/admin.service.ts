@@ -21,6 +21,13 @@ export class AdminService {
     return `This action returns a #${id} admin`;
   }
 
+  async findOneByEmail(
+    email: AdminDocument['email'],
+    select?: string[] | '',
+  ): Promise<AdminDocument | null> {
+    return this.adminModel.findOne({ email }).select(select).exec();
+  }
+
   update(id: number, updateAdminDto: UpdateAdminDto) {
     return `This action updates a #${id} admin`;
   }
