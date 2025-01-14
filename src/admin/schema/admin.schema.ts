@@ -1,35 +1,61 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
-import * as bcrypt from 'bcrypt';
-import { NextFunction } from 'express';
+import { Document, HydratedDocument } from 'mongoose';
 import { AdminRole } from 'src/lib/constants';
-
+import { v4 as uuidv4 } from 'uuid';
 @Schema({ timestamps: true })
 export class Admin extends Document {
-  @Prop({ required: true })
-  name: string;
+  @Prop({
+    type: String,
+    default: () => uuidv4(),
+  })
+  _id: string;
 
-  @Prop({ required: true, unique: true })
+  @Prop({
+    required: true,
+    trim: true,
+    minlength: 2,
+    maxlength: 50,
+    set: (value: string) => value.toLowerCase(),
+  })
+  firstName: string;
+
+  @Prop({
+    required: true,
+    trim: true,
+    minlength: 2,
+    maxlength: 50,
+    set: (value: string) => value.toLowerCase(),
+  })
+  lastName: string;
+
+  @Prop({
+    required: true,
+    trim: true,
+    unique: true,
+    match: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
+    set: (value: string) => value.toLowerCase(),
+  })
   email: string;
-
-  @Prop({ required: true })
-  password: string;
 
   @Prop({
     required: true,
     enum: Object.values(AdminRole),
     default: AdminRole.ADMIN,
   })
-  role: string;
+  role: AdminRole;
+
+  @Prop({
+    type: Object,
+    default: null,
+  })
+  deleted: {
+    deletedAt: Date | null;
+    deletedBy: string | null;
+    reason: string | null;
+  };
 }
 
 export const AdminSchema = SchemaFactory.createForClass(Admin);
+export type AdminDocument = HydratedDocument<Admin>;
 
 AdminSchema.index({ email: 1 });
-
-AdminSchema.pre('save', async function (next: NextFunction) {
-  if (this.isModified('password')) {
-    this.password = await bcrypt.hash(this.password, 10);
-  }
-  next();
-});

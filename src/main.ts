@@ -11,6 +11,7 @@ async function bootstrap() {
       whitelist: true, // Strip properties that do not have any decorators
       forbidNonWhitelisted: true, // Throw an error if non-whitelisted properties are present
       transform: true, // Automatically transform payload to DTO instance
+      stopAtFirstError: true,
     }),
   );
   await app.listen(3000);

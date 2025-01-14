@@ -4,6 +4,10 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './config/database/database.module';
 import { ConfigModule } from '@nestjs/config';
 import { AdminModule } from './admin/admin.module';
+import { AuthService } from './auth/auth.service';
+import { AuthModule } from './auth/auth.module';
+import { AdminService } from './admin/admin.service';
+import { JwtModule } from '@nestjs/jwt';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -11,8 +15,10 @@ import { AdminModule } from './admin/admin.module';
     }),
     DatabaseModule,
     AdminModule,
+    AuthModule,
+    JwtModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, AuthService, AdminService],
 })
 export class AppModule {}

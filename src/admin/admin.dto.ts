@@ -3,28 +3,39 @@ import {
   IsEmail,
   IsEnum,
   IsNotEmpty,
+  IsOptional,
   IsString,
+  MaxLength,
   MinLength,
 } from 'class-validator';
 import { AdminRole } from 'src/lib/constants';
 
 export class CreateAdminDto {
+  @MinLength(2)
+  @MaxLength(50)
   @IsString()
   @IsNotEmpty()
-  name: string;
+  firstName: string;
+
+  @MinLength(2)
+  @MaxLength(50)
+  @IsString()
+  @IsNotEmpty()
+  lastName: string;
 
   @IsEmail()
   @IsNotEmpty()
   email: string;
 
-  @IsString()
-  @IsNotEmpty()
-  @MinLength(8)
-  password: string;
-
-  @IsEnum(Object.values(AdminRole))
-  @IsNotEmpty()
-  role: string;
+  @IsEnum(AdminRole)
+  @IsOptional()
+  role: AdminRole;
 }
 
 export class UpdateAdminDto extends PartialType(CreateAdminDto) {}
+
+export class LoginAdminDto {
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+}
