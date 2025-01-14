@@ -7,6 +7,7 @@ import { AdminModule } from './admin/admin.module';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { AdminService } from './admin/admin.service';
+import { JwtModule } from '@nestjs/jwt';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -15,6 +16,7 @@ import { AdminService } from './admin/admin.service';
     DatabaseModule,
     AdminModule,
     AuthModule,
+    JwtModule,
   ],
   controllers: [AppController],
   providers: [AppService, AuthService, AdminService],
