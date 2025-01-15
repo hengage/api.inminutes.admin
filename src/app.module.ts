@@ -8,6 +8,7 @@ import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { AdminService } from './admin/admin.service';
 import { JwtModule } from '@nestjs/jwt';
+import { BrevoService } from './notifications/email/brevo.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -19,6 +20,6 @@ import { JwtModule } from '@nestjs/jwt';
     JwtModule,
   ],
   controllers: [AppController],
-  providers: [AppService, AuthService, AdminService],
+  providers: [AppService, AuthService, AdminService, BrevoService],
 })
 export class AppModule {}
