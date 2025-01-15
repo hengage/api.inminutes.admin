@@ -5,10 +5,12 @@ import { AuthController } from './auth.controller';
 import { JwtConstant } from 'src/lib/constants';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { NotificationsModule } from 'src/notifications/notifications.module';
 
 @Module({
   imports: [
     AdminModule,
+    NotificationsModule,
     // JwtModule.register({
     //   global: true,
     //   secret: JwtConstant.secret,
