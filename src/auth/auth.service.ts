@@ -24,7 +24,7 @@ export class AuthService {
 
     await this.brevoService.sendOtpEmail({
       recipientEmail: email,
-      otp: '123456',
+      otp: await this.adminService.generateToken(email),
       recipientName: `${createAdminData.firstName} ${createAdminData.lastName}`,
     });
 
@@ -39,7 +39,16 @@ export class AuthService {
       throw new ConflictException(Msgs.ADMIN_NOT_FOUND(email));
     }
     const token = await this.generateToken(admin._id, admin.email);
+    await this.brevoService.sendOtpEmail({
+      recipientEmail: admin.email,
+      otp: await this.adminService.generateToken(email),
+      recipientName: `${admin.firstName} ${admin.lastName}`,
+    });
     return { admin, token };
+  }
+  async confirmOTP(otp, email) {
+    await this.adminService.verifyToken(email, otp);
+    return { message: 'OTP confirmed successfully' };
   }
 
   async generateToken(id: AdminDocument['_id'], email: AdminDocument['email']) {
