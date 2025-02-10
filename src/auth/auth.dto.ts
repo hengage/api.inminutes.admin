@@ -17,5 +17,4 @@ export class OtpConfirmDto {
   @IsNumber()
   @IsNotEmpty()
   otp: number;
-
 }
