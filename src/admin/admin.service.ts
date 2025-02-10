@@ -3,6 +3,7 @@ import { CreateAdminDto, UpdateAdminDto } from './admin.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AdminDocument } from './schema/admin.schema';
+import { generateOTP, verifyOTP } from 'src/lib/otpToken';
 
 @Injectable()
 export class AdminService {
@@ -34,5 +35,47 @@ export class AdminService {
 
   remove(id: number) {
     return `This action removes a #${id} admin`;
+  }
+
+   /**
+   * Generates a one-time password (OTP) for an admin.
+   * @param email - Admin's email to find their secret key.
+   * @returns OTP if secret exists, otherwise an error.
+   */
+   async generateToken(email: string): Promise<number> {
+    const admin = await this.adminModel.findOne({ email }).select('otpSecret');
+    if (!admin) {
+      throw new Error('Admin not found or OTP secret is missing');
+    }
+
+    const {otp, secret} = generateOTP();
+    admin.otpSecret = secret;
+    admin.otpVerified = false;
+    admin.otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000);
+    await admin.save();
+
+    return otp;
+  }
+
+  /**
+   * Verifies an OTP using the admin's stored secret key.
+   * @param email - Admin's email.
+   * @param otp - OTP to be verified.
+   * @returns Boolean indicating success or failure.
+   */
+  async verifyToken(email: string, otp: number): Promise<boolean> {
+    const admin = await this.adminModel.findOne({ email }).select('+otpSecret');
+    if (!admin || !admin.otpSecret) {
+      throw new Error('Admin not found or OTP secret is missing');
+    }
+    const isValid = verifyOTP(otp, admin.otpSecret);
+
+  if (isValid) {
+    admin.otpVerified = true;
+    await admin.save();
+    return isValid
+  }
+
+  return isValid;
   }
 }
