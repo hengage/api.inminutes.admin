@@ -22,7 +22,6 @@ export class AuthService {
       throw new ConflictException(Msgs.ADMIN_ALREADY_EXISTS(email));
     }
 
-
     await this.brevoService.sendOtpEmail({
       recipientEmail: email,
       otp: await this.adminService.generateToken(email),
@@ -50,7 +49,7 @@ export class AuthService {
   async confirmOTP(otp, email) {
     // const email = "mail@mail.com"
     await this.adminService.verifyToken(email, otp);
-    return {message: "OTP confirmed successfully" };
+    return { message: 'OTP confirmed successfully' };
   }
 
   async generateToken(id: AdminDocument['_id'], email: AdminDocument['email']) {

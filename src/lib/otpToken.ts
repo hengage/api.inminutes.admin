@@ -1,6 +1,6 @@
 import speakeasy from 'speakeasy';
 
-export const generateOTP = (): {otp: number, secret: string} => {
+export const generateOTP = (): { otp: number; secret: string } => {
   const secret = speakeasy.generateSecret({ length: 20 });
 
   const otp = speakeasy.totp({

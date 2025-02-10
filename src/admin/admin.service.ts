@@ -37,18 +37,18 @@ export class AdminService {
     return `This action removes a #${id} admin`;
   }
 
-   /**
+  /**
    * Generates a one-time password (OTP) for an admin.
    * @param email - Admin's email to find their secret key.
    * @returns OTP if secret exists, otherwise an error.
    */
-   async generateToken(email: string): Promise<number> {
+  async generateToken(email: string): Promise<number> {
     const admin = await this.adminModel.findOne({ email }).select('otpSecret');
     if (!admin) {
       throw new Error('Admin not found or OTP secret is missing');
     }
 
-    const {otp, secret} = generateOTP();
+    const { otp, secret } = generateOTP();
     admin.otpSecret = secret;
     admin.otpVerified = false;
     admin.otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000);
@@ -70,12 +70,12 @@ export class AdminService {
     }
     const isValid = verifyOTP(otp, admin.otpSecret);
 
-  if (isValid) {
-    admin.otpVerified = true;
-    await admin.save();
-    return isValid
-  }
+    if (isValid) {
+      admin.otpVerified = true;
+      await admin.save();
+      return isValid;
+    }
 
-  return isValid;
+    return isValid;
   }
 }
