@@ -45,6 +45,25 @@ export class Admin extends Document {
   role: AdminRole;
 
   @Prop({
+    type: String,
+    default: null,
+    select: false,
+  })
+  otpSecret: string | null;
+
+  @Prop({
+    type: Boolean,
+    default: false,
+  })
+  otpVerified: boolean;
+
+  @Prop({
+    type: Date,
+    default: null,
+  })
+  otpExpiresAt: Date | null;
+
+  @Prop({
     type: Object,
     default: null,
   })
