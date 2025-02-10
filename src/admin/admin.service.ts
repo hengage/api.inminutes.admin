@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateAdminDto, UpdateAdminDto } from './admin.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AdminDocument } from './schema/admin.schema';
 import { generateOTP, verifyOTP } from 'src/lib/otpToken';
+import { Msgs } from 'src/lib/messages';
 
 @Injectable()
 export class AdminService {
@@ -66,7 +67,7 @@ export class AdminService {
   async verifyToken(email: string, otp: number): Promise<boolean> {
     const admin = await this.adminModel.findOne({ email }).select('+otpSecret');
     if (!admin || !admin.otpSecret) {
-      throw new Error('Admin not found or OTP secret is missing');
+      throw new ConflictException(Msgs.ADMIN_NOT_FOUND(email));
     }
     const isValid = verifyOTP(otp, admin.otpSecret);
 

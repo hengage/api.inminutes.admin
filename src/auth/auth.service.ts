@@ -47,7 +47,6 @@ export class AuthService {
     return { admin, token };
   }
   async confirmOTP(otp, email) {
-    // const email = "mail@mail.com"
     await this.adminService.verifyToken(email, otp);
     return { message: 'OTP confirmed successfully' };
   }
