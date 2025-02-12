@@ -1,4 +1,4 @@
-import speakeasy from 'speakeasy';
+import * as speakeasy from 'speakeasy';
 
 export const generateOTP = (): { otp: number; secret: string } => {
   const secret = speakeasy.generateSecret({ length: 20 });
@@ -7,7 +7,7 @@ export const generateOTP = (): { otp: number; secret: string } => {
     secret: secret.base32,
     encoding: 'base32',
     digits: 5,
-    step: 1800,
+    step: 3600,
   });
 
   return { otp: parseInt(otp, 10), secret: secret.base32 };

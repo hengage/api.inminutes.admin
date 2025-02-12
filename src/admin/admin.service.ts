@@ -44,7 +44,7 @@ export class AdminService {
    * @returns OTP if secret exists, otherwise an error.
    */
   async generateToken(email: string): Promise<number> {
-    const admin = await this.adminModel.findOne({ email }).select('otpSecret');
+    const admin = await this.adminModel.findOne({ email });
     if (!admin) {
       throw new Error('Admin not found or OTP secret is missing');
     }
