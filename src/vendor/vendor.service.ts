@@ -1,20 +1,21 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
+import { Document, FilterQuery, Model } from 'mongoose';
 import { VendorDocument } from './schema/vendor.schema';
+import { CreateVendorDto } from './vendor.dto';
 @Injectable()
 export class VendorService {
     constructor(@InjectModel('Admin') private vendorModel: Model<VendorDocument>){
         
     }
 
-    async createVendor(vendorData: Partial<VendorDocument>): Promise<VendorDocument> {
+    async createVendor(createdVendorDto: CreateVendorDto): Promise<VendorDocument> {
         try {
-          const createdVendor = new this.vendorModel(vendorData);
-          return await createdVendor.save();
+            const vendorData = { ...createdVendorDto, password: this.generateRandomPassword() };
+            const createdVendor = new this.vendorModel(vendorData);
+            return await createdVendor.save();
         } catch (error) {
-          // Handle potential errors like duplicate email, validation errors, etc.
-          throw new BadRequestException(error.message); // Or a more specific error
+            throw new BadRequestException(error.message);
         }
       }
     
@@ -22,7 +23,7 @@ export class VendorService {
         try {
           const count = await this.vendorModel.countDocuments({
             createdAt: { $gte: startDate, $lte: endDate },
-          });
+          }as any);
           return count;
         } catch (error) {
           throw new BadRequestException(error.message);
@@ -71,5 +72,33 @@ export class VendorService {
         } catch (error) {
           throw new BadRequestException(error.message);
         }
+      }
+
+      private generateRandomPassword(length: number = 12): string {
+        const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+=-`~[]\{}|;\':",./<>?';
+        let password = '';
+    
+        const requirements = [
+            /[a-z]/,
+            /[A-Z]/,
+            /[0-9]/,
+            /[!@#$%^&*()_+\-=`~[\]{}\\|;':",./<>?]/
+        ];
+    
+        for (const regex of requirements) {
+            let char;
+            do {
+                char = characters[Math.floor(Math.random() * characters.length)];
+            } while (!regex.test(char)); // Keep trying until we have a match
+            password += char;
+        }
+    
+        const remainingLength = length - requirements.length;
+        for (let i = 0; i < remainingLength; i++) {
+            password += characters[Math.floor(Math.random() * characters.length)];
+        }
+    
+        password = password.split('').sort(() => Math.random() - 0.5).join('');
+        return password;
       }
 }

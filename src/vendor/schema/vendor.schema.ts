@@ -2,6 +2,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, HydratedDocument } from 'mongoose';
 import { VendorAccountStatus } from 'src/lib/constants';
 import { v4 as uuidv4 } from 'uuid';
+import * as bcrypt from 'bcrypt';
 
 @Schema({ timestamps: true })
 export class Vendor extends Document {
@@ -45,7 +46,7 @@ export class Vendor extends Document {
     required: true,
     trim: true,
   })
-  password: string; // HASH THIS BEFORE SAVING!
+  password: string;
 
   @Prop({
     required: true,
@@ -129,3 +130,15 @@ export type VendorDocument = HydratedDocument<Vendor>;
 
 VendorSchema.index({ email: 1 });
 VendorSchema.index({ location: '2dsphere' });
+
+VendorSchema.pre('save', async function (next) {
+  if (!this.isModified('password')) return next();
+
+  try {
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
+    next();
+  } catch (err) {
+    return next(err);
+  }
+});
