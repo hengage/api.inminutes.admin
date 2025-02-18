@@ -1,13 +1,15 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 import { Injectable } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class ApiService {
   private axiosInstance: AxiosInstance;
+  private configService: ConfigService;
 
   constructor() {
     this.axiosInstance = axios.create({
-      baseURL: process.env.APP_URL || 'https://api.example.com',
+      baseURL: this.configService.get('APP_URL'),
       timeout: 5000,
       headers: {
         'Content-Type': 'application/json',
