@@ -24,6 +24,12 @@ import { VendorModule } from './vendor/vendor.module';
     VendorModule,
   ],
   controllers: [AppController, VendorController],
-  providers: [AppService, AuthService, AdminService, BrevoService, VendorService],
+  providers: [
+    AppService,
+    AuthService,
+    AdminService,
+    BrevoService,
+    VendorService,
+  ],
 })
 export class AppModule {}

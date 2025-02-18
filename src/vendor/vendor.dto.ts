@@ -1,6 +1,6 @@
 import { PartialType } from '@nestjs/mapped-types';
 import {
-    IsArray,
+  IsArray,
   IsEmail,
   IsEnum,
   IsNotEmpty,
@@ -47,7 +47,7 @@ export class CreateVendorDto {
   @IsString()
   @IsNotEmpty()
   subCategory: string;
-  
+
   @MinLength(2)
   @MaxLength(50)
   @IsString()
@@ -60,8 +60,34 @@ export class CreateVendorDto {
   @IsEmail()
   @IsNotEmpty()
   email: string;
+}
 
-  @IsEnum(AdminRole)
-  @IsOptional()
-  role: AdminRole;
+export class UpdateVendorDto extends PartialType(CreateVendorDto) {}
+
+export class CreateVendorCategoryDto {
+  @MinLength(2)
+  @MaxLength(50)
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @MinLength(2)
+  @MaxLength(50)
+  @IsString()
+  @IsNotEmpty()
+  image: string;
+}
+
+export class CreateVendorSubCategoryDto {
+  @MinLength(2)
+  @MaxLength(50)
+  @IsString()
+  @IsNotEmpty()
+  name: string;
+
+  @MinLength(2)
+  @MaxLength(50)
+  @IsString()
+  @IsNotEmpty()
+  category: string;
 }
