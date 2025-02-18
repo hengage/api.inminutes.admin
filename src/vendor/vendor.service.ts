@@ -1,75 +1,153 @@
-import { Injectable } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
-import { VendorDocument } from './schema/vendor.schema';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  CreateVendorCategoryDto,
+  CreateVendorDto,
+  CreateVendorSubCategoryDto,
+  UpdateVendorDto,
+} from './vendor.dto';
+import { ApiService } from 'src/lib/apiCalls';
 @Injectable()
 export class VendorService {
-    constructor(@InjectModel('Admin') private vendorModel: Model<VendorDocument>){
-        
+  constructor(private readonly apiService: ApiService) {}
+
+  async createVendor(createVendorDto: CreateVendorDto): Promise<any> {
+    try {
+      const newCreateVendor = {
+        ...createVendorDto,
+        password: this.generateRandomPassword(),
+      };
+      return await this.apiService.post('/vendor/register', newCreateVendor);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async updateVendor(
+    updateVendorDto: UpdateVendorDto,
+    vendorId: string,
+  ): Promise<any> {
+    try {
+      return await this.apiService.put(
+        `/vendor/update/${vendorId}`,
+        updateVendorDto,
+      );
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getVendors(
+    page: number = 1,
+    limit: number = 10,
+    search: string = '',
+    category: string = '',
+    subCategory: string = '',
+    status: string = '',
+  ): Promise<any> {
+    try {
+      const params = { page, limit, search, category, subCategory, status };
+      return await this.apiService.get('/admin/vendors', params);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getVendorDetails(vendorId: string): Promise<any> {
+    try {
+      return await this.apiService.get(`/admin/vendors/${vendorId}`);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async approveOrDisapprove(vendorId: string, approve: boolean): Promise<any> {
+    try {
+      return await this.apiService.put(`/admin/vendors/${vendorId}/approval`, {
+        approve,
+      });
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async createVendorCategory(
+    createVendorCategoryDto: CreateVendorCategoryDto,
+  ): Promise<any> {
+    try {
+      return await this.apiService.post(
+        '/admin/vendors/category',
+        createVendorCategoryDto,
+      );
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+  async getVendorCategories(): Promise<any> {
+    try {
+      return await this.apiService.get('/vendors/category');
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async createVendorSubCategory(
+    createVendorSubCategoryDto: CreateVendorSubCategoryDto,
+  ): Promise<any> {
+    try {
+      return await this.apiService.post(
+        '/admin/vendors/sub-category',
+        createVendorSubCategoryDto,
+      );
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getVendorSubCategories(
+    category: string,
+    page: number = 1,
+    limit: number = 10,
+  ): Promise<any> {
+    try {
+      const params = { page, limit };
+      return await this.apiService.get(
+        `/vendors/category/${category}/vendors`,
+        params,
+      );
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  private generateRandomPassword(length: number = 12): string {
+    const characters =
+      'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+=-`~[]{}|;\':",./<>?';
+    let password = '';
+
+    const requirements = [
+      /[a-z]/,
+      /[A-Z]/,
+      /[0-9]/,
+      /[!@#$%^&*()_+\-=`~[\]{}\\|;':",./<>?]/,
+    ];
+
+    for (const regex of requirements) {
+      let char;
+      do {
+        char = characters[Math.floor(Math.random() * characters.length)];
+      } while (!regex.test(char)); // Keep trying until we have a match
+      password += char;
     }
 
-    async createVendor(vendorData: Partial<VendorDocument>): Promise<VendorDocument> {
-        try {
-          const createdVendor = new this.vendorModel(vendorData);
-          return await createdVendor.save();
-        } catch (error) {
-          // Handle potential errors like duplicate email, validation errors, etc.
-          throw new BadRequestException(error.message); // Or a more specific error
-        }
-      }
-    
-      async getTotalVendorsByDateRange(startDate: Date, endDate: Date): Promise<number> {
-        try {
-          const count = await this.vendorModel.countDocuments({
-            createdAt: { $gte: startDate, $lte: endDate },
-          });
-          return count;
-        } catch (error) {
-          throw new BadRequestException(error.message);
-        }
-      }
+    const remainingLength = length - requirements.length;
+    for (let i = 0; i < remainingLength; i++) {
+      password += characters[Math.floor(Math.random() * characters.length)];
+    }
 
-      async getVendors(
-        page: number = 1,
-        limit: number = 10,
-        search: string = '',
-        category: string = '',
-        subCategory: string = '',
-        status: string = '',
-      ): Promise<{ vendors: VendorDocument[]; totalCount: number }> {
-        try {
-          const skip = (page - 1) * limit;
-          const filter: FilterQuery<VendorDocument> = {};
-    
-          if (category) {
-            filter.category = category;
-          }
-          if (subCategory) {
-            filter.subCategory = subCategory;
-          }
-          if (status) {
-            filter.accountStatus = status;
-          }
-    
-          if (search) {
-            filter.$or = [
-              { businessName: { $regex: search, $options: 'i' } },
-              { email: { $regex: search, $options: 'i' } },
-              { address: { $regex: search, $options: 'i' } },
-            ];
-          }
-    
-          const vendors = await this.vendorModel
-            .find(filter)
-            .skip(skip)
-            .limit(limit)
-            .exec();
-    
-          const totalCount = await this.vendorModel.countDocuments(filter);
-    
-          return { vendors, totalCount };
-        } catch (error) {
-          throw new BadRequestException(error.message);
-        }
-      }
+    password = password
+      .split('')
+      .sort(() => Math.random() - 0.5)
+      .join('');
+    return password;
+  }
 }
