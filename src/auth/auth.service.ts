@@ -5,6 +5,7 @@ import { JwtService } from '@nestjs/jwt';
 import { AdminDocument } from 'src/admin/schema/admin.schema';
 import { Msgs } from 'src/lib/messages';
 import { BrevoService } from 'src/notifications/email/brevo.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
@@ -12,6 +13,7 @@ export class AuthService {
     private readonly adminService: AdminService,
     private readonly jwtService: JwtService,
     private readonly brevoService: BrevoService,
+    private readonly configService: ConfigService,
   ) {}
 
   async create(createAdminData: CreateAdminDto) {
@@ -21,6 +23,7 @@ export class AuthService {
     if (admin) {
       throw new ConflictException(Msgs.ADMIN_ALREADY_EXISTS(email));
     }
+    const data = await this.adminService.create(createAdminData);
 
     await this.brevoService.sendOtpEmail({
       recipientEmail: email,
@@ -28,7 +31,7 @@ export class AuthService {
       recipientName: `${createAdminData.firstName} ${createAdminData.lastName}`,
     });
 
-    return this.adminService.create(createAdminData);
+    return data;
   }
 
   async login(loginAdminDto: LoginAdminDto) {
@@ -39,6 +42,7 @@ export class AuthService {
       throw new ConflictException(Msgs.ADMIN_NOT_FOUND(email));
     }
     const token = await this.generateToken(admin._id, admin.email);
+
     await this.brevoService.sendOtpEmail({
       recipientEmail: admin.email,
       otp: await this.adminService.generateToken(email),
@@ -54,6 +58,8 @@ export class AuthService {
 
   async generateToken(id: AdminDocument['_id'], email: AdminDocument['email']) {
     const payload = { sub: id, email };
-    return this.jwtService.signAsync(payload);
+    return this.jwtService.signAsync(payload, {
+      secret: this.configService.get<string>('JWT_SECRET_KEY'),
+    });
   }
 }
