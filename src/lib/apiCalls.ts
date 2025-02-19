@@ -67,6 +67,23 @@ export class ApiService {
     }
   }
 
+  async patch<T>(
+    url: string,
+    data: any,
+    config?: AxiosRequestConfig,
+  ): Promise<T> {
+    try {
+      const response: AxiosResponse<T> = await this.axiosInstance.patch(
+        url,
+        data,
+        config,
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  }
+
   async delete<T>(url: string, config?: AxiosRequestConfig): Promise<T> {
     try {
       const response: AxiosResponse<T> = await this.axiosInstance.delete(

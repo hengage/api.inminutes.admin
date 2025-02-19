@@ -12,6 +12,9 @@ import { BrevoService } from './notifications/email/brevo.service';
 import { VendorService } from './vendor/vendor.service';
 import { VendorController } from './vendor/vendor.controller';
 import { VendorModule } from './vendor/vendor.module';
+import { OrderController } from './order/order.controller';
+import { OrderService } from './order/order.service';
+import { OrderModule } from './order/order.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -22,14 +25,16 @@ import { VendorModule } from './vendor/vendor.module';
     AuthModule,
     JwtModule,
     VendorModule,
+    OrderModule,
   ],
-  controllers: [AppController, VendorController],
+  controllers: [AppController, VendorController, OrderController],
   providers: [
     AppService,
     AuthService,
     AdminService,
     BrevoService,
     VendorService,
+    OrderService,
   ],
 })
 export class AppModule {}
