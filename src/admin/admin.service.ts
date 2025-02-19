@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { AdminDocument } from './schema/admin.schema';
 import { generateOTP, verifyOTP } from 'src/lib/otpToken';
 import { Msgs } from 'src/lib/messages';
+import { OTPConstant } from 'src/lib/constants';
 
 @Injectable()
 export class AdminService {
@@ -44,15 +45,14 @@ export class AdminService {
    * @returns OTP if secret exists, otherwise an error.
    */
   async generateToken(email: string): Promise<number> {
-    const admin = await this.adminModel.findOne({ email }).select('otpSecret');
+    const admin = await this.adminModel.findOne({ email });
     if (!admin) {
       throw new Error('Admin not found or OTP secret is missing');
     }
 
     const { otp, secret } = generateOTP();
     admin.otpSecret = secret;
-    admin.otpVerified = false;
-    admin.otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000);
+    admin.otpExpiresAt = OTPConstant.expiresAt;
     await admin.save();
 
     return otp;
@@ -69,14 +69,6 @@ export class AdminService {
     if (!admin || !admin.otpSecret) {
       throw new ConflictException(Msgs.ADMIN_NOT_FOUND(email));
     }
-    const isValid = verifyOTP(otp, admin.otpSecret);
-
-    if (isValid) {
-      admin.otpVerified = true;
-      await admin.save();
-      return isValid;
-    }
-
-    return isValid;
+    return verifyOTP(otp, admin.otpSecret);
   }
 }
