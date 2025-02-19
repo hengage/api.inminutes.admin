@@ -5,7 +5,6 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class ApiService {
   private axiosInstance: AxiosInstance;
-  
 
   constructor(private configService: ConfigService) {
     this.axiosInstance = axios.create({
