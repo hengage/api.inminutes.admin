@@ -7,6 +7,7 @@ import {
   Param,
   Query,
   BadRequestException,
+  UseGuards,
 } from '@nestjs/common';
 import { VendorService } from './vendor.service';
 import {
@@ -15,8 +16,10 @@ import {
   CreateVendorSubCategoryDto,
   UpdateVendorDto,
 } from './vendor.dto';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('vendor')
+@UseGuards(AuthGuard)
 export class VendorController {
   constructor(private readonly vendorService: VendorService) {}
 
