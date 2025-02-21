@@ -3,9 +3,9 @@ import { CreateAdminDto, UpdateAdminDto } from './admin.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AdminDocument } from './schema/admin.schema';
-import { generateOTP, verifyOTP } from 'src/lib/otpToken';
 import { Msgs } from 'src/lib/messages';
 import { OTPConstant } from 'src/lib/constants';
+import { generateOTP, verifyOTP } from 'src/auth/auth.lib';
 
 @Injectable()
 export class AdminService {
