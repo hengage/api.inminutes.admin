@@ -13,12 +13,12 @@ export const generateOTP = (): { otp: number; secret: string } => {
   return { otp: parseInt(otp, 10), secret: secret.base32 };
 };
 
-export const verifyOTP = (otp: number, secret: string): boolean => {
+export const verifyOTP = (otp: string, secret: string): boolean => {
   return speakeasy.totp.verify({
     secret,
     encoding: 'base32',
-    token: otp.toString(),
+    token: otp,
     step: 3600,
-    window: 1,
+    window: 2,
   });
 };

@@ -1,4 +1,8 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { CreateAdminDto, LoginAdminDto } from 'src/admin/admin.dto';
 import { AdminService } from 'src/admin/admin.service';
 import { JwtService } from '@nestjs/jwt';
@@ -6,6 +10,7 @@ import { AdminDocument } from 'src/admin/schema/admin.schema';
 import { Msgs } from 'src/lib/messages';
 import { BrevoService } from 'src/notifications/email/brevo.service';
 import { ConfigService } from '@nestjs/config';
+import { verifyOTP } from './auth.lib';
 
 @Injectable()
 export class AuthService {
@@ -34,7 +39,7 @@ export class AuthService {
     return data;
   }
 
-  async login(loginAdminDto: LoginAdminDto) {
+  async loginRequest(loginAdminDto: LoginAdminDto) {
     const email = loginAdminDto.email.toLowerCase();
     const admin = await this.adminService.findOneByEmail(email, ['email']);
 
@@ -50,12 +55,35 @@ export class AuthService {
     });
     return { admin, token };
   }
-  async confirmOTP(otp, email) {
-    await this.adminService.verifyToken(email, otp);
-    return { message: 'OTP confirmed successfully' };
+
+  async loginConfirm(otp, email) {
+    const admin = await this.adminService.findOneByEmail(email, [
+      'email',
+      'otpSecret',
+    ]);
+    console.log(otp);
+
+    console.log('Received OTP:', otp);
+    console.log('Stored Secret:', admin.otpSecret);
+    console.log('Parsed OTP:', parseInt(otp));
+
+    const isValidOTP = verifyOTP(otp, admin.otpSecret);
+    console.log(isValidOTP);
+
+    if (!isValidOTP) {
+      throw new UnauthorizedException('Invalid OTP code provided');
+    }
+
+    return {
+      message: 'OTP verified successfully',
+      success: true,
+    };
   }
 
-  async generateJWTToken(id: AdminDocument['_id'], email: AdminDocument['email']) {
+  async generateJWTToken(
+    id: AdminDocument['_id'],
+    email: AdminDocument['email'],
+  ) {
     const payload = { sub: id, email };
     return this.jwtService.signAsync(payload, {
       secret: this.configService.get<string>('JWT_SECRET_KEY'),

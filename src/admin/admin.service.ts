@@ -57,18 +57,4 @@ export class AdminService {
 
     return otp;
   }
-
-  /**
-   * Verifies an OTP using the admin's stored secret key.
-   * @param email - Admin's email.
-   * @param otp - OTP to be verified.
-   * @returns Boolean indicating success or failure.
-   */
-  async verifyToken(email: string, otp: number): Promise<boolean> {
-    const admin = await this.adminModel.findOne({ email }).select('+otpSecret');
-    if (!admin || !admin.otpSecret) {
-      throw new ConflictException(Msgs.ADMIN_NOT_FOUND(email));
-    }
-    return verifyOTP(otp, admin.otpSecret);
-  }
 }

@@ -15,12 +15,14 @@ export class AuthController {
 
   @Post('login/request')
   async loginRequest(@Body() loginAdminDto: LoginAdminDto) {
-    return await this.authService.login(loginAdminDto);
+    return await this.authService.loginRequest(loginAdminDto);
   }
 
   @Post('login/confirm')
-  @UseGuards(AuthGuard)
   async loginConfirm(@Request() req, @Body() otpConfirmDto: OtpConfirmDto) {
-    return await this.authService.confirmOTP(otpConfirmDto, req.user.email);
+    return await this.authService.loginConfirm(
+      otpConfirmDto.otp,
+      otpConfirmDto.email,
+    );
   }
 }
