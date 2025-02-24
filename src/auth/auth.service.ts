@@ -10,7 +10,7 @@ import { AdminDocument } from 'src/admin/schema/admin.schema';
 import { Msgs } from 'src/lib/messages';
 import { BrevoService } from 'src/notifications/email/brevo.service';
 import { ConfigService } from '@nestjs/config';
-import { verifyOTP } from './auth.lib';
+import { generateOTP, verifyOTP } from './auth.lib';
 
 @Injectable()
 export class AuthService {
@@ -30,9 +30,12 @@ export class AuthService {
     }
     const data = await this.adminService.create(createAdminData);
 
+    const { otp, secret } = generateOTP();
+    await this.adminService.saveOTPSecret(admin.email, secret);
+
     await this.brevoService.sendOtpEmail({
       recipientEmail: email,
-      otp: await this.adminService.generateOTPToken(email),
+      otp,
       recipientName: `${createAdminData.firstName} ${createAdminData.lastName}`,
     });
 
@@ -48,11 +51,15 @@ export class AuthService {
     }
     const token = await this.generateJWTToken(admin._id, admin.email);
 
+    const { otp, secret } = generateOTP();
+    await this.adminService.saveOTPSecret(admin.email, secret);
+
     await this.brevoService.sendOtpEmail({
       recipientEmail: admin.email,
-      otp: await this.adminService.generateOTPToken(email),
+      otp,
       recipientName: `${admin.firstName} ${admin.lastName}`,
     });
+
     return { admin, token };
   }
 
