@@ -27,7 +27,7 @@ export class AuthService {
 
     await this.brevoService.sendOtpEmail({
       recipientEmail: email,
-      otp: await this.adminService.generateToken(email),
+      otp: await this.adminService.generateOTPToken(email),
       recipientName: `${createAdminData.firstName} ${createAdminData.lastName}`,
     });
 
@@ -41,11 +41,11 @@ export class AuthService {
     if (!admin) {
       throw new ConflictException(Msgs.ADMIN_NOT_FOUND(email));
     }
-    const token = await this.generateToken(admin._id, admin.email);
+    const token = await this.generateJWTToken(admin._id, admin.email);
 
     await this.brevoService.sendOtpEmail({
       recipientEmail: admin.email,
-      otp: await this.adminService.generateToken(email),
+      otp: await this.adminService.generateOTPToken(email),
       recipientName: `${admin.firstName} ${admin.lastName}`,
     });
     return { admin, token };
@@ -55,7 +55,7 @@ export class AuthService {
     return { message: 'OTP confirmed successfully' };
   }
 
-  async generateToken(id: AdminDocument['_id'], email: AdminDocument['email']) {
+  async generateJWTToken(id: AdminDocument['_id'], email: AdminDocument['email']) {
     const payload = { sub: id, email };
     return this.jwtService.signAsync(payload, {
       secret: this.configService.get<string>('JWT_SECRET_KEY'),
