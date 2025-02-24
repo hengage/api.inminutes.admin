@@ -52,12 +52,6 @@ export class Admin extends Document {
   otpSecret: string | null;
 
   @Prop({
-    type: Boolean,
-    default: false,
-  })
-  otpVerified: boolean;
-
-  @Prop({
     type: Date,
     default: null,
   })
