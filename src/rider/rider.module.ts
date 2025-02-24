@@ -1,4 +1,6 @@
 import { Module } from '@nestjs/common';
+import { ApiService } from 'src/lib/apiCalls';
 
-@Module({})
+@Module({providers: [ApiService],
+  exports: [ApiService],})
 export class RiderModule {}

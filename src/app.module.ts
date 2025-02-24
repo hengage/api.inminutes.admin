@@ -21,6 +21,9 @@ import { RiderModule } from './rider/rider.module';
 import { OrderController } from './order/order.controller';
 import { OrderService } from './order/order.service';
 import { OrderModule } from './order/order.module';
+import { ProductController } from './product/product.controller';
+import { ProductService } from './product/product.service';
+import { ProductModule } from './product/product.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -34,6 +37,7 @@ import { OrderModule } from './order/order.module';
     CustomerModule,
     RiderModule,
     OrderModule,
+    ProductModule,
   ],
   controllers: [
     AppController,
@@ -41,6 +45,7 @@ import { OrderModule } from './order/order.module';
     CustomerController,
     RiderController,
     OrderController,
+    ProductController,
   ],
   providers: [
     AppService,
@@ -51,6 +56,7 @@ import { OrderModule } from './order/order.module';
     CustomerService,
     RiderService,
     OrderService,
+    ProductService,
   ],
 })
 export class AppModule {}
