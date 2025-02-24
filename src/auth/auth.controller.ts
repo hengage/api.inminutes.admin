@@ -13,14 +13,14 @@ export class AuthController {
     return await this.authService.create(createAdminData);
   }
 
-  @Post('login')
-  async login(@Body() loginAdminDto: LoginAdminDto) {
+  @Post('login/request')
+  async loginRequest(@Body() loginAdminDto: LoginAdminDto) {
     return await this.authService.login(loginAdminDto);
   }
 
-  @Post('otp/confirm')
+  @Post('login/confirm')
   @UseGuards(AuthGuard)
-  async confirmOtp(@Request() req, @Body() otpConfirmDto: OtpConfirmDto) {
+  async loginConfirm(@Request() req, @Body() otpConfirmDto: OtpConfirmDto) {
     return await this.authService.confirmOTP(otpConfirmDto, req.user.email);
   }
 }
