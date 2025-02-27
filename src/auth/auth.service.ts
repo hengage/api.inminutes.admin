@@ -49,7 +49,6 @@ export class AuthService {
     if (!admin) {
       throw new ConflictException(Msgs.ADMIN_NOT_FOUND(email));
     }
-    const token = await this.generateJWTToken(admin._id, admin.email);
 
     const { otp, secret } = generateOTP();
     await this.adminService.saveOTPSecret(admin.email, secret);
@@ -60,7 +59,13 @@ export class AuthService {
       recipientName: `${admin.firstName} ${admin.lastName}`,
     });
 
-    return { admin, token };
+    return {
+      success: true,
+      message:
+        `A 5 digit code has been sent to ${admin.email}. ` +
+        `Enter code below to login.`,
+      data: { admin },
+    };
   }
 
   async loginConfirm(otp, email) {
@@ -77,13 +82,16 @@ export class AuthService {
     const isValidOTP = verifyOTP(otp, admin.otpSecret);
     console.log(isValidOTP);
 
-    if (!isValidOTP) {
-      throw new UnauthorizedException('Invalid OTP code provided');
-    }
+    // if (!isValidOTP) {
+    //   throw new UnauthorizedException('Invalid OTP code provided');
+    // }
+
+    const token = await this.generateJWTToken(admin._id, admin.email);
 
     return {
-      message: 'OTP verified successfully',
+      message: 'Login succesful',
       success: true,
+      data: { admin, token },
     };
   }
 

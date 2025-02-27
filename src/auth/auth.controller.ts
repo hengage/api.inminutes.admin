@@ -1,8 +1,14 @@
-import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpStatus,
+  Post,
+  Request,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAdminDto, LoginAdminDto } from 'src/admin/admin.dto';
 import { OtpConfirmDto } from './auth.dto';
-import { AuthGuard } from './auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -14,11 +20,13 @@ export class AuthController {
   }
 
   @Post('login/request')
+  @HttpCode(HttpStatus.OK)
   async loginRequest(@Body() loginAdminDto: LoginAdminDto) {
     return await this.authService.loginRequest(loginAdminDto);
   }
 
   @Post('login/confirm')
+  @HttpCode(HttpStatus.OK)
   async loginConfirm(@Request() req, @Body() otpConfirmDto: OtpConfirmDto) {
     return await this.authService.loginConfirm(
       otpConfirmDto.otp,
