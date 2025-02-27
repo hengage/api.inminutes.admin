@@ -1,4 +1,6 @@
 import * as speakeasy from 'speakeasy';
+import { AdminDocument } from 'src/admin/schema/admin.schema';
+import { OTPConstant } from 'src/lib/constants';
 
 export const generateOTP = (): { otp: number; secret: string } => {
   const secret = speakeasy.generateSecret({ length: 20 });
@@ -13,12 +15,12 @@ export const generateOTP = (): { otp: number; secret: string } => {
   return { otp: parseInt(otp, 10), secret: secret.base32 };
 };
 
-export const verifyOTP = (otp: string, secret: string): boolean => {
-  return speakeasy.totp.verify({
-    secret,
-    encoding: 'base32',
-    token: otp,
-    step: 3600,
-    window: 2,
-  });
+export const checkOTPValidity = (
+  otp: string,
+  admin: AdminDocument,
+): boolean => {
+  return (
+    admin.otp === otp &&
+    Date.now() - admin.otpTimestamp <= OTPConstant.LIFE_SPAN
+  );
 };

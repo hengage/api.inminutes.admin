@@ -10,7 +10,7 @@ import { AdminDocument } from 'src/admin/schema/admin.schema';
 import { Msgs } from 'src/lib/messages';
 import { BrevoService } from 'src/notifications/email/brevo.service';
 import { ConfigService } from '@nestjs/config';
-import { generateOTP, verifyOTP } from './auth.lib';
+import { generateOTP, checkOTPValidity } from './auth.lib';
 
 @Injectable()
 export class AuthService {
@@ -30,8 +30,8 @@ export class AuthService {
     }
     const data = await this.adminService.create(createAdminData);
 
-    const { otp, secret } = generateOTP();
-    await this.adminService.saveOTPSecret(admin.email, secret);
+    const { otp } = generateOTP();
+    await this.adminService.saveOTP(admin.email, otp.toString());
 
     await this.brevoService.sendOtpEmail({
       recipientEmail: email,
@@ -49,10 +49,9 @@ export class AuthService {
     if (!admin) {
       throw new ConflictException(Msgs.ADMIN_NOT_FOUND(email));
     }
-    const token = await this.generateJWTToken(admin._id, admin.email);
 
-    const { otp, secret } = generateOTP();
-    await this.adminService.saveOTPSecret(admin.email, secret);
+    const { otp } = generateOTP();
+    await this.adminService.saveOTP(admin.email, otp.toString());
 
     await this.brevoService.sendOtpEmail({
       recipientEmail: admin.email,
@@ -60,30 +59,39 @@ export class AuthService {
       recipientName: `${admin.firstName} ${admin.lastName}`,
     });
 
-    return { admin, token };
+    return {
+      success: true,
+      message:
+        `A 5 digit code has been sent to ${admin.email}. ` +
+        `Enter code below to login.`,
+      data: { admin },
+    };
   }
 
   async loginConfirm(otp, email) {
     const admin = await this.adminService.findOneByEmail(email, [
       'email',
       'otpSecret',
+      'otp',
+      'otpTimestamp',
     ]);
-    console.log(otp);
 
-    console.log('Received OTP:', otp);
-    console.log('Stored Secret:', admin.otpSecret);
-    console.log('Parsed OTP:', parseInt(otp));
-
-    const isValidOTP = verifyOTP(otp, admin.otpSecret);
-    console.log(isValidOTP);
+    const isValidOTP = checkOTPValidity(otp, admin);
 
     if (!isValidOTP) {
       throw new UnauthorizedException('Invalid OTP code provided');
     }
 
+    this.adminService.resetOtp(admin.email).catch((err) => {
+      console.error('Error resetting OTP:', err);
+    });
+
+    const token = await this.generateJWTToken(admin._id, admin.email);
+
     return {
-      message: 'OTP verified successfully',
+      message: 'Login succesful',
       success: true,
+      data: { admin, token },
     };
   }
 

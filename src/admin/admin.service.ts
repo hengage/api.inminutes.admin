@@ -3,9 +3,7 @@ import { CreateAdminDto, UpdateAdminDto } from './admin.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AdminDocument } from './schema/admin.schema';
-import { Msgs } from 'src/lib/messages';
 import { OTPConstant } from 'src/lib/constants';
-import { generateOTP, verifyOTP } from 'src/auth/auth.lib';
 
 @Injectable()
 export class AdminService {
@@ -40,23 +38,39 @@ export class AdminService {
   }
 
   /**
-   * Generates a one-time password (OTP) for an admin.
-   * @param email - Admin's email to find their secret key.
-   * @returns OTP if secret exists, otherwise an error.
+   * Saves OTP and timestamp for an admin
+   * @param email - Admin's email to find their record
+   * @param otp - The OTP code to be saved
+   * @returns Updated admin document with OTP details
+   * @throws Error if admin not found
    */
-  async saveOTPSecret(email: string, secret: string) {
+  async saveOTP(email: AdminDocument['email'], otp: AdminDocument['otp']) {
     const admin = await this.adminModel
       .findOne({ email })
-      .select('email otpSecret')
+      .select('email otpSecret otp otpTimestamp')
       .exec();
     if (!admin) {
-      throw new Error('Admin not found or OTP secret is missing');
+      throw new Error('Admin not found');
     }
 
-    admin.otpSecret = secret;
-    admin.otpExpiresAt = OTPConstant.expiresAt;
+    admin.otp = otp;
+    admin.otpTimestamp = Date.now();
     await admin.save();
 
     return admin;
+  }
+
+  async resetOtp(email: string) {
+    const admin = await this.adminModel
+      .findOne({ email })
+      .select('email otpSecret otp otpTimestamp');
+
+    if (!admin) {
+      throw new Error('Admin not found');
+    }
+
+    admin.otp = OTPConstant.RESET_OTP;
+    admin.otpTimestamp = OTPConstant.RESET_TIMESTAMP;
+    await admin.save();
   }
 }
