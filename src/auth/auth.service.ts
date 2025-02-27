@@ -31,7 +31,7 @@ export class AuthService {
     const data = await this.adminService.create(createAdminData);
 
     const { otp } = generateOTP();
-    await this.adminService.saveOTP(admin.email, otp.toString());
+    await this.adminService.saveOTP(createAdminData.email, otp.toString());
 
     await this.brevoService.sendOtpEmail({
       recipientEmail: email,
@@ -71,7 +71,6 @@ export class AuthService {
   async loginConfirm(otp, email) {
     const admin = await this.adminService.findOneByEmail(email, [
       'email',
-      'otpSecret',
       'otp',
       'otpTimestamp',
     ]);
