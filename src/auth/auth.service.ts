@@ -10,7 +10,7 @@ import { AdminDocument } from 'src/admin/schema/admin.schema';
 import { Msgs } from 'src/lib/messages';
 import { BrevoService } from 'src/notifications/email/brevo.service';
 import { ConfigService } from '@nestjs/config';
-import { generateOTP, verifyOTP } from './auth.lib';
+import { generateOTP, checkOTPValidity } from './auth.lib';
 
 @Injectable()
 export class AuthService {
@@ -30,8 +30,8 @@ export class AuthService {
     }
     const data = await this.adminService.create(createAdminData);
 
-    const { otp, secret } = generateOTP();
-    await this.adminService.saveOTPSecret(admin.email, secret);
+    const { otp } = generateOTP();
+    await this.adminService.saveOTP(admin.email, otp.toString());
 
     await this.brevoService.sendOtpEmail({
       recipientEmail: email,
@@ -50,8 +50,8 @@ export class AuthService {
       throw new ConflictException(Msgs.ADMIN_NOT_FOUND(email));
     }
 
-    const { otp, secret } = generateOTP();
-    await this.adminService.saveOTPSecret(admin.email, secret);
+    const { otp } = generateOTP();
+    await this.adminService.saveOTP(admin.email, otp.toString());
 
     await this.brevoService.sendOtpEmail({
       recipientEmail: admin.email,
@@ -72,19 +72,19 @@ export class AuthService {
     const admin = await this.adminService.findOneByEmail(email, [
       'email',
       'otpSecret',
+      'otp',
+      'otpTimestamp',
     ]);
-    console.log(otp);
 
-    console.log('Received OTP:', otp);
-    console.log('Stored Secret:', admin.otpSecret);
-    console.log('Parsed OTP:', parseInt(otp));
+    const isValidOTP = checkOTPValidity(otp, admin);
 
-    const isValidOTP = verifyOTP(otp, admin.otpSecret);
-    console.log(isValidOTP);
+    if (!isValidOTP) {
+      throw new UnauthorizedException('Invalid OTP code provided');
+    }
 
-    // if (!isValidOTP) {
-    //   throw new UnauthorizedException('Invalid OTP code provided');
-    // }
+    this.adminService.resetOtp(admin.email).catch((err) => {
+      console.error('Error resetting OTP:', err);
+    });
 
     const token = await this.generateJWTToken(admin._id, admin.email);
 

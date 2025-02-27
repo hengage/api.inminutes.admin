@@ -11,7 +11,10 @@ export const JwtConstant = {
 };
 
 export const OTPConstant = {
-  expiresAt: new Date(Date.now() + 5 * 60 * 1000),
+  LIFE_SPAN: 60 * 60 * 1000, // 1 hour
+  RESET_OTP: null,
+  RESET_TIMESTAMP: 0,
+  OTP_LENGTH: 5,
 };
 
 export enum VendorAccountStatus {
