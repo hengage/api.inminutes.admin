@@ -49,19 +49,13 @@ export class Admin extends Document {
     default: null,
     select: false,
   })
-  otpSecret: string | null;
+  otp: string | null;
 
   @Prop({
-    type: Boolean,
-    default: false,
-  })
-  otpVerified: boolean;
-
-  @Prop({
-    type: Date,
+    type: Number,
     default: null,
   })
-  otpExpiresAt: Date | null;
+  otpTimestamp: number;
 
   @Prop({
     type: Object,

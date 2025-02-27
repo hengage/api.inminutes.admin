@@ -9,8 +9,9 @@ import { AuthModule } from './auth/auth.module';
 import { AdminService } from './admin/admin.service';
 import { JwtModule } from '@nestjs/jwt';
 import { BrevoService } from './notifications/email/brevo.service';
-import { VendorController } from './vendor/vendor.controller';
 import { VendorService } from './vendor/vendor.service';
+import { VendorController } from './vendor/vendor.controller';
+import { VendorModule } from './vendor/vendor.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -20,6 +21,7 @@ import { VendorService } from './vendor/vendor.service';
     AdminModule,
     AuthModule,
     JwtModule,
+    VendorModule,
   ],
   controllers: [AppController, VendorController],
   providers: [

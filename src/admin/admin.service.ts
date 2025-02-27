@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateAdminDto, UpdateAdminDto } from './admin.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AdminDocument } from './schema/admin.schema';
-import { generateOTP, verifyOTP } from 'src/lib/otpToken';
+import { OTPConstant } from 'src/lib/constants';
 
 @Injectable()
 export class AdminService {
@@ -38,44 +38,39 @@ export class AdminService {
   }
 
   /**
-   * Generates a one-time password (OTP) for an admin.
-   * @param email - Admin's email to find their secret key.
-   * @returns OTP if secret exists, otherwise an error.
+   * Saves OTP and timestamp for an admin
+   * @param email - Admin's email to find their record
+   * @param otp - The OTP code to be saved
+   * @returns Updated admin document with OTP details
+   * @throws Error if admin not found
    */
-  async generateToken(email: string): Promise<number> {
-    const admin = await this.adminModel.findOne({ email });
+  async saveOTP(email: AdminDocument['email'], otp: AdminDocument['otp']) {
+    const admin = await this.adminModel
+      .findOne({ email })
+      .select('email otpSecret otp otpTimestamp')
+      .exec();
     if (!admin) {
-      throw new Error('Admin not found or OTP secret is missing');
+      throw new Error('Admin not found');
     }
 
-    const { otp, secret } = generateOTP();
-    admin.otpSecret = secret;
-    admin.otpVerified = false;
-    admin.otpExpiresAt = new Date(Date.now() + 5 * 60 * 1000);
+    admin.otp = otp;
+    admin.otpTimestamp = Date.now();
     await admin.save();
 
-    return otp;
+    return admin;
   }
 
-  /**
-   * Verifies an OTP using the admin's stored secret key.
-   * @param email - Admin's email.
-   * @param otp - OTP to be verified.
-   * @returns Boolean indicating success or failure.
-   */
-  async verifyToken(email: string, otp: number): Promise<boolean> {
-    const admin = await this.adminModel.findOne({ email }).select('+otpSecret');
-    if (!admin || !admin.otpSecret) {
-      throw new Error('Admin not found or OTP secret is missing');
-    }
-    const isValid = verifyOTP(otp, admin.otpSecret);
+  async resetOtp(email: string) {
+    const admin = await this.adminModel
+      .findOne({ email })
+      .select('email otpSecret otp otpTimestamp');
 
-    if (isValid) {
-      admin.otpVerified = true;
-      await admin.save();
-      return isValid;
+    if (!admin) {
+      throw new Error('Admin not found');
     }
 
-    return isValid;
+    admin.otp = OTPConstant.RESET_OTP;
+    admin.otpTimestamp = OTPConstant.RESET_TIMESTAMP;
+    await admin.save();
   }
 }
