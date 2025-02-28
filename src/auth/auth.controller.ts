@@ -33,9 +33,4 @@ export class AuthController {
       otpConfirmDto.email,
     );
   }
-
-  @Post('otp/confirm')
-  async confirmOtp(@Request() req, @Body() otpConfirmDto: OtpConfirmDto) {
-    return await this.authService.confirmOTP(otpConfirmDto, req.user.email);
-  }
 }

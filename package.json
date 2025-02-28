@@ -28,19 +28,8 @@
     "@nestjs/mapped-types": "*",
     "@nestjs/mongoose": "^10.0.10",
     "@nestjs/platform-express": "^10.0.0",
-<<<<<<< HEAD
-<<<<<<< HEAD
-||||||| parent of 8c81124 (fix(vendor): query external endpoints for vendor module)
-    "bcrypt": "^5.1.1",
-=======
     "axios": "^1.7.9",
     "bcrypt": "^5.1.1",
->>>>>>> 8c81124 (fix(vendor): query external endpoints for vendor module)
-||||||| 633ade8
-=======
-    "axios": "^1.7.9",
-    "bcrypt": "^5.1.1",
->>>>>>> main
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "ejs": "^3.1.10",

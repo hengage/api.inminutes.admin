@@ -7,17 +7,10 @@ import { CreateAdminDto, LoginAdminDto } from 'src/admin/admin.dto';
 import { AdminService } from 'src/admin/admin.service';
 import { JwtService } from '@nestjs/jwt';
 import { AdminDocument } from 'src/admin/schema/admin.schema';
-<<<<<<< HEAD
-import { Msgs } from 'src/lib/messages';
-import { BrevoService } from 'src/notifications/email/brevo.service';
-import { ConfigService } from '@nestjs/config';
-||||||| 633ade8
-=======
 import { Msgs } from 'src/lib/messages';
 import { BrevoService } from 'src/notifications/email/brevo.service';
 import { ConfigService } from '@nestjs/config';
 import { generateOTP, checkOTPValidity } from './auth.lib';
->>>>>>> main
 
 @Injectable()
 export class AuthService {
@@ -35,19 +28,6 @@ export class AuthService {
     if (admin) {
       throw new ConflictException(Msgs.ADMIN_ALREADY_EXISTS(email));
     }
-<<<<<<< HEAD
-    const data = await this.adminService.create(createAdminData);
-
-    await this.brevoService.sendOtpEmail({
-      recipientEmail: email,
-      otp: await this.adminService.generateToken(email),
-      recipientName: `${createAdminData.firstName} ${createAdminData.lastName}`,
-    });
-
-    return data;
-||||||| 633ade8
-    return this.adminService.create(createAdminData);
-=======
     const data = await this.adminService.create(createAdminData);
 
     const { otp } = generateOTP();
@@ -60,7 +40,6 @@ export class AuthService {
     });
 
     return data;
->>>>>>> main
   }
 
   async loginRequest(loginAdminDto: LoginAdminDto) {
@@ -70,19 +49,6 @@ export class AuthService {
     if (!admin) {
       throw new ConflictException(Msgs.ADMIN_NOT_FOUND(email));
     }
-<<<<<<< HEAD
-    const token = await this.generateToken(admin._id, admin.email);
-
-    await this.brevoService.sendOtpEmail({
-      recipientEmail: admin.email,
-      otp: await this.adminService.generateToken(email),
-      recipientName: `${admin.firstName} ${admin.lastName}`,
-    });
-    return { admin, token };
-||||||| 633ade8
-    const token = await this.generateToken(admin._id, admin.email);
-    return { admin, token };
-=======
 
     const { otp } = generateOTP();
     await this.adminService.saveOTP(admin.email, otp.toString());
@@ -100,12 +66,6 @@ export class AuthService {
         `Enter code below to login.`,
       data: { admin },
     };
->>>>>>> main
-  }
-  async confirmOTP(otp, email) {
-    // const email = "mail@mail.com"
-    await this.adminService.verifyToken(email, otp);
-    return { message: 'OTP confirmed successfully' };
   }
 
   async loginConfirm(otp, email) {
