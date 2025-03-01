@@ -24,6 +24,9 @@ import { OrderModule } from './order/order.module';
 import { ProductController } from './product/product.controller';
 import { ProductService } from './product/product.service';
 import { ProductModule } from './product/product.module';
+import { TransactionModule } from './transaction/transaction.module';
+import { TransactionController } from './transaction/transaction.controller';
+import { TransactionService } from './transaction/transaction.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -38,6 +41,7 @@ import { ProductModule } from './product/product.module';
     RiderModule,
     OrderModule,
     ProductModule,
+    TransactionModule,
   ],
   controllers: [
     AppController,
@@ -46,6 +50,7 @@ import { ProductModule } from './product/product.module';
     RiderController,
     OrderController,
     ProductController,
+    TransactionController,
   ],
   providers: [
     AppService,
@@ -57,6 +62,7 @@ import { ProductModule } from './product/product.module';
     RiderService,
     OrderService,
     ProductService,
+    TransactionService,
   ],
 })
 export class AppModule {}
