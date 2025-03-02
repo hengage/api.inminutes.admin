@@ -11,7 +11,7 @@ import {
   Delete,
 } from '@nestjs/common';
 import { RiderService } from './rider.service';
-import { CreateRiderDto, UpdateRiderDto } from './rider.dto';
+import { CreateRiderDto, GetDeliveriesQueryDto, GetRidersQueryDto, GetWorkAreaSessionQueryDto, GetWorkAreasQueryDto, RiderParamDto, UpdateRiderDto } from './rider.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('rider')
@@ -34,37 +34,20 @@ export class RiderController {
 
   @Get('list')
   async getRiders(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-    @Query('searchQuery') searchQuery: string = '',
-    @Query('vehicleType') vehicleType: string = '',
-    @Query('currentlyWorking') currentlyWorking: boolean,
-    @Query('accountStatus') accountStatus: string = '',
+    @Query() query: GetRidersQueryDto
   ) {
     return this.riderService.getRiders(
-      page,
-      limit,
-      searchQuery,
-      vehicleType,
-      currentlyWorking,
-      accountStatus,
+      query
     );
   }
 
   @Get('/:rider/deliveries')
   async getRiderDeliveries(
-    @Param('rider') rider: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-    @Query('search') search: string = '',
-    @Query('status') status: string = '',
+    @Param() { riderId }: RiderParamDto,
+    @Query() query: GetDeliveriesQueryDto,
   ) {
     return this.riderService.getRiderDeliveries(
-      rider,
-      page,
-      limit,
-      search,
-      status,
+      riderId, query
     );
   }
 
@@ -88,20 +71,17 @@ export class RiderController {
 
   @Get('/work-areas/list')
   async getWorkAreas(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query() query: GetWorkAreasQueryDto,
   ) {
-    return this.riderService.getWorkAreas(page, limit);
+    return this.riderService.getWorkAreas(query);
   }
 
   @Get('/work-area/:workAreaId/session/list')
   async getWorkAreaSession(
     @Param('workAreaId') workAreaId: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-    @Query('date') date: Date,
+    @Query() query: GetWorkAreaSessionQueryDto,
   ) {
-    return this.riderService.getWorkAreaSession(workAreaId, page, limit, date);
+    return this.riderService.getWorkAreaSession(workAreaId, query);
   }
   @Get('/work-area/:workAreaId/session/:sessionId/rider-list')
   async getBookedRidersPerSession(
@@ -120,5 +100,21 @@ export class RiderController {
   @Delete(':riderId')
   async delete(@Param('riderId') riderId: string) {
     return this.riderService.delete(riderId);
+  }
+
+  @Get('/top-riders')
+  async getTopRiders(
+    @Query() query: GetWorkAreasQueryDto
+  ) {
+    return this.riderService.getTopRiders(query);
+  }
+
+  @Get('/rider-summary')
+  async getRiderSummary() {
+    return this.riderService.getRiderSummary();
+  }
+  @Get('/rider-metrics')
+  async getRiderMetrics() {
+    return this.riderService.getRiderMetrics();
   }
 }

@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ApiService } from 'src/lib/apiCalls';
-import { CreateRiderDto, UpdateRiderDto } from './rider.dto';
+import { CreateRiderDto, GetDeliveriesQueryDto, GetRidersQueryDto, GetWorkAreaSessionQueryDto, GetWorkAreasQueryDto, UpdateRiderDto } from './rider.dto';
 @Injectable()
 export class RiderService {
   constructor(private readonly apiService: ApiService) {}
@@ -31,40 +31,22 @@ export class RiderService {
     }
   }
 
-  async getRiders(
-    page: number = 1,
-    limit: number = 10,
-    searchQuery: string = '',
-    vehicleType: string = '',
-    currentlyWorking: boolean,
-    accountStatus: string = '',
+  async getRiders(query: GetRidersQueryDto
   ): Promise<any> {
     try {
-      const params = {
-        page,
-        limit,
-        searchQuery,
-        currentlyWorking,
-        vehicleType,
-        accountStatus,
-      };
-      return await this.apiService.get('/admin/riders', params);
+      return await this.apiService.get('/admin/riders', query);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
   }
   async getRiderDeliveries(
     rider: string,
-    page: number = 1,
-    limit: number = 10,
-    search: string = '',
-    status: string = '',
+    query: GetDeliveriesQueryDto
   ): Promise<any> {
     try {
-      const params = { page, limit, search, status };
       return await this.apiService.get(
         `/admin/rider/${rider}/deliveries`,
-        params,
+        query,
       );
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -96,10 +78,9 @@ export class RiderService {
     }
   }
 
-  async getWorkAreas(page: number = 1, limit: number = 10): Promise<any> {
+  async getWorkAreas(query: GetWorkAreasQueryDto): Promise<any> {
     try {
-      const params = { page, limit };
-      return await this.apiService.get('/admin/work-area', params);
+      return await this.apiService.get('/admin/work-area', query);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -107,15 +88,12 @@ export class RiderService {
 
   async getWorkAreaSession(
     workAreaId: string,
-    page: number = 1,
-    limit: number = 10,
-    date: Date,
+    query: GetWorkAreaSessionQueryDto
   ): Promise<any> {
     try {
-      const params = { page, limit, date };
       return await this.apiService.get(
         `/admin/work-areas/${workAreaId}/sessions`,
-        params,
+        query,
       );
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -177,5 +155,32 @@ export class RiderService {
       .sort(() => Math.random() - 0.5)
       .join('');
     return password;
+  }
+
+  
+  async getTopRiders(
+    query: GetWorkAreasQueryDto
+  ): Promise<any> {
+    try {
+      return await this.apiService.get('/admin/riders/top', query);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getRiderSummary(): Promise<any> {
+    try {
+      return await this.apiService.get(`/admin/riders/summary`);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getRiderMetrics(): Promise<any> {
+    try {
+      return await this.apiService.get(`/admin/riders/metrics`);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
   }
 }
