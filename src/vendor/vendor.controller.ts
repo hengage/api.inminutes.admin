@@ -90,4 +90,26 @@ export class VendorController {
   ) {
     return this.vendorService.getVendorSubCategories(category, query);
   }
+
+  @Get('top-vendors')
+  async getTopVendors(@Query(ValidationPipe) query: GetVendorsDto) {
+    return this.vendorService.getTopVendors(query);
+  }
+
+  @Get('top-categories')
+  async getTopVendorCategories(
+    @Query(ValidationPipe) query: GetVendorSubCategoriesDto
+  ) {
+    return this.vendorService.getTopVendorCategories(query);
+  }
+
+  @Get('summary')
+  async getVendorSummary() {
+    return this.vendorService.getVendorSummary();
+  }
+
+  @Get('metrics')
+  async getVendorMetrics() {
+    return this.vendorService.getVendorMetrics();
+  }
 }

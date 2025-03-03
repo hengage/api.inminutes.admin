@@ -145,5 +145,40 @@ export class VendorService {
       .join('');
     return password;
   }
+
+  
+  async getTopVendors(
+    query: GetVendorsDto
+  ): Promise<any> {
+    try {
+      return await this.apiService.get('/admin/vendors/top', query);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getTopVendorCategories(query: GetVendorSubCategoriesDto): Promise<any> {
+    try {
+      return await this.apiService.get('/vendors/category/top', query);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getVendorSummary(): Promise<any> {
+    try {
+      return await this.apiService.get(`/admin/vendors/summary`);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getVendorMetrics(): Promise<any> {
+    try {
+      return await this.apiService.get(`/admin/vendors/metrics`);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
   
 }
