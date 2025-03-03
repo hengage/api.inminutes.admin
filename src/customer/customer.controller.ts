@@ -11,10 +11,9 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
-import {
-  UpdateCustomerDto,
-} from './customer.dto';
+import { GetCustomerOrdersQueryDto, GetCustomersQueryDto, UpdateCustomerDto } from './customer.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { query } from 'express';
 
 @Controller('customer')
 @UseGuards(AuthGuard)
@@ -31,44 +30,18 @@ export class CustomerController {
 
   @Get('list')
   async getCustomers(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-    @Query('search') search: string = '',
-    @Query('fromDateJoined') fromDateJoined: string = '',
-    @Query('toDateJoined') toDateJoined: string = '',
-    @Query('status') status: string = '',
+    @Query() query: GetCustomersQueryDto
   ) {
-    return this.customerService.getCustomers(
-      page,
-      limit,
-      search,
-      fromDateJoined,
-      toDateJoined,
-      status,
-    );
+    return this.customerService.getCustomers(query);
   }
   @Get('/order/:customerId/list')
   async getCustomerOders(
     @Param('customerId') customerId: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-    @Query('search') search: string = '',
-    @Query('startDate') startDate: string = '',
-    @Query('endDate') endDate: string = '',
-    @Query('maxPrice') maxPrice: number,
-    @Query('minPrice') minPrice: number,
-    @Query('status') status: string = '',
+    @Query() query: GetCustomerOrdersQueryDto
   ) {
     return this.customerService.getCustomerOrders(
       customerId,
-      page,
-      limit,
-      search,
-      startDate,
-      endDate,
-      maxPrice,
-      minPrice,
-      status
+      query
     );
   }
 
@@ -92,5 +65,20 @@ export class CustomerController {
     return this.customerService.delete(customerId);
   }
 
+  @Get('top')
+  async getTopCustomers(
+    @Query() query: GetCustomersQueryDto
+  ) {
+    return this.customerService.getTopCustomers(query);
+  }
 
+  @Get('summary')
+  async getCustomerSummary() {
+    return this.customerService.getCustomerSummary();
+  }
+
+  @Get('metrics')
+  async getCustomerMetrics() {
+    return this.customerService.getCustomerMetrics();
+  }
 }
