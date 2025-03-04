@@ -18,6 +18,9 @@ import { OrderModule } from './order/order.module';
 import { CustomerService } from './customer/customer.service';
 import { CustomerController } from './customer/customer.controller';
 import { CustomerModule } from './customer/customer.module';
+import { ProductService } from './product/product.service';
+import { ProductModule } from './product/product.module';
+import { ProductController } from './product/product.controller';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -30,8 +33,9 @@ import { CustomerModule } from './customer/customer.module';
     VendorModule,
     OrderModule,
     CustomerModule,
+    ProductModule
   ],
-  controllers: [AppController, VendorController, CustomerController, OrderController],
+  controllers: [AppController, VendorController, CustomerController, OrderController, ProductController],
   providers: [
     AppService,
     AuthService,
@@ -40,6 +44,7 @@ import { CustomerModule } from './customer/customer.module';
     VendorService,
     OrderService,
     CustomerService,
+    ProductService
   ],
 })
 export class AppModule {}
