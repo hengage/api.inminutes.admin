@@ -18,6 +18,9 @@ import { OrderModule } from './order/order.module';
 import { CustomerService } from './customer/customer.service';
 import { CustomerController } from './customer/customer.controller';
 import { CustomerModule } from './customer/customer.module';
+import { ProductService } from './product/product.service';
+import { ProductModule } from './product/product.module';
+import { ProductController } from './product/product.controller';
 import { ErrandService } from './errand/errand.service';
 import { ErrandModule } from './errand/errand.module';
 import { ErrandController } from './errand/errand.controller';
@@ -36,6 +39,7 @@ import { RiderModule } from './rider/rider.module';
     VendorModule,
     OrderModule,
     CustomerModule,
+    ProductModule
     RiderModule
     ErrandModule
   ],
@@ -45,7 +49,8 @@ import { RiderModule } from './rider/rider.module';
     CustomerController, 
     OrderController,            
     RiderController,
-  ErrandController
+    ProductController
+    ErrandController
  ],
   providers: [
     AppService,
@@ -55,6 +60,7 @@ import { RiderModule } from './rider/rider.module';
     VendorService,
     OrderService,
     CustomerService,
+    ProductService
     ErrandService
     RiderService
   ],
