@@ -11,9 +11,7 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
-import {
-  UpdateCustomerDto,
-} from './customer.dto';
+import { UpdateCustomerDto } from './customer.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('customer')
@@ -68,7 +66,7 @@ export class CustomerController {
       endDate,
       maxPrice,
       minPrice,
-      status
+      status,
     );
   }
 
@@ -86,11 +84,7 @@ export class CustomerController {
   }
 
   @Delete(':customerId/delete')
-  async delete(
-    @Param('customerId') customerId: string
-  ) {
+  async delete(@Param('customerId') customerId: string) {
     return this.customerService.delete(customerId);
   }
-
-
 }

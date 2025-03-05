@@ -1,12 +1,9 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
-import {
-  UpdateCustomerDto,
-} from './customer.dto';
+import { UpdateCustomerDto } from './customer.dto';
 import { ApiService } from 'src/lib/apiCalls';
 @Injectable()
 export class CustomerService {
-  constructor(
-    private readonly apiService: ApiService) {}
+  constructor(private readonly apiService: ApiService) {}
 
   async updateCustomer(
     updateCustomerDto: UpdateCustomerDto,
@@ -31,7 +28,14 @@ export class CustomerService {
     status: string = '',
   ): Promise<any> {
     try {
-      const params = { page, limit, search, fromDateJoined, toDateJoined, status };
+      const params = {
+        page,
+        limit,
+        search,
+        fromDateJoined,
+        toDateJoined,
+        status,
+      };
       return await this.apiService.get('/admin/customers', params);
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -39,7 +43,7 @@ export class CustomerService {
   }
 
   async getCustomerOrders(
-    customerId: string ='',
+    customerId: string = '',
     page: number = 1,
     limit: number = 10,
     search: string = '',
@@ -50,8 +54,20 @@ export class CustomerService {
     status: string = '',
   ): Promise<any> {
     try {
-      const params = { page, limit, search, endDate, startDate, maxPrice, minPrice, status };
-      return await this.apiService.get(`/admin/customer/${customerId}/orders`, params);
+      const params = {
+        page,
+        limit,
+        search,
+        endDate,
+        startDate,
+        maxPrice,
+        minPrice,
+        status,
+      };
+      return await this.apiService.get(
+        `/admin/customer/${customerId}/orders`,
+        params,
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -65,11 +81,17 @@ export class CustomerService {
     }
   }
 
-  async approveOrDisapprove(customerId: string, approve: boolean): Promise<any> {
+  async approveOrDisapprove(
+    customerId: string,
+    approve: boolean,
+  ): Promise<any> {
     try {
-      return await this.apiService.put(`/admin/customers/${customerId}/approval`, {
-        approve,
-      });
+      return await this.apiService.put(
+        `/admin/customers/${customerId}/approval`,
+        {
+          approve,
+        },
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -77,10 +99,11 @@ export class CustomerService {
 
   async delete(customerId: string): Promise<any> {
     try {
-      return await this.apiService.delete(`/admin/customers/${customerId}/delete`);
+      return await this.apiService.delete(
+        `/admin/customers/${customerId}/delete`,
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }
   }
-
 }
