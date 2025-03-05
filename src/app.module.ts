@@ -21,6 +21,9 @@ import { CustomerModule } from './customer/customer.module';
 import { ErrandService } from './errand/errand.service';
 import { ErrandModule } from './errand/errand.module';
 import { ErrandController } from './errand/errand.controller';
+import { RiderService } from './rider/rider.service';
+import { RiderController } from './rider/rider.controller';
+import { RiderModule } from './rider/rider.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -33,9 +36,17 @@ import { ErrandController } from './errand/errand.controller';
     VendorModule,
     OrderModule,
     CustomerModule,
+    RiderModule
     ErrandModule
   ],
-  controllers: [AppController, VendorController, CustomerController, OrderController, ErrandController],
+  controllers: [
+    AppController, 
+    VendorController, 
+    CustomerController, 
+    OrderController,            
+    RiderController,
+  ErrandController
+ ],
   providers: [
     AppService,
     AuthService,
@@ -45,6 +56,7 @@ import { ErrandController } from './errand/errand.controller';
     OrderService,
     CustomerService,
     ErrandService
+    RiderService
   ],
 })
 export class AppModule {}
