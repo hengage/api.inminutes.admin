@@ -39,19 +39,19 @@ import { RiderModule } from './rider/rider.module';
     VendorModule,
     OrderModule,
     CustomerModule,
-    ProductModule
-    RiderModule
-    ErrandModule
+    ProductModule,
+    RiderModule,
+    ErrandModule,
   ],
   controllers: [
-    AppController, 
-    VendorController, 
-    CustomerController, 
-    OrderController,            
+    AppController,
+    VendorController,
+    CustomerController,
+    OrderController,
     RiderController,
-    ProductController
-    ErrandController
- ],
+    ProductController,
+    ErrandController,
+  ],
   providers: [
     AppService,
     AuthService,
@@ -60,9 +60,9 @@ import { RiderModule } from './rider/rider.module';
     VendorService,
     OrderService,
     CustomerService,
-    ProductService
-    ErrandService
-    RiderService
+    ProductService,
+    ErrandService,
+    RiderService,
   ],
 })
 export class AppModule {}
