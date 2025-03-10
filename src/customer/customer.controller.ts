@@ -11,7 +11,11 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { CustomerService } from './customer.service';
-import { GetCustomerOrdersQueryDto, GetCustomersQueryDto, UpdateCustomerDto } from './customer.dto';
+import {
+  GetCustomerOrdersQueryDto,
+  GetCustomersQueryDto,
+  UpdateCustomerDto,
+} from './customer.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { query } from 'express';
 
@@ -29,20 +33,15 @@ export class CustomerController {
   }
 
   @Get('list')
-  async getCustomers(
-    @Query() query: GetCustomersQueryDto
-  ) {
+  async getCustomers(@Query() query: GetCustomersQueryDto) {
     return this.customerService.getCustomers(query);
   }
   @Get('/order/:customerId/list')
   async getCustomerOders(
     @Param('customerId') customerId: string,
-    @Query() query: GetCustomerOrdersQueryDto
+    @Query() query: GetCustomerOrdersQueryDto,
   ) {
-    return this.customerService.getCustomerOrders(
-      customerId,
-      query
-    );
+    return this.customerService.getCustomerOrders(customerId, query);
   }
 
   @Get(':customerId')
@@ -59,16 +58,12 @@ export class CustomerController {
   }
 
   @Delete(':customerId/delete')
-  async delete(
-    @Param('customerId') customerId: string
-  ) {
+  async delete(@Param('customerId') customerId: string) {
     return this.customerService.delete(customerId);
   }
 
   @Get('top')
-  async getTopCustomers(
-    @Query() query: GetCustomersQueryDto
-  ) {
+  async getTopCustomers(@Query() query: GetCustomersQueryDto) {
     return this.customerService.getTopCustomers(query);
   }
 

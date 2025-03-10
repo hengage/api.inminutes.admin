@@ -1,4 +1,10 @@
-import { IsOptional, IsNumber, IsString, IsDateString, Min } from 'class-validator';
+import {
+  IsOptional,
+  IsNumber,
+  IsString,
+  IsDateString,
+  Min,
+} from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class UpdateCustomerDto {}
@@ -16,7 +22,7 @@ export class GetCustomersPaginationDto {
   @Min(1)
   limit?: number = 10;
 }
-export class GetCustomersQueryDto extends GetCustomersPaginationDto{
+export class GetCustomersQueryDto extends GetCustomersPaginationDto {
   @IsOptional()
   @IsString()
   search?: string;
@@ -34,7 +40,7 @@ export class GetCustomersQueryDto extends GetCustomersPaginationDto{
   status?: string;
 }
 
-export class GetCustomerOrdersQueryDto extends GetCustomersPaginationDto{
+export class GetCustomerOrdersQueryDto extends GetCustomersPaginationDto {
   @IsOptional()
   @IsString()
   search?: string;
