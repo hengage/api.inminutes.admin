@@ -6,17 +6,21 @@ import {
   HttpStatus,
   Post,
   Request,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { CreateAdminDto, LoginAdminDto } from 'src/admin/admin.dto';
 import { OtpConfirmDto } from './auth.dto';
 import { AdminRole } from 'src/lib/constants';
+import { AuthGuard } from './auth.guard';
+import { SuperAdminGuard } from './auth.super-admin.guard';
 
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post()
+  @UseGuards(AuthGuard, SuperAdminGuard)
   async create(@Body() createAdminData: CreateAdminDto) {
     return await this.authService.create(createAdminData);
   }
