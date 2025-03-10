@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Get,
   HttpCode,
   HttpStatus,
   Post,
@@ -9,6 +10,7 @@ import {
 import { AuthService } from './auth.service';
 import { CreateAdminDto, LoginAdminDto } from 'src/admin/admin.dto';
 import { OtpConfirmDto } from './auth.dto';
+import { AdminRole } from 'src/lib/constants';
 
 @Controller('auth')
 export class AuthController {
@@ -32,5 +34,11 @@ export class AuthController {
       otpConfirmDto.otp,
       otpConfirmDto.email,
     );
+  }
+
+  @Get('roles')
+  @HttpCode(HttpStatus.OK)
+  getAdminRoles() {
+    return Object.values(AdminRole);
   }
 }
