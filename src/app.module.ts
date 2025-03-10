@@ -12,9 +12,15 @@ import { BrevoService } from './notifications/email/brevo.service';
 import { VendorService } from './vendor/vendor.service';
 import { VendorController } from './vendor/vendor.controller';
 import { VendorModule } from './vendor/vendor.module';
+import { OrderController } from './order/order.controller';
+import { OrderService } from './order/order.service';
+import { OrderModule } from './order/order.module';
 import { CustomerService } from './customer/customer.service';
 import { CustomerController } from './customer/customer.controller';
 import { CustomerModule } from './customer/customer.module';
+import { RiderService } from './rider/rider.service';
+import { RiderController } from './rider/rider.controller';
+import { RiderModule } from './rider/rider.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -25,16 +31,26 @@ import { CustomerModule } from './customer/customer.module';
     AuthModule,
     JwtModule,
     VendorModule,
+    OrderModule,
     CustomerModule,
+    RiderModule,
   ],
-  controllers: [AppController, VendorController, CustomerController],
+  controllers: [
+    AppController,
+    VendorController,
+    CustomerController,
+    OrderController,
+    RiderController,
+  ],
   providers: [
     AppService,
     AuthService,
     AdminService,
     BrevoService,
     VendorService,
+    OrderService,
     CustomerService,
+    RiderService,
   ],
 })
 export class AppModule {}

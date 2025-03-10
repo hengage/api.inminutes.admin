@@ -1,73 +1,75 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
+# InMinutes Admin API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Overview
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+This repository contains the API server-side code for the InMinutes Admin Service. The API provides the backend functionality for managing and administering the InMinutes application.
 
-## Description
+[API Documentation](https://documenter.getpostman.com/view/17261000/2sAYdimpBZ)
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+## Technologies Used
 
-```bash
-$ pnpm install
-```
+*   Backend Framework: NestJS with Node.js
+*   Programming Language: TypeScript
+*   Database: MongoDB
+*   Real-time Communication: Socket.IO
+*   Testing Framework: Jest
+*   Linting Tool: Eslint
+*   Code formatting: prettier
 
-## Running the app
+## Getting Started
 
-```bash
-# development
-$ pnpm run start
 
-# watch mode
-$ pnpm run start:dev
+### Installation
 
-# production mode
-$ pnpm run start:prod
-```
+1.  Clone the repository:
 
-## Test
+    ```
+    git clone [repository URL]
+    cd [repository directory]
+    ```
+2.  Install dependencies:
 
-```bash
-# unit tests
-$ pnpm run test
+    ```
+    pnpm install
+    ```
+3.  Configure the application:
 
-# e2e tests
-$ pnpm run test:e2e
+    *   Create a `.env` file based on the `.env.example` file.
+    *   Set the necessary environment variables (database connection, API keys, etc.).
+4.  Start the application:
 
-# test coverage
-$ pnpm run test:cov
-```
+    ```
+    pnpm start:dev
+    ```
 
-## Support
+## Useful Commands
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+*   **`pnpm start:prod`**: Starts the application in production mode.
+*   **`pnpm start:dev`**: Starts the application in development mode with hot-reloading.
+*   **`pnpm test`**: Runs the test suite.
+*   **`pnpm lint`**: Lints the code for style issues.
+*   **`pnpm format`**: Formats the code using styles from prettier.
 
-## Stay in touch
+## Environment Variables
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Refer to .env.example for required environment variables. When adding new variables as part of a pull request or code change, update .env.example with placeholders. Include a brief description of the variable's purpose in the commit message if necessary.
 
-## License
+## API Endpoints
 
-Nest is [MIT licensed](LICENSE).
+Refer to the [API Documentation](https://documenter.getpostman.com/view/17261000/2sAYdimpBZ) for a comprehensive list of available API endpoints and their usage.
+
+## Contributing
+
+To ensure that your contributions are efficiently integrated into the project, please follow these guidelines:
+
+### Pull Requests
+
+- **Relevance:** Ensure that each pull request only includes commits related to a specific branch, feature, bug fix, etc. Avoid mixing unrelated changes.
+- **Branching:** Create a new branch for each feature or bug fix. Use descriptive branch names that indicate the purpose of the branch.
+- **PR Description:** Provide a clear description of the changes in your pull request. Include any relevant details such as bug fixes or new features.
+
+### Commit Messages
+
+We follow the [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) format for commit messages. This helps maintain a consistent and readable commit history.
+
