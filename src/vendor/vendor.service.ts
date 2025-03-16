@@ -81,8 +81,9 @@ export class VendorService {
   }
   async getVendorCategories(): Promise<any> {
     try {
-      return await this.apiService.get('/vendors/category');
+      return await this.apiService.get('/admin/vendors/category');
     } catch (error) {
+      console.log(error)
       throw new BadRequestException(error.message);
     }
   }
