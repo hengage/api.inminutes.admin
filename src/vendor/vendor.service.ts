@@ -19,7 +19,7 @@ export class VendorService {
         ...createVendorDto,
         password: this.generateRandomPassword(),
       };
-      return await this.apiService.post('/admin/vendor/register', newCreateVendor);
+      return await this.apiService.post('/admin/vendors/register', newCreateVendor);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -31,10 +31,11 @@ export class VendorService {
   ): Promise<any> {
     try {
       return await this.apiService.put(
-        `/admin/vendor/update/${vendorId}`,
+        `/admin/vendors/update/${vendorId}`,
         updateVendorDto,
       );
     } catch (error) {
+      console.log(error);
       throw new BadRequestException(error.message);
     }
   }
