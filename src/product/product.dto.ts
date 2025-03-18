@@ -1,73 +1,23 @@
 import { PartialType } from '@nestjs/mapped-types';
+import { Transform } from 'class-transformer';
 import {
   IsArray,
+  IsDate,
   IsEmail,
   IsEnum,
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
+  Max,
   MaxLength,
   Min,
   MinLength,
 } from 'class-validator';
 import { AdminRole } from 'src/lib/constants';
-import { Transform } from 'class-transformer';
 
-export class CreateVendorDto {
-  @MinLength(2)
-  @MaxLength(50)
-  @IsString()
-  @IsNotEmpty()
-  businessName: string;
-
-  @MinLength(2)
-  @MaxLength(50)
-  @IsString()
-  @IsNotEmpty()
-  businessLogo: string;
-
-  @MinLength(2)
-  @MaxLength(50)
-  @IsString()
-  @IsNotEmpty()
-  address: string;
-
-  @MinLength(2)
-  @MaxLength(50)
-  @IsString()
-  @IsNotEmpty()
-  residentialAddress: string;
-
-  @MinLength(2)
-  @MaxLength(50)
-  @IsString()
-  @IsNotEmpty()
-  category: string;
-
-  @MinLength(2)
-  @MaxLength(50)
-  @IsString()
-  @IsNotEmpty()
-  subCategory: string;
-
-  @MinLength(2)
-  @MaxLength(50)
-  @IsString()
-  @IsNotEmpty()
-  phoneNumber: string;
-
-  @IsArray()
-  location: string[];
-
-  @IsEmail()
-  @IsNotEmpty()
-  email: string;
-}
-
-export class UpdateVendorDto extends PartialType(CreateVendorDto) {}
-
-export class CreateVendorCategoryDto {
+export class CreateProductDto {
   @MinLength(2)
   @MaxLength(50)
   @IsString()
@@ -79,36 +29,60 @@ export class CreateVendorCategoryDto {
   @IsString()
   @IsNotEmpty()
   image: string;
-}
 
-export class CreateVendorSubCategoryDto {
   @MinLength(2)
   @MaxLength(50)
   @IsString()
   @IsNotEmpty()
-  name: string;
+  description: string;
+
+  @MinLength(2)
+  @MaxLength(50)
+  @IsString()
+  @IsNotEmpty()
+  cost: string;
 
   @MinLength(2)
   @MaxLength(50)
   @IsString()
   @IsNotEmpty()
   category: string;
+
+  @MinLength(2)
+  @MaxLength(50)
+  @IsString()
+  subCategory: string;
+
+  @IsArray()
+  addOns: {}[];
+
+  @IsArray()
+  tags: string[];
+
+  @IsNumber()
+  @IsNotEmpty()
+  quantity: number;
 }
 
-export class GetVendorSubCategoriesDto {
+export class UpdateProductDto extends PartialType(CreateProductDto) {}
+
+export class GetProductPaginationDto {
+
   @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
+  @Transform(({ value }) => parseInt(value))
   @IsInt()
   @Min(1)
   page?: number = 1;
 
   @IsOptional()
-  @Transform(({ value }) => parseInt(value, 10))
+  @Transform(({ value }) => parseInt(value))
   @IsInt()
   @Min(1)
+  @Max(100)
   limit?: number = 10;
 }
-export class GetVendorsDto extends GetVendorSubCategoriesDto {
+
+export class GetProductsQueryDto  extends GetProductPaginationDto{
   @IsOptional()
   @IsString()
   search?: string;
@@ -124,5 +98,26 @@ export class GetVendorsDto extends GetVendorSubCategoriesDto {
   @IsOptional()
   @IsString()
   status?: string;
-}
 
+  @IsOptional()
+  @Transform(({ value }) => parseFloat(value))
+  @IsNumber()
+  @Min(0)
+  minPrice?: number;
+
+  @IsOptional()
+  @Transform(({ value }) => parseFloat(value))
+  @IsNumber()
+  @Min(0)
+  maxPrice?: number;
+
+  @IsOptional()
+  @Transform(({ value }) => new Date(value))
+  @IsDate()
+  startDate?: Date;
+
+  @IsOptional()
+  @Transform(({ value }) => new Date(value))
+  @IsDate()
+  endDate?: Date;
+}
