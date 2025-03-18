@@ -1,12 +1,14 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import {
+  GetCustomerOrdersQueryDto,
+  GetCustomersPaginationDto,
+  GetCustomersQueryDto,
   UpdateCustomerDto,
 } from './customer.dto';
 import { ApiService } from 'src/lib/apiCalls';
 @Injectable()
 export class CustomerService {
-  constructor(
-    private readonly apiService: ApiService) {}
+  constructor(private readonly apiService: ApiService) {}
 
   async updateCustomer(
     updateCustomerDto: UpdateCustomerDto,
@@ -22,36 +24,23 @@ export class CustomerService {
     }
   }
 
-  async getCustomers(
-    page: number = 1,
-    limit: number = 10,
-    search: string = '',
-    fromDateJoined: string = '',
-    toDateJoined: string = '',
-    status: string = '',
-  ): Promise<any> {
+  async getCustomers(query: GetCustomersQueryDto): Promise<any> {
     try {
-      const params = { page, limit, search, fromDateJoined, toDateJoined, status };
-      return await this.apiService.get('/admin/customers', params);
+      return await this.apiService.get('/admin/customers', query);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
   }
 
   async getCustomerOrders(
-    customerId: string ='',
-    page: number = 1,
-    limit: number = 10,
-    search: string = '',
-    startDate: string = '',
-    endDate: string = '',
-    maxPrice: number,
-    minPrice: number,
-    status: string = '',
+    customerId: string = '',
+    query: GetCustomerOrdersQueryDto,
   ): Promise<any> {
     try {
-      const params = { page, limit, search, endDate, startDate, maxPrice, minPrice, status };
-      return await this.apiService.get(`/admin/customer/${customerId}/orders`, params);
+      return await this.apiService.get(
+        `/admin/customer/${customerId}/orders`,
+        query,
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -65,11 +54,17 @@ export class CustomerService {
     }
   }
 
-  async approveOrDisapprove(customerId: string, approve: boolean): Promise<any> {
+  async approveOrDisapprove(
+    customerId: string,
+    approve: boolean,
+  ): Promise<any> {
     try {
-      return await this.apiService.put(`/admin/customers/${customerId}/approval`, {
-        approve,
-      });
+      return await this.apiService.put(
+        `/admin/customers/${customerId}/approval`,
+        {
+          approve,
+        },
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -77,10 +72,35 @@ export class CustomerService {
 
   async delete(customerId: string): Promise<any> {
     try {
-      return await this.apiService.delete(`/admin/customers/${customerId}/delete`);
+      return await this.apiService.delete(
+        `/admin/customers/${customerId}/delete`,
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }
   }
 
+  async getTopCustomers(query: GetCustomersQueryDto): Promise<any> {
+    try {
+      return await this.apiService.get('/admin/customers/top', query);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getCustomerSummary(): Promise<any> {
+    try {
+      return await this.apiService.get(`/admin/customers/summary`);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getCustomerMetrics(): Promise<any> {
+    try {
+      return await this.apiService.get(`/admin/customers/metrics`);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
 }

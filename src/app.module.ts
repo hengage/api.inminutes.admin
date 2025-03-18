@@ -38,7 +38,7 @@ import { RiderModule } from './rider/rider.module';
     JwtModule,
     VendorModule,
     OrderModule,
-    CustomerModule,
+    RiderModule,
     ProductModule,
     RiderModule,
     ErrandModule,

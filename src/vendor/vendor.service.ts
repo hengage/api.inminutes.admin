@@ -10,8 +10,7 @@ import {
 import { ApiService } from 'src/lib/apiCalls';
 @Injectable()
 export class VendorService {
-  constructor(
-    private readonly apiService: ApiService) {}
+  constructor(private readonly apiService: ApiService) {}
 
   async createVendor(createVendorDto: CreateVendorDto): Promise<any> {
     try {
@@ -148,7 +147,6 @@ export class VendorService {
     return password;
   }
 
-  
   async getTopVendors(
     query: GetVendorsDto
   ): Promise<any> {
