@@ -9,6 +9,7 @@ import {
   BadRequestException,
   UseGuards,
   Delete,
+  Req,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import {
@@ -19,16 +20,20 @@ import {
 } from './product.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { Validate } from 'class-validator';
-import { query } from 'express';
+import { query, Request } from 'express';
+import { AdminDocument } from 'src/admin/schema/admin.schema';
 
+export interface AuthenticatedRequest extends Request {
+  user?: AdminDocument;
+}
 @Controller('product')
 @UseGuards(AuthGuard)
 export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post('register')
-  async createProduct(@Body() createProductDto: CreateProductDto) {
-    return this.productService.createProduct(createProductDto);
+  async createProduct(@Body() createProductDto: CreateProductDto, @Req() request: AuthenticatedRequest) {
+    return this.productService.createProduct(createProductDto, request.user?._id);
   }
 
   @Put('update/:productId')
@@ -48,11 +53,6 @@ export class ProductController {
     );
   }
 
-  @Get(':productId')
-  async getProductDetails(@Param('productId') productId: string) {
-    return this.productService.getProductDetails(productId);
-  }
-
   @Put(':productId/approval')
   async approveOrDisapprove(
     @Param('productId') productId: string,
@@ -63,7 +63,7 @@ export class ProductController {
 
   @Post('category')
   async createProductCategory(
-    @Body() name: string,
+    @Body('name') name: string,
   ) {
     return this.productService.createProductCategory(name);
   }
@@ -113,5 +113,9 @@ export class ProductController {
   @Get('product-metrics')
   async getProductMetrics() {
     return this.productService.getProductMetrics();
+  }
+  @Get(':productId')
+  async getProductDetails(@Param('productId') productId: string) {
+    return this.productService.getProductDetails(productId);
   }
 }

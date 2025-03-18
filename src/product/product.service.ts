@@ -5,10 +5,9 @@ import { CreateProductDto, GetProductPaginationDto, GetProductsQueryDto, UpdateP
 export class ProductService {
   constructor(private readonly apiService: ApiService) {}
 
-  async createProduct(createProductDto: CreateProductDto): Promise<any> {
+  async createProduct(createProductDto: CreateProductDto, admin: string): Promise<any> {
     try {
-
-      return await this.apiService.post('/product/register', createProductDto);
+      return await this.apiService.post(`/admin/products/register/${admin}`, createProductDto);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
