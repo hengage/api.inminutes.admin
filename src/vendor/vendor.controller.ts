@@ -8,15 +8,19 @@ import {
   Query,
   BadRequestException,
   UseGuards,
+  ValidationPipe,
 } from '@nestjs/common';
 import { VendorService } from './vendor.service';
 import {
   CreateVendorCategoryDto,
   CreateVendorDto,
   CreateVendorSubCategoryDto,
+  GetVendorsDto,
+  GetVendorSubCategoriesDto,
   UpdateVendorDto,
 } from './vendor.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { query } from 'express';
 
 @Controller('vendor')
 @UseGuards(AuthGuard)
@@ -38,26 +42,11 @@ export class VendorController {
 
   @Get('list')
   async getVendors(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-    @Query('search') search: string = '',
-    @Query('category') category: string = '',
-    @Query('subCategory') subCategory: string = '',
-    @Query('status') status: string = '',
+    @Query(ValidationPipe) query: GetVendorsDto
   ) {
     return this.vendorService.getVendors(
-      page,
-      limit,
-      search,
-      category,
-      subCategory,
-      status,
+      query
     );
-  }
-
-  @Get(':vendorId')
-  async getVendorDetails(@Param('vendorId') vendorId: string) {
-    return this.vendorService.getVendorDetails(vendorId);
   }
 
   @Put(':vendorId/approval')
@@ -92,9 +81,35 @@ export class VendorController {
   @Get('categories/:category/sub-categories')
   async getVendorSubCategories(
     @Param('category') category: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query(ValidationPipe) query: GetVendorSubCategoriesDto
   ) {
-    return this.vendorService.getVendorSubCategories(category, page, limit);
+    return this.vendorService.getVendorSubCategories(category, query);
+  }
+
+  @Get('top-vendors')
+  async getTopVendors(@Query(ValidationPipe) query: GetVendorsDto) {
+    return this.vendorService.getTopVendors(query);
+  }
+
+  @Get('top-categories')
+  async getTopVendorCategories(
+    @Query(ValidationPipe) query: GetVendorSubCategoriesDto
+  ) {
+    return this.vendorService.getTopVendorCategories(query);
+  }
+
+  @Get('summary')
+  async getVendorSummary() {
+    return this.vendorService.getVendorSummary();
+  }
+
+  @Get('metrics')
+  async getVendorMetrics() {
+    return this.vendorService.getVendorMetrics();
+  }
+
+  @Get(':vendorId')
+  async getVendorDetails(@Param('vendorId') vendorId: string) {
+    return this.vendorService.getVendorDetails(vendorId);
   }
 }

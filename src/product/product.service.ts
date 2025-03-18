@@ -7,7 +7,6 @@ export class ProductService {
 
   async createProduct(createProductDto: CreateProductDto, admin: string): Promise<any> {
     try {
-
       return await this.apiService.post(`/admin/products/register/${admin}`, createProductDto);
     } catch (error) {
       throw new BadRequestException(error.message);
