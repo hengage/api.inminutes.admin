@@ -25,7 +25,6 @@ export class CreateProductDto {
   name: string;
 
   @MinLength(2)
-  @MaxLength(50)
   @IsString()
   @IsNotEmpty()
   image: string;
@@ -47,11 +46,6 @@ export class CreateProductDto {
   @IsString()
   @IsNotEmpty()
   category: string;
-
-  @MinLength(2)
-  @MaxLength(50)
-  @IsString()
-  subCategory: string;
 
   @IsArray()
   addOns: {}[];
