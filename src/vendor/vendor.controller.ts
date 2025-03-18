@@ -49,11 +49,6 @@ export class VendorController {
     );
   }
 
-  @Get(':vendorId')
-  async getVendorDetails(@Param('vendorId') vendorId: string) {
-    return this.vendorService.getVendorDetails(vendorId);
-  }
-
   @Put(':vendorId/approval')
   async approveOrDisapprove(
     @Param('vendorId') vendorId: string,
@@ -111,5 +106,10 @@ export class VendorController {
   @Get('metrics')
   async getVendorMetrics() {
     return this.vendorService.getVendorMetrics();
+  }
+
+  @Get(':vendorId')
+  async getVendorDetails(@Param('vendorId') vendorId: string) {
+    return this.vendorService.getVendorDetails(vendorId);
   }
 }

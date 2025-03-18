@@ -31,7 +31,7 @@ export class CreateVendorDto {
   @MaxLength(50)
   @IsString()
   @IsNotEmpty()
-  businessAddress: string;
+  address: string;
 
   @MinLength(2)
   @MaxLength(50)
@@ -58,7 +58,7 @@ export class CreateVendorDto {
   phoneNumber: string;
 
   @IsArray()
-  paymentOption: string[];
+  location: string[];
 
   @IsEmail()
   @IsNotEmpty()
