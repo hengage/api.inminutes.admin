@@ -39,7 +39,7 @@ import { ProductController } from './product/product.controller';
     RiderModule,
     ProductModule
   ],
-  controllers: [AppController, VendorController, CustomerController, OrderController,  ProductController],
+  controllers: [AppController, VendorController, CustomerController, OrderController, RiderController, ProductController],
   providers: [
     AppService,
     AuthService,
