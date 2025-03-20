@@ -5,11 +5,10 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class ApiService {
   private axiosInstance: AxiosInstance;
-  
 
   constructor(private configService: ConfigService) {
     this.axiosInstance = axios.create({
-      baseURL: this.configService.get('APP_URL'),
+      baseURL: this.configService.get('CORE_APP_BASE_URL'),
       timeout: 5000,
       headers: {
         'Content-Type': 'application/json',

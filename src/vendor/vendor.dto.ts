@@ -3,13 +3,16 @@ import {
   IsArray,
   IsEmail,
   IsEnum,
+  IsInt,
   IsNotEmpty,
   IsOptional,
   IsString,
   MaxLength,
+  Min,
   MinLength,
 } from 'class-validator';
 import { AdminRole } from 'src/lib/constants';
+import { Transform } from 'class-transformer';
 
 export class CreateVendorDto {
   @MinLength(2)
@@ -28,7 +31,7 @@ export class CreateVendorDto {
   @MaxLength(50)
   @IsString()
   @IsNotEmpty()
-  businessAddress: string;
+  address: string;
 
   @MinLength(2)
   @MaxLength(50)
@@ -55,7 +58,7 @@ export class CreateVendorDto {
   phoneNumber: string;
 
   @IsArray()
-  paymentOption: string[];
+  location: string[];
 
   @IsEmail()
   @IsNotEmpty()
@@ -91,3 +94,35 @@ export class CreateVendorSubCategoryDto {
   @IsNotEmpty()
   category: string;
 }
+
+export class GetVendorSubCategoriesDto {
+  @IsOptional()
+  @Transform(({ value }) => parseInt(value, 10))
+  @IsInt()
+  @Min(1)
+  page?: number = 1;
+
+  @IsOptional()
+  @Transform(({ value }) => parseInt(value, 10))
+  @IsInt()
+  @Min(1)
+  limit?: number = 10;
+}
+export class GetVendorsDto extends GetVendorSubCategoriesDto {
+  @IsOptional()
+  @IsString()
+  search?: string;
+
+  @IsOptional()
+  @IsString()
+  category?: string;
+
+  @IsOptional()
+  @IsString()
+  subCategory?: string;
+
+  @IsOptional()
+  @IsString()
+  status?: string;
+}
+
