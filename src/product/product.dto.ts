@@ -61,7 +61,6 @@ export class CreateProductDto {
 export class UpdateProductDto extends PartialType(CreateProductDto) {}
 
 export class GetProductPaginationDto {
-
   @IsOptional()
   @Transform(({ value }) => parseInt(value))
   @IsInt()
@@ -76,7 +75,7 @@ export class GetProductPaginationDto {
   limit?: number = 10;
 }
 
-export class GetProductsQueryDto  extends GetProductPaginationDto{
+export class GetProductsQueryDto extends GetProductPaginationDto {
   @IsOptional()
   @IsString()
   search?: string;

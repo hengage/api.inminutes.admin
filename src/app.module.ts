@@ -37,9 +37,16 @@ import { ProductController } from './product/product.controller';
     OrderModule,
     CustomerModule,
     RiderModule,
-    ProductModule
+    ProductModule,
   ],
-  controllers: [AppController, VendorController, CustomerController, OrderController, RiderController, ProductController],
+  controllers: [
+    AppController,
+    VendorController,
+    CustomerController,
+    OrderController,
+    RiderController,
+    ProductController,
+  ],
   providers: [
     AppService,
     AuthService,
@@ -49,7 +56,7 @@ import { ProductController } from './product/product.controller';
     OrderService,
     CustomerService,
     RiderService,
-    ProductService
+    ProductService,
   ],
 })
 export class AppModule {}

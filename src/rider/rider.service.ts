@@ -1,6 +1,13 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ApiService } from 'src/lib/apiCalls';
-import { CreateRiderDto, GetDeliveriesQueryDto, GetRidersQueryDto, GetWorkAreasQueryDto, UpdateRiderDto } from './rider.dto';
+import {
+  CreateRiderDto,
+  GetDeliveriesQueryDto,
+  GetRidersQueryDto,
+  GetWorkAreasQueryDto,
+  UpdateRiderDto,
+  AddWorkAreaDto,
+} from './rider.dto';
 @Injectable()
 export class RiderService {
   constructor(private readonly apiService: ApiService) {}
@@ -31,9 +38,7 @@ export class RiderService {
     }
   }
 
-  async getRiders(
-    query: GetRidersQueryDto
-  ): Promise<any> {
+  async getRiders(query: GetRidersQueryDto): Promise<any> {
     try {
       await this.apiService.get('/admin/riders', query);
     } catch (error) {
@@ -42,12 +47,12 @@ export class RiderService {
   }
   async getRiderDeliveries(
     rider: string,
-    query: GetDeliveriesQueryDto
+    query: GetDeliveriesQueryDto,
   ): Promise<any> {
     try {
       return await this.apiService.get(
         `/admin/rider/${rider}/deliveries`,
-        query
+        query,
       );
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -79,9 +84,16 @@ export class RiderService {
     }
   }
 
+  async addWorkArea(addWorkAreaBody: AddWorkAreaDto): Promise<any> {
+    try {
+      return await this.apiService.post('/admin/work-areas', addWorkAreaBody);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
   async getWorkAreas(query: GetWorkAreasQueryDto): Promise<any> {
     try {
-      return await this.apiService.get('/admin/work-area', query);
+      return await this.apiService.get('/admin/work-areas', query);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -89,12 +101,12 @@ export class RiderService {
 
   async getWorkAreaSession(
     workAreaId: string,
-    query: GetWorkAreasQueryDto
+    query: GetWorkAreasQueryDto,
   ): Promise<any> {
     try {
       return await this.apiService.get(
         `/admin/work-areas/${workAreaId}/sessions`,
-        query
+        query,
       );
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -104,7 +116,7 @@ export class RiderService {
   async getBookedRidersPerSession(
     workAreaId: string,
     sessionsId: string,
-    query: GetWorkAreasQueryDto
+    query: GetWorkAreasQueryDto,
   ): Promise<any> {
     try {
       return await this.apiService.get(

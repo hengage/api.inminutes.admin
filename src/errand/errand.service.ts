@@ -46,5 +46,4 @@ export class ErrandService {
       throw new BadRequestException(error.message);
     }
   }
-
 }

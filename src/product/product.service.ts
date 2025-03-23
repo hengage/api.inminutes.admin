@@ -1,13 +1,24 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ApiService } from 'src/lib/apiCalls';
-import { CreateProductDto, GetProductPaginationDto, GetProductsQueryDto, UpdateProductDto } from './product.dto';
+import {
+  CreateProductDto,
+  GetProductPaginationDto,
+  GetProductsQueryDto,
+  UpdateProductDto,
+} from './product.dto';
 @Injectable()
 export class ProductService {
   constructor(private readonly apiService: ApiService) {}
 
-  async createProduct(createProductDto: CreateProductDto, admin: string): Promise<any> {
+  async createProduct(
+    createProductDto: CreateProductDto,
+    admin: string,
+  ): Promise<any> {
     try {
-      return await this.apiService.post(`/admin/products/register/${admin}`, createProductDto);
+      return await this.apiService.post(
+        `/admin/products/register/${admin}`,
+        createProductDto,
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -27,9 +38,7 @@ export class ProductService {
     }
   }
 
-  async getProducts(
-    query: GetProductsQueryDto
-  ): Promise<any> {
+  async getProducts(query: GetProductsQueryDto): Promise<any> {
     try {
       return await this.apiService.get('/admin/products', query);
     } catch (error) {
@@ -47,22 +56,20 @@ export class ProductService {
 
   async approveOrDisapprove(productId: string, approve: boolean): Promise<any> {
     try {
-      return await this.apiService.put(`/admin/products/${productId}/approval`, {
-        approve,
-      });
+      return await this.apiService.put(
+        `/admin/products/${productId}/approval`,
+        {
+          approve,
+        },
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }
-    
   }
 
-  async createProductCategory(name: string
-  ): Promise<any> {
+  async createProductCategory(name: string): Promise<any> {
     try {
-      return await this.apiService.post(
-        '/admin/products/category',
-        {name}
-      );
+      return await this.apiService.post('/admin/products/category', { name });
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -75,13 +82,11 @@ export class ProductService {
     }
   }
 
-  async createProductSubCategory(name: string
-  ): Promise<any> {
+  async createProductSubCategory(name: string): Promise<any> {
     try {
-      return await this.apiService.post(
-        '/admin/products/sub-category',
-        {name}
-      );
+      return await this.apiService.post('/admin/products/sub-category', {
+        name,
+      });
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -89,7 +94,7 @@ export class ProductService {
 
   async getProductSubCategories(
     category: string,
-    query: GetProductPaginationDto
+    query: GetProductPaginationDto,
   ): Promise<any> {
     try {
       return await this.apiService.get(
@@ -101,18 +106,17 @@ export class ProductService {
     }
   }
 
-  
   async delete(productId: string): Promise<any> {
     try {
-      return await this.apiService.delete(`/admin/products/${productId}/delete`);
+      return await this.apiService.delete(
+        `/admin/products/${productId}/delete`,
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }
   }
 
-  async getTopProducts(
-    query: GetProductsQueryDto
-  ): Promise<any> {
+  async getTopProducts(query: GetProductsQueryDto): Promise<any> {
     try {
       return await this.apiService.get('/admin/products/top', query);
     } catch (error) {
@@ -143,5 +147,4 @@ export class ProductService {
       throw new BadRequestException(error.message);
     }
   }
-  
 }

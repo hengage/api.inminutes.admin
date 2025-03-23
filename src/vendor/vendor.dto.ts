@@ -125,4 +125,3 @@ export class GetVendorsDto extends GetVendorSubCategoriesDto {
   @IsString()
   status?: string;
 }
-

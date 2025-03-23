@@ -32,8 +32,14 @@ export class ProductController {
   constructor(private readonly productService: ProductService) {}
 
   @Post('register')
-  async createProduct(@Body() createProductDto: CreateProductDto, @Req() request: AuthenticatedRequest) {
-    return this.productService.createProduct(createProductDto, request.user?._id);
+  async createProduct(
+    @Body() createProductDto: CreateProductDto,
+    @Req() request: AuthenticatedRequest,
+  ) {
+    return this.productService.createProduct(
+      createProductDto,
+      request.user?._id,
+    );
   }
 
   @Put('update/:productId')
@@ -45,12 +51,8 @@ export class ProductController {
   }
 
   @Get('list')
-  async getProducts(
-    @Query() query: GetProductsQueryDto
-  ) {
-    return this.productService.getProducts(
-      query
-    );
+  async getProducts(@Query() query: GetProductsQueryDto) {
+    return this.productService.getProducts(query);
   }
 
   @Put(':productId/approval')
@@ -62,9 +64,7 @@ export class ProductController {
   }
 
   @Post('category')
-  async createProductCategory(
-    @Body('name') name: string,
-  ) {
+  async createProductCategory(@Body('name') name: string) {
     return this.productService.createProductCategory(name);
   }
 
@@ -74,18 +74,14 @@ export class ProductController {
   }
 
   @Post('sub-category')
-  async createProductSubCategory(
-    @Body() name: string
-  ) {
-    return this.productService.createProductSubCategory(
-      name
-    );
+  async createProductSubCategory(@Body() name: string) {
+    return this.productService.createProductSubCategory(name);
   }
 
   @Get('categories/:category/sub-categories')
   async getProductSubCategories(
     @Param('category') category: string,
-    @Query() query: GetProductPaginationDto
+    @Query() query: GetProductPaginationDto,
   ) {
     return this.productService.getProductSubCategories(category, query);
   }
@@ -107,7 +103,7 @@ export class ProductController {
 
   @Get('product-summary')
   async getProductSummary() {
-    return this.productService.getProductSummary()
+    return this.productService.getProductSummary();
   }
 
   @Get('product-metrics')

@@ -8,6 +8,7 @@ import {
   IsEnum,
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   MaxLength,
@@ -75,6 +76,10 @@ export class GetWorkAreasQueryDto {
   @Type(() => Number)
   @IsInt()
   limit?: number = 10;
+
+  @IsDateString()
+  @IsOptional()
+  date?: Date;
 }
 
 export class GetRidersQueryDto extends GetWorkAreasQueryDto {
@@ -97,7 +102,6 @@ export class GetRidersQueryDto extends GetWorkAreasQueryDto {
 }
 
 export class GetDeliveriesQueryDto extends GetWorkAreasQueryDto {
-
   @IsOptional()
   @IsString()
   search?: string;
@@ -107,7 +111,13 @@ export class GetDeliveriesQueryDto extends GetWorkAreasQueryDto {
   status?: string;
 }
 
+export class AddWorkAreaDto {
+  @IsString()
+  name: string;
 
+  @IsArray()
+  coordinates: [Number, Number];
 
-
-
+  @IsNumber()
+  maxSlotsRequired: number;
+}
