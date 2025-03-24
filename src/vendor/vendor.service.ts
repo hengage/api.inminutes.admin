@@ -3,6 +3,7 @@ import {
   CreateVendorCategoryDto,
   CreateVendorDto,
   CreateVendorSubCategoryDto,
+  GetVendorMetricsDto,
   GetVendorsDto,
   GetVendorSubCategoriesDto,
   UpdateVendorDto,
@@ -79,9 +80,9 @@ export class VendorService {
       throw new BadRequestException(error.message);
     }
   }
-  async getVendorCategories(): Promise<any> {
+  async getVendorCategories(query: GetVendorSubCategoriesDto): Promise<any> {
     try {
-      return await this.apiService.get('/admin/vendors/category');
+      return await this.apiService.get('/admin/vendors/category', query);
     } catch (error) {
       console.log(error)
       throw new BadRequestException(error.message);
@@ -107,7 +108,7 @@ export class VendorService {
   ): Promise<any> {
     try {
       return await this.apiService.get(
-        `/vendors/category/${category}/vendors`,
+        `/admin/vendors/sub-category/${category}`,
         query,
       );
     } catch (error) {
@@ -173,9 +174,9 @@ export class VendorService {
     }
   }
 
-  async getVendorMetrics(): Promise<any> {
+  async getVendorMetrics(query: GetVendorMetricsDto): Promise<any> {
     try {
-      return await this.apiService.get(`/admin/vendors/metrics`);
+      return await this.apiService.get(`/admin/vendors/metrics`, query);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
