@@ -1,6 +1,7 @@
 import { PartialType } from '@nestjs/mapped-types';
 import {
   IsArray,
+  IsDateString,
   IsEmail,
   IsEnum,
   IsInt,
@@ -124,4 +125,22 @@ export class GetVendorsDto extends GetVendorSubCategoriesDto {
   @IsOptional()
   @IsString()
   status?: string;
+
+  @IsOptional()
+  @IsDateString()
+  startDate?: string;
+
+  @IsOptional()
+  @IsDateString()
+  endDate?: string;
+}
+
+export class GetVendorMetricsDto extends GetVendorSubCategoriesDto {
+  @IsOptional()
+  @IsDateString()
+  startDate?: string;
+
+  @IsOptional()
+  @IsDateString()
+  endDate?: string;
 }

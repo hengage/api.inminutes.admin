@@ -15,6 +15,7 @@ import {
   CreateVendorCategoryDto,
   CreateVendorDto,
   CreateVendorSubCategoryDto,
+  GetVendorMetricsDto,
   GetVendorsDto,
   GetVendorSubCategoriesDto,
   UpdateVendorDto,
@@ -61,8 +62,8 @@ export class VendorController {
   }
 
   @Get('categories')
-  async getVendorCategories() {
-    return this.vendorService.getVendorCategories();
+  async getVendorCategories(@Query(ValidationPipe) query: GetVendorSubCategoriesDto) {
+    return this.vendorService.getVendorCategories(query);
   }
 
   @Post('sub-category')
@@ -100,8 +101,8 @@ export class VendorController {
   }
 
   @Get('metrics')
-  async getVendorMetrics() {
-    return this.vendorService.getVendorMetrics();
+  async getVendorMetrics(@Query(ValidationPipe) query: GetVendorMetricsDto) {
+    return this.vendorService.getVendorMetrics(query);
   }
 
   @Get(':vendorId')
