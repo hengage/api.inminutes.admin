@@ -21,6 +21,7 @@ import { CustomerModule } from './customer/customer.module';
 import { ProductService } from './product/product.service';
 import { ProductModule } from './product/product.module';
 import { ProductController } from './product/product.controller';
+import { MediaModule } from './media/media.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -33,7 +34,8 @@ import { ProductController } from './product/product.controller';
     VendorModule,
     OrderModule,
     CustomerModule,
-    ProductModule
+    ProductModule,
+    MediaModule
   ],
   controllers: [AppController, VendorController, CustomerController, OrderController, ProductController],
   providers: [
