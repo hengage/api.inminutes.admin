@@ -3,7 +3,6 @@ import {
   IsArray,
   IsDateString,
   IsEmail,
-  IsEnum,
   IsInt,
   IsNotEmpty,
   IsOptional,
@@ -23,7 +22,7 @@ export class CreateVendorDto {
   businessName: string;
 
   @MinLength(2)
-  @MaxLength(50)
+  @MaxLength(250)
   @IsString()
   @IsNotEmpty()
   businessLogo: string;
@@ -76,7 +75,7 @@ export class CreateVendorCategoryDto {
   name: string;
 
   @MinLength(2)
-  @MaxLength(50)
+  @MaxLength(250)
   @IsString()
   @IsNotEmpty()
   image: string;
@@ -125,6 +124,10 @@ export class GetVendorsDto extends GetVendorSubCategoriesDto {
   @IsOptional()
   @IsString()
   status?: string;
+
+  @IsOptional()
+  @IsString()
+  approvalStatus?: string;
 
   @IsOptional()
   @IsDateString()
