@@ -79,7 +79,7 @@ export class GetProductPaginationDto {
 export class GetProductsQueryDto  extends GetProductPaginationDto{
   @IsOptional()
   @IsString()
-  search?: string;
+  searchQuery?: string;
 
   @IsOptional()
   @IsString()
@@ -92,6 +92,10 @@ export class GetProductsQueryDto  extends GetProductPaginationDto{
   @IsOptional()
   @IsString()
   status?: string;
+
+  @IsOptional()
+  @IsString()
+  vendor?: string;
 
   @IsOptional()
   @Transform(({ value }) => parseFloat(value))
@@ -108,10 +112,10 @@ export class GetProductsQueryDto  extends GetProductPaginationDto{
   @IsOptional()
   @Transform(({ value }) => new Date(value))
   @IsDate()
-  startDate?: Date;
+  fromDate?: Date;
 
   @IsOptional()
   @Transform(({ value }) => new Date(value))
   @IsDate()
-  endDate?: Date;
+  toDate?: Date;
 }

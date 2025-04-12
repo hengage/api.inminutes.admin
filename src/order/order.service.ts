@@ -7,7 +7,7 @@ export class OrderService {
   async getOrders(
     page: number = 1,
     limit: number = 10,
-    search: string = '',
+    searchQuery: string = '',
     fromDate: Date,
     toDate: Date,
     type: string = '',
@@ -18,7 +18,7 @@ export class OrderService {
       const params = {
         page,
         limit,
-        search,
+        searchQuery,
         type,
         fromDate,
         toDate,
