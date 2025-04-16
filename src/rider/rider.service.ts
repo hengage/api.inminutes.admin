@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ApiService } from 'src/lib/apiCalls';
-import { CreateRiderDto, CreateTimeSlotDto, GetDeliveriesQueryDto, GetRidersQueryDto, GetTimeSlotQueryDto, GetWorkAreasQueryDto, UpdateRiderDto } from './rider.dto';
+import { AddWorkAreaDto, CreateRiderDto, CreateTimeSlotDto, GetDeliveriesQueryDto, GetRidersQueryDto, GetTimeSlotQueryDto, GetWorkAreasQueryDto, UpdateRiderDto } from './rider.dto';
 @Injectable()
 export class RiderService {
   constructor(private readonly apiService: ApiService) {}
@@ -11,7 +11,7 @@ export class RiderService {
         ...createRiderDto,
         password: this.generateRandomPassword(),
       };
-      return await this.apiService.post('/rider/register', newCreateRider);
+      return await this.apiService.post('/admin/riders', newCreateRider);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -23,7 +23,7 @@ export class RiderService {
   ): Promise<any> {
     try {
       return await this.apiService.put(
-        `/rider/update/${riderId}`,
+        `/admin/riders/${riderId}`,
         updateRiderDto,
       );
     } catch (error) {

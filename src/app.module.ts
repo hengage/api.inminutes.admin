@@ -38,6 +38,7 @@ import { MediaModule } from './media/media.module';
     OrderModule,
     CustomerModule,
     ProductModule,
+    RiderModule,
     MediaModule
   ],
   controllers: [
