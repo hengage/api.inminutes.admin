@@ -54,15 +54,6 @@ export class RiderController {
     return await this.riderService.getRiderDeliveries(rider, query);
   }
 
-  @Get(':riderId')
-  async getRiderDetails(@Param('riderId') riderId: string) {
-    return await this.riderService.getRiderDetails(riderId);
-  }
-
-  @Get(':riderId')
-  async getRiderWalletDetails(@Param('riderId') riderId: string) {
-    return await this.riderService.getRiderWalletDetails(riderId);
-  }
 
   @Put(':riderId/approval')
   async approveOrDisapprove(
@@ -99,6 +90,11 @@ export class RiderController {
       sessionId,
       query,
     );
+  }
+
+  @Get(':riderId')
+  async getRiderWalletDetails(@Param('riderId') riderId: string) {
+    return this.riderService.getRiderWalletDetails(riderId);
   }
   @Delete(':riderId')
   async delete(@Param('riderId') riderId: string) {

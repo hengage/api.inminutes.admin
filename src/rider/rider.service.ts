@@ -1,13 +1,6 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ApiService } from 'src/lib/apiCalls';
-import {
-  CreateRiderDto,
-  GetDeliveriesQueryDto,
-  GetRidersQueryDto,
-  GetWorkAreasQueryDto,
-  UpdateRiderDto,
-  AddWorkAreaDto,
-} from './rider.dto';
+import { CreateRiderDto, CreateTimeSlotDto, GetDeliveriesQueryDto, GetRidersQueryDto, GetTimeSlotQueryDto, GetWorkAreasQueryDto, UpdateRiderDto } from './rider.dto';
 @Injectable()
 export class RiderService {
   constructor(private readonly apiService: ApiService) {}
@@ -131,6 +124,52 @@ export class RiderService {
   async delete(riderId: string): Promise<any> {
     try {
       return await this.apiService.delete(`/admin/riders/${riderId}/delete`);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async insertTimeSlot(data: CreateTimeSlotDto
+  ): Promise<any> {
+    try {
+      return await this.apiService.post(
+        `/admin/work-areas/time-slot`,
+        data
+      );
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getTimeSlots(query: GetTimeSlotQueryDto
+  ): Promise<any> {
+    try {
+      return await this.apiService.get(
+        `/admin/work-areas/time-slot`,
+        query
+      );
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getTimeSlot(timeSlotId: string
+  ): Promise<any> {
+    try {
+      return await this.apiService.get(
+        `/admin/work-areas/time-slot/${timeSlotId}`
+      );
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async deleteTimeSlot(timeSlotId: string
+  ): Promise<any> {
+    try {
+      return await this.apiService.delete(
+        `/admin/work-areas/time-slot/${timeSlotId}`
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }

@@ -121,3 +121,31 @@ export class AddWorkAreaDto {
   @IsNumber()
   maxSlotsRequired: number;
 }
+export class GetTimeSlotQueryDto extends GetDeliveriesQueryDto{
+  
+  @IsOptional()
+  @IsString()
+  startTime?: string;
+
+  @IsOptional()
+  @IsString()
+  endTime?: string;
+}
+
+export class CreateTimeSlotDto {
+  
+  @IsOptional()
+  @IsString()
+  startTime?: string;
+
+  @IsOptional()
+  @IsString()
+  endTime?: string;
+
+  @IsOptional()
+  @IsString()
+  status?: string;
+}
+
+
+
