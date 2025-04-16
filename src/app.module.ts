@@ -18,6 +18,9 @@ import { OrderModule } from './order/order.module';
 import { CustomerService } from './customer/customer.service';
 import { CustomerController } from './customer/customer.controller';
 import { CustomerModule } from './customer/customer.module';
+import { RiderService } from './rider/rider.service';
+import { RiderController } from './rider/rider.controller';
+import { RiderModule } from './rider/rider.module';
 import { ProductService } from './product/product.service';
 import { ProductModule } from './product/product.module';
 import { ProductController } from './product/product.controller';
@@ -35,9 +38,17 @@ import { MediaModule } from './media/media.module';
     OrderModule,
     CustomerModule,
     ProductModule,
+    RiderModule,
     MediaModule
   ],
-  controllers: [AppController, VendorController, CustomerController, OrderController, ProductController],
+  controllers: [
+    AppController,
+    VendorController,
+    CustomerController,
+    OrderController,
+    RiderController,
+    ProductController,
+  ],
   providers: [
     AppService,
     AuthService,
@@ -46,7 +57,8 @@ import { MediaModule } from './media/media.module';
     VendorService,
     OrderService,
     CustomerService,
-    ProductService
+    RiderService,
+    ProductService,
   ],
 })
 export class AppModule {}

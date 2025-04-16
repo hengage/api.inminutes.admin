@@ -19,7 +19,10 @@ export class VendorService {
         ...createVendorDto,
         password: this.generateRandomPassword(),
       };
-      return await this.apiService.post('/admin/vendors/register', newCreateVendor);
+      return await this.apiService.post(
+        '/admin/vendors/register',
+        newCreateVendor,
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -40,9 +43,7 @@ export class VendorService {
     }
   }
 
-  async getVendors(
-    query: GetVendorsDto
-  ): Promise<any> {
+  async getVendors(query: GetVendorsDto): Promise<any> {
     try {
       return await this.apiService.get('/admin/vendors', query);
     } catch (error) {
@@ -84,7 +85,7 @@ export class VendorService {
     try {
       return await this.apiService.get('/admin/vendors/category', query);
     } catch (error) {
-      console.log(error)
+      console.log(error);
       throw new BadRequestException(error.message);
     }
   }
@@ -104,7 +105,7 @@ export class VendorService {
 
   async getVendorSubCategories(
     category: string,
-    query: GetVendorSubCategoriesDto
+    query: GetVendorSubCategoriesDto,
   ): Promise<any> {
     try {
       return await this.apiService.get(
@@ -148,9 +149,7 @@ export class VendorService {
     return password;
   }
 
-  async getTopVendors(
-    query: GetVendorsDto
-  ): Promise<any> {
+  async getTopVendors(query: GetVendorsDto): Promise<any> {
     try {
       return await this.apiService.get('/admin/vendors/top', query);
     } catch (error) {
@@ -181,5 +180,4 @@ export class VendorService {
       throw new BadRequestException(error.message);
     }
   }
-  
 }

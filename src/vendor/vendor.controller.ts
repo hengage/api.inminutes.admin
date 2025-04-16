@@ -42,12 +42,8 @@ export class VendorController {
   }
 
   @Get('list')
-  async getVendors(
-    @Query(ValidationPipe) query: GetVendorsDto
-  ) {
-    return this.vendorService.getVendors(
-      query
-    );
+  async getVendors(@Query(ValidationPipe) query: GetVendorsDto) {
+    return this.vendorService.getVendors(query);
   }
 
   @Put(':vendorId/approval')
@@ -82,7 +78,7 @@ export class VendorController {
   @Get('categories/:category/sub-categories')
   async getVendorSubCategories(
     @Param('category') category: string,
-    @Query(ValidationPipe) query: GetVendorSubCategoriesDto
+    @Query(ValidationPipe) query: GetVendorSubCategoriesDto,
   ) {
     return this.vendorService.getVendorSubCategories(category, query);
   }
@@ -94,7 +90,7 @@ export class VendorController {
 
   @Get('top-categories')
   async getTopVendorCategories(
-    @Query(ValidationPipe) query: GetVendorSubCategoriesDto
+    @Query(ValidationPipe) query: GetVendorSubCategoriesDto,
   ) {
     return this.vendorService.getTopVendorCategories(query);
   }

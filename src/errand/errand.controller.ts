@@ -52,8 +52,8 @@ export class ErrandController {
     return this.errandService.changeErrandStatus(errandId, status);
   }
 
-    @Delete(':errandId')
-    async delete(@Param('errandId') errandId: string) {
-        return this.errandService.delete(errandId);
-    }
+  @Delete(':errandId')
+  async delete(@Param('errandId') errandId: string) {
+    return this.errandService.delete(errandId);
+  }
 }
