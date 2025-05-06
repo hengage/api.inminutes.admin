@@ -21,6 +21,13 @@ import { CustomerModule } from './customer/customer.module';
 import { TransactionService } from './transaction/transaction.service';
 import { TransactionModule } from './transaction/transaction.module';
 import { TransactionController } from './transaction/transaction.controller';
+import { RiderService } from './rider/rider.service';
+import { RiderController } from './rider/rider.controller';
+import { RiderModule } from './rider/rider.module';
+import { ProductService } from './product/product.service';
+import { ProductModule } from './product/product.module';
+import { ProductController } from './product/product.controller';
+import { MediaModule } from './media/media.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -33,9 +40,21 @@ import { TransactionController } from './transaction/transaction.controller';
     VendorModule,
     OrderModule,
     CustomerModule,
-    TransactionModule
+    TransactionModule,
+    MediaModule,
+    ProductModule,
+    RiderModule
   ],
-  controllers: [AppController, VendorController, CustomerController, OrderController, TransactionController],
+
+  controllers: [
+    AppController,
+    VendorController,
+    CustomerController,
+    OrderController,
+    RiderController,
+    ProductController,
+    TransactionController
+  ],
   providers: [
     AppService,
     AuthService,
@@ -44,7 +63,9 @@ import { TransactionController } from './transaction/transaction.controller';
     VendorService,
     OrderService,
     CustomerService,
-    TransactionService
+    TransactionService,
+    RiderService,
+    ProductService,
   ],
 })
 export class AppModule {}

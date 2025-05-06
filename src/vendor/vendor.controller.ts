@@ -8,15 +8,20 @@ import {
   Query,
   BadRequestException,
   UseGuards,
+  ValidationPipe,
 } from '@nestjs/common';
 import { VendorService } from './vendor.service';
 import {
   CreateVendorCategoryDto,
   CreateVendorDto,
   CreateVendorSubCategoryDto,
+  GetVendorMetricsDto,
+  GetVendorsDto,
+  GetVendorSubCategoriesDto,
   UpdateVendorDto,
 } from './vendor.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { query } from 'express';
 
 @Controller('vendor')
 @UseGuards(AuthGuard)
@@ -37,27 +42,8 @@ export class VendorController {
   }
 
   @Get('list')
-  async getVendors(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-    @Query('search') search: string = '',
-    @Query('category') category: string = '',
-    @Query('subCategory') subCategory: string = '',
-    @Query('status') status: string = '',
-  ) {
-    return this.vendorService.getVendors(
-      page,
-      limit,
-      search,
-      category,
-      subCategory,
-      status,
-    );
-  }
-
-  @Get(':vendorId')
-  async getVendorDetails(@Param('vendorId') vendorId: string) {
-    return this.vendorService.getVendorDetails(vendorId);
+  async getVendors(@Query(ValidationPipe) query: GetVendorsDto) {
+    return this.vendorService.getVendors(query);
   }
 
   @Put(':vendorId/approval')
@@ -76,8 +62,8 @@ export class VendorController {
   }
 
   @Get('categories')
-  async getVendorCategories() {
-    return this.vendorService.getVendorCategories();
+  async getVendorCategories(@Query(ValidationPipe) query: GetVendorSubCategoriesDto) {
+    return this.vendorService.getVendorCategories(query);
   }
 
   @Post('sub-category')
@@ -92,9 +78,35 @@ export class VendorController {
   @Get('categories/:category/sub-categories')
   async getVendorSubCategories(
     @Param('category') category: string,
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
+    @Query(ValidationPipe) query: GetVendorSubCategoriesDto,
   ) {
-    return this.vendorService.getVendorSubCategories(category, page, limit);
+    return this.vendorService.getVendorSubCategories(category, query);
+  }
+
+  @Get('top-vendors')
+  async getTopVendors(@Query(ValidationPipe) query: GetVendorsDto) {
+    return this.vendorService.getTopVendors(query);
+  }
+
+  @Get('top-categories')
+  async getTopVendorCategories(
+    @Query(ValidationPipe) query: GetVendorSubCategoriesDto,
+  ) {
+    return this.vendorService.getTopVendorCategories(query);
+  }
+
+  @Get('summary')
+  async getVendorSummary() {
+    return this.vendorService.getVendorSummary();
+  }
+
+  @Get('metrics')
+  async getVendorMetrics(@Query(ValidationPipe) query: GetVendorMetricsDto) {
+    return this.vendorService.getVendorMetrics(query);
+  }
+
+  @Get(':vendorId')
+  async getVendorDetails(@Param('vendorId') vendorId: string) {
+    return this.vendorService.getVendorDetails(vendorId);
   }
 }

@@ -23,7 +23,7 @@ export class OrderController {
   async getOrders(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
-    @Query('search') search: string = '',
+    @Query('searchQuery') searchQuery: string = '',
     @Query('fromDate') fromDate: Date,
     @Query('toDate') toDate: Date,
     @Query('type') type: string,
@@ -33,7 +33,7 @@ export class OrderController {
     return this.orderService.getOrders(
       page,
       limit,
-      search,
+      searchQuery,
       fromDate,
       toDate,
       type,

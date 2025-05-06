@@ -3,13 +3,15 @@ import {
   CreateVendorCategoryDto,
   CreateVendorDto,
   CreateVendorSubCategoryDto,
+  GetVendorMetricsDto,
+  GetVendorsDto,
+  GetVendorSubCategoriesDto,
   UpdateVendorDto,
 } from './vendor.dto';
 import { ApiService } from 'src/lib/apiCalls';
 @Injectable()
 export class VendorService {
-  constructor(
-    private readonly apiService: ApiService) {}
+  constructor(private readonly apiService: ApiService) {}
 
   async createVendor(createVendorDto: CreateVendorDto): Promise<any> {
     try {
@@ -17,7 +19,10 @@ export class VendorService {
         ...createVendorDto,
         password: this.generateRandomPassword(),
       };
-      return await this.apiService.post('/vendor/register', newCreateVendor);
+      return await this.apiService.post(
+        '/admin/vendors/register',
+        newCreateVendor,
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -29,25 +34,18 @@ export class VendorService {
   ): Promise<any> {
     try {
       return await this.apiService.put(
-        `/vendor/update/${vendorId}`,
+        `/admin/vendors/update/${vendorId}`,
         updateVendorDto,
       );
     } catch (error) {
+      console.log(error);
       throw new BadRequestException(error.message);
     }
   }
 
-  async getVendors(
-    page: number = 1,
-    limit: number = 10,
-    search: string = '',
-    category: string = '',
-    subCategory: string = '',
-    status: string = '',
-  ): Promise<any> {
+  async getVendors(query: GetVendorsDto): Promise<any> {
     try {
-      const params = { page, limit, search, category, subCategory, status };
-      return await this.apiService.get('/admin/vendors', params);
+      return await this.apiService.get('/admin/vendors', query);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -83,10 +81,11 @@ export class VendorService {
       throw new BadRequestException(error.message);
     }
   }
-  async getVendorCategories(): Promise<any> {
+  async getVendorCategories(query: GetVendorSubCategoriesDto): Promise<any> {
     try {
-      return await this.apiService.get('/vendors/category');
+      return await this.apiService.get('/admin/vendors/category', query);
     } catch (error) {
+      console.log(error);
       throw new BadRequestException(error.message);
     }
   }
@@ -106,14 +105,12 @@ export class VendorService {
 
   async getVendorSubCategories(
     category: string,
-    page: number = 1,
-    limit: number = 10,
+    query: GetVendorSubCategoriesDto,
   ): Promise<any> {
     try {
-      const params = { page, limit };
       return await this.apiService.get(
-        `/vendors/category/${category}/vendors`,
-        params,
+        `/admin/vendors/sub-category/${category}`,
+        query,
       );
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -151,5 +148,36 @@ export class VendorService {
       .join('');
     return password;
   }
-  
+
+  async getTopVendors(query: GetVendorsDto): Promise<any> {
+    try {
+      return await this.apiService.get('/admin/vendors/top', query);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getTopVendorCategories(query: GetVendorSubCategoriesDto): Promise<any> {
+    try {
+      return await this.apiService.get('/vendors/category/top', query);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getVendorSummary(): Promise<any> {
+    try {
+      return await this.apiService.get(`/admin/vendors/summary`);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async getVendorMetrics(query: GetVendorMetricsDto): Promise<any> {
+    try {
+      return await this.apiService.get(`/admin/vendors/metrics`, query);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
 }
