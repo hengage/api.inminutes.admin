@@ -109,7 +109,7 @@ export class ProductService {
   async delete(productId: string): Promise<any> {
     try {
       return await this.apiService.delete(
-        `/admin/products/${productId}/delete`,
+        `/admin/products/${productId}`,
       );
     } catch (error) {
       throw new BadRequestException(error.message);
