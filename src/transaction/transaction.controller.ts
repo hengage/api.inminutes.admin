@@ -49,11 +49,14 @@ export class TransactionController {
     @Param('transactionId') transactionId: string,
     @Body('status') status: string,
   ) {
-    return this.transactionService.changeTransactionStatus(transactionId, status);
+    return this.transactionService.changeTransactionStatus(
+      transactionId,
+      status,
+    );
   }
 
-    @Delete(':transactionId')
-    async delete(@Param('transactionId') transactionId: string) {
-        return this.transactionService.delete(transactionId);
-    }
+  @Delete(':transactionId')
+  async delete(@Param('transactionId') transactionId: string) {
+    return this.transactionService.delete(transactionId);
+  }
 }

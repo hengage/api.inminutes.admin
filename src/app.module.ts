@@ -7,7 +7,7 @@ import { AdminModule } from './admin/admin.module';
 import { AuthService } from './auth/auth.service';
 import { AuthModule } from './auth/auth.module';
 import { AdminService } from './admin/admin.service';
-import { JwtModule } from '@nestjs/jwt';
+import { JwtModule, JwtService } from '@nestjs/jwt';
 import { BrevoService } from './notifications/email/brevo.service';
 import { VendorService } from './vendor/vendor.service';
 import { VendorController } from './vendor/vendor.controller';
@@ -28,6 +28,13 @@ import { ProductService } from './product/product.service';
 import { ProductModule } from './product/product.module';
 import { ProductController } from './product/product.controller';
 import { MediaModule } from './media/media.module';
+import { ErrandModule } from './errand/errand.module';
+import { ErrandController } from './errand/errand.controller';
+import { ErrandService } from './errand/errand.service';
+import { AuthController } from './auth/auth.controller';
+import { AdminController } from './admin/admin.controller';
+import { MediaController } from './media/media.controller';
+import { MediaService } from './media/media.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -43,7 +50,8 @@ import { MediaModule } from './media/media.module';
     TransactionModule,
     MediaModule,
     ProductModule,
-    RiderModule
+    RiderModule,
+    ErrandModule,
   ],
 
   controllers: [
@@ -53,7 +61,11 @@ import { MediaModule } from './media/media.module';
     OrderController,
     RiderController,
     ProductController,
-    TransactionController
+    TransactionController,
+    ErrandController,
+    AuthController,
+    AdminController,
+    MediaController,
   ],
   providers: [
     AppService,
@@ -66,6 +78,9 @@ import { MediaModule } from './media/media.module';
     TransactionService,
     RiderService,
     ProductService,
+    ErrandService,
+    MediaService,
+    JwtService,
   ],
 })
 export class AppModule {}

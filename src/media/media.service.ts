@@ -22,16 +22,16 @@ export class MediaService {
 
   async uploadImage(file: Express.Multer.File, tags?: string[]): Promise<any> {
     try {
-        console.log('Uploading image...')
-        const result = await cloudinary.v2.uploader.upload(file.path, {
-            folder: 'inminutes',
-            resource_type: 'image',
-            use_filename: true,
-            unique_filename: true,
-            overwrite: false,
-            tags: tags?.join(","),
-        });
-        return result.url;
+      console.log('Uploading image...');
+      const result = await cloudinary.v2.uploader.upload(file.path, {
+        folder: 'inminutes',
+        resource_type: 'image',
+        use_filename: true,
+        unique_filename: true,
+        overwrite: false,
+        tags: tags?.join(','),
+      });
+      return result.url;
     } catch (error) {
       console.error('Error uploading image:', error);
       throw new InternalServerErrorException('Unknown error, please try again');
@@ -42,7 +42,7 @@ export class MediaService {
     try {
       await cloudinary.v2.uploader.destroy(publicId);
     } catch (error) {
-      console.error({error});
+      console.error({ error });
       throw new InternalServerErrorException('Unknown error, please try again');
     }
   }
