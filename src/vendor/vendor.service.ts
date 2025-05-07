@@ -38,7 +38,6 @@ export class VendorService {
         updateVendorDto,
       );
     } catch (error) {
-      console.log(error);
       throw new BadRequestException(error.message);
     }
   }
@@ -85,7 +84,6 @@ export class VendorService {
     try {
       return await this.apiService.get('/admin/vendors/category', query);
     } catch (error) {
-      console.log(error);
       throw new BadRequestException(error.message);
     }
   }

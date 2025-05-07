@@ -56,7 +56,6 @@ export class RiderController {
     return await this.riderService.getRiderDeliveries(rider, query);
   }
 
-
   @Put(':riderId/approval')
   async approveOrDisapprove(
     @Param('riderId') riderId: string,
@@ -93,22 +92,22 @@ export class RiderController {
       query,
     );
   }
- @Post('times-slot')
- async createTimeSlot(@Body() createTimeSlotDto: CreateTimeSlotDto){
-  return this.riderService.insertTimeSlot(createTimeSlotDto)
- }
- @Get('times-slot')
- async getTimeSlots(@Query() query: GetTimeSlotQueryDto){
-  return this.riderService.getTimeSlots(query);
- }
- @Get('times-slot/:id')
- async getTimeSlot(@Param() id: string){
-  return this.riderService.getTimeSlot(id);
- }
- @Delete('times-slot/:id')
- async deleteTimeSlot(@Param() id: string){
-  return this.riderService.deleteTimeSlot(id);
- }
+  @Post('times-slot')
+  async createTimeSlot(@Body() createTimeSlotDto: CreateTimeSlotDto) {
+    return this.riderService.insertTimeSlot(createTimeSlotDto);
+  }
+  @Get('times-slot')
+  async getTimeSlots(@Query() query: GetTimeSlotQueryDto) {
+    return this.riderService.getTimeSlots(query);
+  }
+  @Get('times-slot/:id')
+  async getTimeSlot(@Param() id: string) {
+    return this.riderService.getTimeSlot(id);
+  }
+  @Delete('times-slot/:id')
+  async deleteTimeSlot(@Param() id: string) {
+    return this.riderService.deleteTimeSlot(id);
+  }
   @Get(':riderId')
   async getRiderWalletDetails(@Param('riderId') riderId: string) {
     return this.riderService.getRiderWalletDetails(riderId);
@@ -117,5 +116,4 @@ export class RiderController {
   async delete(@Param('riderId') riderId: string) {
     return await this.riderService.delete(riderId);
   }
-
 }

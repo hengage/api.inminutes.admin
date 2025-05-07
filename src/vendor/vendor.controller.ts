@@ -62,7 +62,9 @@ export class VendorController {
   }
 
   @Get('categories')
-  async getVendorCategories(@Query(ValidationPipe) query: GetVendorSubCategoriesDto) {
+  async getVendorCategories(
+    @Query(ValidationPipe) query: GetVendorSubCategoriesDto,
+  ) {
     return this.vendorService.getVendorCategories(query);
   }
 

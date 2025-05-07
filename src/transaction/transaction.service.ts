@@ -14,7 +14,15 @@ export class TransactionService {
     status: string = '',
   ): Promise<any> {
     try {
-      const params = { page, limit, search, endDate, startDate, reason, status };
+      const params = {
+        page,
+        limit,
+        search,
+        endDate,
+        startDate,
+        reason,
+        status,
+      };
       return await this.apiService.get('/admin/transactions', params);
     } catch (error) {
       throw new BadRequestException(error.message);
@@ -29,11 +37,17 @@ export class TransactionService {
     }
   }
 
-  async changeTransactionStatus(transactionId: string, status: string): Promise<any> {
+  async changeTransactionStatus(
+    transactionId: string,
+    status: string,
+  ): Promise<any> {
     try {
-      return await this.apiService.put(`/admin/transactions/${transactionId}/status`, {
-        status,
-      });
+      return await this.apiService.put(
+        `/admin/transactions/${transactionId}/status`,
+        {
+          status,
+        },
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -41,7 +55,9 @@ export class TransactionService {
 
   async delete(transactionId: string): Promise<any> {
     try {
-      return await this.apiService.delete(`/admin/transactions/${transactionId}/delete`);
+      return await this.apiService.delete(
+        `/admin/transactions/${transactionId}/delete`,
+      );
     } catch (error) {
       throw new BadRequestException(error.message);
     }
