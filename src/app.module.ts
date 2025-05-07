@@ -18,6 +18,9 @@ import { OrderModule } from './order/order.module';
 import { CustomerService } from './customer/customer.service';
 import { CustomerController } from './customer/customer.controller';
 import { CustomerModule } from './customer/customer.module';
+import { TransactionService } from './transaction/transaction.service';
+import { TransactionModule } from './transaction/transaction.module';
+import { TransactionController } from './transaction/transaction.controller';
 import { RiderService } from './rider/rider.service';
 import { RiderController } from './rider/rider.controller';
 import { RiderModule } from './rider/rider.module';
@@ -37,10 +40,12 @@ import { MediaModule } from './media/media.module';
     VendorModule,
     OrderModule,
     CustomerModule,
+    TransactionModule,
+    MediaModule,
     ProductModule,
-    RiderModule,
-    MediaModule
+    RiderModule
   ],
+
   controllers: [
     AppController,
     VendorController,
@@ -48,6 +53,7 @@ import { MediaModule } from './media/media.module';
     OrderController,
     RiderController,
     ProductController,
+    TransactionController
   ],
   providers: [
     AppService,
@@ -57,6 +63,7 @@ import { MediaModule } from './media/media.module';
     VendorService,
     OrderService,
     CustomerService,
+    TransactionService,
     RiderService,
     ProductService,
   ],

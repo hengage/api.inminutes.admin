@@ -26,7 +26,6 @@ export class ApiService {
         ...config,
         params,
       });
-      console.log(response);
       return response.data;
     } catch (error) {
       throw error;
