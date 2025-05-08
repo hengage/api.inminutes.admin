@@ -42,7 +42,7 @@ export class RiderService {
 
   async getRiders(query: GetRidersQueryDto): Promise<any> {
     try {
-      await this.apiService.get('/admin/riders', query);
+      return await this.apiService.get('/admin/riders', query);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
