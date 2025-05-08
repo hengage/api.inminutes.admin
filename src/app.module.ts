@@ -37,6 +37,7 @@ import { MediaController } from './media/media.controller';
 import { MediaService } from './media/media.service';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DashboardController } from './dashboard/dashboard.controller';
+import { DashboardService } from './dashboard/dashboard.service';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -85,7 +86,7 @@ import { DashboardController } from './dashboard/dashboard.controller';
     ErrandService,
     MediaService,
     JwtService,
-    DashboardController
+    DashboardService
   ],
 })
 export class AppModule {}
