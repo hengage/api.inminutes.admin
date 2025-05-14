@@ -76,7 +76,7 @@ export class ProductService {
   }
   async getProductCategories(query: GetProductPaginationDto): Promise<any> {
     try {
-      return await this.apiService.get('/products/categories', query);
+      return await this.apiService.get('/admin/products/categories', query);
     } catch (error) {
       throw new BadRequestException(error.message);
     }
@@ -98,7 +98,7 @@ export class ProductService {
   ): Promise<any> {
     try {
       return await this.apiService.get(
-        `/products/category/${category}/products`,
+        `/admin/products/category/${category}/products`,
         query,
       );
     } catch (error) {
