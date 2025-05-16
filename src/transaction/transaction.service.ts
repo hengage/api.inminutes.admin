@@ -7,11 +7,14 @@ export class TransactionService {
   async getTransactions(
     page: number = 1,
     limit: number = 10,
-    search: string = '',
-    reason: string = '',
+    search: string,
+    reason: string,
     startDate: Date,
     endDate: Date,
-    status: string = '',
+    status: string,
+    type: string,
+    lowestAmount: string,
+    highestAmount: string,
   ): Promise<any> {
     try {
       const params = {
@@ -22,6 +25,9 @@ export class TransactionService {
         startDate,
         reason,
         status,
+        type,
+        lowestAmount,
+        highestAmount
       };
       return await this.apiService.get('/admin/transactions', params);
     } catch (error) {
