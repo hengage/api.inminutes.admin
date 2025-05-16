@@ -25,8 +25,11 @@ export class TransactionController {
     @Query('search') search: string = '',
     @Query('fromDate') startDate: Date,
     @Query('toDate') endDate: Date,
-    @Query('reason') reason: string = '',
-    @Query('status') status: string = '',
+    @Query('reason') reason: string,
+    @Query('status') status: string,
+    @Query('type') type: string,
+    @Query('lowestAmount') lowestAmount: string,
+    @Query('highestAmount') highestAmount: string,
   ) {
     return this.transactionService.getTransactions(
       page,
@@ -36,6 +39,9 @@ export class TransactionController {
       startDate,
       endDate,
       status,
+      type,
+      lowestAmount,
+      highestAmount
     );
   }
 
