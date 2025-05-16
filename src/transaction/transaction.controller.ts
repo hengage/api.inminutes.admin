@@ -23,10 +23,13 @@ export class TransactionController {
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
     @Query('search') search: string = '',
-    @Query('startDate') startDate: Date,
-    @Query('endDate') endDate: Date,
-    @Query('reason') reason: string = '',
-    @Query('status') status: string = '',
+    @Query('fromDate') startDate: Date,
+    @Query('toDate') endDate: Date,
+    @Query('reason') reason: string,
+    @Query('status') status: string,
+    @Query('type') type: string,
+    @Query('lowestAmount') lowestAmount: string,
+    @Query('highestAmount') highestAmount: string,
   ) {
     return this.transactionService.getTransactions(
       page,
@@ -36,6 +39,9 @@ export class TransactionController {
       startDate,
       endDate,
       status,
+      type,
+      lowestAmount,
+      highestAmount
     );
   }
 
