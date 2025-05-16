@@ -23,8 +23,8 @@ export class TransactionController {
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
     @Query('search') search: string = '',
-    @Query('startDate') startDate: Date,
-    @Query('endDate') endDate: Date,
+    @Query('fromDate') startDate: Date,
+    @Query('toDate') endDate: Date,
     @Query('reason') reason: string = '',
     @Query('status') status: string = '',
   ) {
