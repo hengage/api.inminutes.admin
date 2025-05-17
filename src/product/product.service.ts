@@ -56,12 +56,17 @@ export class ProductService {
 
   async approveOrDisapprove(productId: string, approve: boolean): Promise<any> {
     try {
-      return await this.apiService.put(
-        `/admin/products/${productId}/approval`,
-        {
-          approve,
-        },
-      );
+      if(approve){
+        return await this.apiService.patch(
+          `/admin/products/${productId}/approve`,
+          {}
+        );
+      }else{
+        return await this.apiService.patch(
+          `/admin/products/${productId}/reject`,
+          {}
+        );
+      }
     } catch (error) {
       throw new BadRequestException(error.message);
     }
