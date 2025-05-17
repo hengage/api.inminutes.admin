@@ -31,7 +31,7 @@ export class AuthService {
     const data = await this.adminService.create(createAdminData);
 
     const { otp } = generateOTP();
-    await this.adminService.saveOTP(createAdminData.email, otp.toString());
+    await this.adminService.saveOTP(createAdminData.email, otp);
 
     await this.brevoService.sendOtpEmail({
       recipientEmail: email,
