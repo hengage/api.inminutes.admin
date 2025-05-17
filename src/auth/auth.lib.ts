@@ -2,7 +2,7 @@ import * as speakeasy from 'speakeasy';
 import { AdminDocument } from 'src/admin/schema/admin.schema';
 import { OTPConstant } from 'src/lib/constants';
 
-export const generateOTP = (): { otp: number; secret: string } => {
+export const generateOTP = (): { otp: string; secret: string } => {
   const secret = speakeasy.generateSecret({ length: 20 });
 
   const otp = speakeasy.totp({
@@ -12,7 +12,7 @@ export const generateOTP = (): { otp: number; secret: string } => {
     step: 3600,
   });
 
-  return { otp: parseInt(otp, 10), secret: secret.base32 };
+  return { otp:otp, secret: secret.base32 };
 };
 
 export const checkOTPValidity = (
