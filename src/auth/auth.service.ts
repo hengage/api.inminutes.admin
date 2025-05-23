@@ -73,6 +73,8 @@ export class AuthService {
       'email',
       'otp',
       'otpTimestamp',
+      'firstName',
+      'lastName',
     ]);
 
     const isValidOTP = checkOTPValidity(otp, admin);
