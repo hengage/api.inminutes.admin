@@ -56,15 +56,15 @@ export class ProductService {
 
   async approveOrDisapprove(productId: string, approve: boolean): Promise<any> {
     try {
-      if(approve){
+      if (approve) {
         return await this.apiService.patch(
           `/admin/products/${productId}/approve`,
-          {}
+          {},
         );
-      }else{
+      } else {
         return await this.apiService.patch(
           `/admin/products/${productId}/reject`,
-          {}
+          {},
         );
       }
     } catch (error) {
@@ -82,6 +82,20 @@ export class ProductService {
   async getProductCategories(query: GetProductPaginationDto): Promise<any> {
     try {
       return await this.apiService.get('/admin/products/categories', query);
+    } catch (error) {
+      throw new BadRequestException(error.message);
+    }
+  }
+
+  async createSubCategory(data: {
+    subCategoryName: string;
+    categoryId: string;
+  }): Promise<any> {
+    try {
+      return await this.apiService.post(`/admin/products/sub-category/`, {
+        name: data.subCategoryName,
+        category: data.categoryId,
+      });
     } catch (error) {
       throw new BadRequestException(error.message);
     }

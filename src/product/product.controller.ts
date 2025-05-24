@@ -14,6 +14,7 @@ import {
 import { ProductService } from './product.service';
 import {
   CreateProductDto,
+  CreateProductSubCategoryDto,
   GetProductPaginationDto,
   GetProductsQueryDto,
   UpdateProductDto,
@@ -68,14 +69,17 @@ export class ProductController {
     return this.productService.createProductCategory(name);
   }
 
+  @Post('sub-category/')
+  async createSubCategory(
+    @Body()
+    data: CreateProductSubCategoryDto,
+  ) {
+    return this.productService.createSubCategory(data);
+  }
+
   @Get('categories')
   async getProductCategories(@Query() query: GetProductPaginationDto) {
     return this.productService.getProductCategories(query);
-  }
-
-  @Post('sub-category')
-  async createProductSubCategory(@Body() name: string) {
-    return this.productService.createProductSubCategory(name);
   }
 
   @Get('categories/:category/sub-categories')
