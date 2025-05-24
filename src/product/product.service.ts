@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { ApiService } from 'src/lib/apiCalls';
 import {
   CreateProductDto,
@@ -97,17 +101,15 @@ export class ProductService {
         category: data.categoryId,
       });
     } catch (error) {
-      throw new BadRequestException(error.message);
-    }
-  }
+      if (error.code === 'ECONNREFUSED') {
+        console.error('Core API connection failed:', error.message);
+        throw new InternalServerErrorException();
+      }
 
-  async createProductSubCategory(name: string): Promise<any> {
-    try {
-      return await this.apiService.post('/admin/products/sub-category', {
-        name,
-      });
-    } catch (error) {
-      throw new BadRequestException(error.message);
+      const errorMessage =
+        error.response?.data?.error?.message || error.message;
+      console.error({ errorMessage });
+      throw new BadRequestException(errorMessage);
     }
   }
 
