@@ -113,17 +113,20 @@ export class ProductService {
     }
   }
 
-  async getProductSubCategories(
-    category: string,
+  async getCategorySubCategories(
+    categoryId: string,
     query: GetProductPaginationDto,
   ): Promise<any> {
     try {
       return await this.apiService.get(
-        `/admin/products/category/${category}/products`,
+        `/admin/products/category/${categoryId}/sub-categories`,
         query,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      const errorMessage =
+        error.response?.data?.error?.message || error.message;
+      console.error({ errorMessage });
+      throw new BadRequestException(errorMessage);
     }
   }
 
