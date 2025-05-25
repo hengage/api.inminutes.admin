@@ -1,4 +1,8 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { ApiService } from 'src/lib/apiCalls';
 import {
   CreateProductDto,
@@ -56,15 +60,15 @@ export class ProductService {
 
   async approveOrDisapprove(productId: string, approve: boolean): Promise<any> {
     try {
-      if(approve){
+      if (approve) {
         return await this.apiService.patch(
           `/admin/products/${productId}/approve`,
-          {}
+          {},
         );
-      }else{
+      } else {
         return await this.apiService.patch(
           `/admin/products/${productId}/reject`,
-          {}
+          {},
         );
       }
     } catch (error) {
@@ -87,27 +91,42 @@ export class ProductService {
     }
   }
 
-  async createProductSubCategory(name: string): Promise<any> {
+  async createSubCategory(data: {
+    subCategoryName: string;
+    categoryId: string;
+  }): Promise<any> {
     try {
-      return await this.apiService.post('/admin/products/sub-category', {
-        name,
+      return await this.apiService.post(`/admin/products/sub-category/`, {
+        name: data.subCategoryName,
+        category: data.categoryId,
       });
     } catch (error) {
-      throw new BadRequestException(error.message);
+      if (error.code === 'ECONNREFUSED') {
+        console.error('Core API connection failed:', error.message);
+        throw new InternalServerErrorException();
+      }
+
+      const errorMessage =
+        error.response?.data?.error?.message || error.message;
+      console.error({ errorMessage });
+      throw new BadRequestException(errorMessage);
     }
   }
 
-  async getProductSubCategories(
-    category: string,
+  async getCategorySubCategories(
+    categoryId: string,
     query: GetProductPaginationDto,
   ): Promise<any> {
     try {
       return await this.apiService.get(
-        `/admin/products/category/${category}/products`,
+        `/admin/products/category/${categoryId}/sub-categories`,
         query,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      const errorMessage =
+        error.response?.data?.error?.message || error.message;
+      console.error({ errorMessage });
+      throw new BadRequestException(errorMessage);
     }
   }
 

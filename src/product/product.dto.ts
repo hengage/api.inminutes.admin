@@ -118,3 +118,16 @@ export class GetProductsQueryDto extends GetProductPaginationDto {
   @IsDate()
   toDate?: Date;
 }
+
+export class CreateProductSubCategoryDto {
+  @MinLength(2)
+  @MaxLength(20)
+  @IsString()
+  @IsNotEmpty()
+  subCategoryName: string;
+
+  @MinLength(6)
+  @IsString()
+  @IsNotEmpty()
+  categoryId: string;
+}
