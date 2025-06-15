@@ -1,32 +1,15 @@
 import { BadRequestException, Injectable } from '@nestjs/common';
 import { ApiService } from 'src/lib/apiCalls';
+import { GetOrdersQueryDto } from './order.dto';
 @Injectable()
 export class OrderService {
   constructor(private readonly apiService: ApiService) {}
 
-  async getOrders(
-    page: number = 1,
-    limit: number = 10,
-    searchQuery: string = '',
-    fromDate: Date,
-    toDate: Date,
-    type: string = '',
-    status: string = '',
-    sort: string = '',
-  ): Promise<any> {
+  async getOrders(query: GetOrdersQueryDto): Promise<any> {
     try {
-      const params = {
-        page,
-        limit,
-        searchQuery,
-        type,
-        fromDate,
-        toDate,
-        status,
-        sort,
-      };
-      return await this.apiService.get('/admin/orders', params);
+      return await this.apiService.get('/admin/orders', query);
     } catch (error) {
+      console.log('ERROR', error);
       throw new BadRequestException(error.message);
     }
   }
