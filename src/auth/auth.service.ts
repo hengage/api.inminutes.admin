@@ -11,6 +11,7 @@ import { Msgs } from 'src/lib/messages';
 import { BrevoService } from 'src/notifications/email/brevo.service';
 import { ConfigService } from '@nestjs/config';
 import { generateOTP, checkOTPValidity } from './auth.lib';
+import { excludeObjectKeys } from 'src/lib';
 
 @Injectable()
 export class AuthService {
@@ -92,7 +93,10 @@ export class AuthService {
     return {
       message: 'Login succesful',
       success: true,
-      data: { admin, token },
+      data: {
+        admin: excludeObjectKeys(admin, ['otp', 'otpTimestamp']),
+        token,
+      },
     };
   }
 
