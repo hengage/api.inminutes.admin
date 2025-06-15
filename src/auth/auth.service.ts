@@ -31,7 +31,7 @@ export class AuthService {
     }
     const data = await this.adminService.create(createAdminData);
 
-    const { otp } = generateOTP();
+    const otp = generateOTP();
     await this.adminService.saveOTP(createAdminData.email, otp);
 
     await this.brevoService.sendOtpEmail({
@@ -51,7 +51,7 @@ export class AuthService {
       throw new ConflictException(Msgs.ADMIN_NOT_FOUND(email));
     }
 
-    const { otp } = generateOTP();
+    const otp = generateOTP();
     await this.adminService.saveOTP(admin.email, otp.toString());
 
     await this.brevoService.sendOtpEmail({
