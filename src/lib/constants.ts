@@ -21,3 +21,13 @@ export enum VendorAccountStatus {
   Active = 'active',
   InActive = 'inactive',
 }
+
+export enum ORDER_TYPE {
+  INSTANT = 'instant',
+  SCHEDULED = 'scheduled',
+}
+
+export enum SORT_ORDER {
+  ASC = 'asc',
+  DESC = 'desc',
+}

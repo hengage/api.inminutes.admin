@@ -1,45 +1,25 @@
 import {
   Controller,
   Get,
-  Post,
-  Put,
   Body,
   Param,
   Query,
-  BadRequestException,
   UseGuards,
   Patch,
   Delete,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { GetOrdersQueryDto } from './order.dto';
 
 @Controller('order')
 @UseGuards(AuthGuard)
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
 
-  @Get('list')
-  async getOrders(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-    @Query('searchQuery') searchQuery: string = '',
-    @Query('fromDate') fromDate: Date,
-    @Query('toDate') toDate: Date,
-    @Query('type') type: string,
-    @Query('status') status: string,
-    @Query('sort') sort: string,
-  ) {
-    return this.orderService.getOrders(
-      page,
-      limit,
-      searchQuery,
-      fromDate,
-      toDate,
-      type,
-      status,
-      sort,
-    );
+  @Get('')
+  async getOrders(@Query() query: GetOrdersQueryDto) {
+    return this.orderService.getOrders(query);
   }
 
   @Get(':orderId')
