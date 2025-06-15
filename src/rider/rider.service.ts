@@ -1,4 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { throwHttpException } from 'src/lib';
 import { ApiService } from 'src/lib/apiCalls';
 import {
   AddWorkAreaDto,
@@ -22,7 +23,7 @@ export class RiderService {
       };
       return await this.apiService.post('/admin/riders', newCreateRider);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -36,7 +37,7 @@ export class RiderService {
         updateRiderDto,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -44,7 +45,7 @@ export class RiderService {
     try {
       return await this.apiService.get('/admin/riders', query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
   async getRiderDeliveries(
@@ -57,7 +58,7 @@ export class RiderService {
         query,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -65,14 +66,14 @@ export class RiderService {
     try {
       return await this.apiService.get(`/admin/riders/${riderId}`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
   async getRiderWalletDetails(riderId: string): Promise<any> {
     try {
       return await this.apiService.get(`/admin/riders/${riderId}/wallet`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -82,7 +83,7 @@ export class RiderService {
         approve,
       });
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -90,14 +91,14 @@ export class RiderService {
     try {
       return await this.apiService.post('/admin/work-areas', addWorkAreaBody);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
   async getWorkAreas(query: GetWorkAreasQueryDto): Promise<any> {
     try {
       return await this.apiService.get('/admin/work-areas', query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -111,7 +112,7 @@ export class RiderService {
         query,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -126,7 +127,7 @@ export class RiderService {
         query,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -134,7 +135,7 @@ export class RiderService {
     try {
       return await this.apiService.delete(`/admin/riders/${riderId}/delete`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -142,7 +143,7 @@ export class RiderService {
     try {
       return await this.apiService.post(`/admin/work-areas/time-slot`, data);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -150,7 +151,7 @@ export class RiderService {
     try {
       return await this.apiService.get(`/admin/work-areas/time-slot`, query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -160,7 +161,7 @@ export class RiderService {
         `/admin/work-areas/time-slot/${timeSlotId}`,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -170,7 +171,7 @@ export class RiderService {
         `/admin/work-areas/time-slot/${timeSlotId}`,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 

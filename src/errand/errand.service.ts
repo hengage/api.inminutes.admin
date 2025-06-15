@@ -1,4 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { throwHttpException } from 'src/lib';
 import { ApiService } from 'src/lib/apiCalls';
 @Injectable()
 export class ErrandService {
@@ -17,7 +18,7 @@ export class ErrandService {
       const params = { page, limit, search, startDate, endDate, type, status };
       return await this.apiService.get('/admin/errands', params);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -25,7 +26,7 @@ export class ErrandService {
     try {
       return await this.apiService.get(`/admin/errands/${errandId}`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -35,7 +36,7 @@ export class ErrandService {
         status,
       });
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -43,7 +44,7 @@ export class ErrandService {
     try {
       return await this.apiService.delete(`/admin/errands/${errandId}/delete`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 }

@@ -1,4 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { throwHttpException } from 'src/lib';
 import { ApiService } from 'src/lib/apiCalls';
 @Injectable()
 export class TransactionService {
@@ -27,11 +28,11 @@ export class TransactionService {
         status,
         type,
         lowestAmount,
-        highestAmount
+        highestAmount,
       };
       return await this.apiService.get('/admin/transactions', params);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -39,7 +40,7 @@ export class TransactionService {
     try {
       return await this.apiService.get(`/admin/transactions/${transactionId}`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -55,7 +56,7 @@ export class TransactionService {
         },
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -65,7 +66,7 @@ export class TransactionService {
         `/admin/transactions/${transactionId}/delete`,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 }

@@ -1,12 +1,11 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { throwHttpException } from 'src/lib';
+import { ApiService } from 'src/lib/apiCalls';
 import {
   GetCustomerOrdersQueryDto,
-  GetCustomersPaginationDto,
   GetCustomersQueryDto,
   UpdateCustomerDto,
 } from './customer.dto';
-import { ApiService } from 'src/lib/apiCalls';
-import { extractErrorMessage } from 'src/lib';
 
 @Injectable()
 export class CustomerService {
@@ -22,7 +21,7 @@ export class CustomerService {
         updateCustomerDto,
       );
     } catch (error) {
-      throw new BadRequestException(extractErrorMessage(error));
+      throwHttpException(error);
     }
   }
 
@@ -30,7 +29,7 @@ export class CustomerService {
     try {
       return await this.apiService.get('/admin/customers', query);
     } catch (error) {
-      throw new BadRequestException(extractErrorMessage(error));
+      throwHttpException(error);
     }
   }
 
@@ -44,7 +43,7 @@ export class CustomerService {
         query,
       );
     } catch (error) {
-      throw new BadRequestException(extractErrorMessage(error));
+      throwHttpException(error);
     }
   }
 
@@ -52,7 +51,7 @@ export class CustomerService {
     try {
       return await this.apiService.get(`/admin/customers/${customerId}`);
     } catch (error) {
-      throw new BadRequestException(extractErrorMessage(error));
+      throwHttpException(error);
     }
   }
 
@@ -68,7 +67,7 @@ export class CustomerService {
         },
       );
     } catch (error) {
-      throw new BadRequestException(extractErrorMessage(error));
+      throwHttpException(error);
     }
   }
 
@@ -78,7 +77,7 @@ export class CustomerService {
         `/admin/customers/${customerId}/delete`,
       );
     } catch (error) {
-      throw new BadRequestException(extractErrorMessage(error));
+      throwHttpException(error);
     }
   }
 
@@ -86,7 +85,7 @@ export class CustomerService {
     try {
       return await this.apiService.get('/admin/customers/top', query);
     } catch (error) {
-      throw new BadRequestException(extractErrorMessage(error));
+      throwHttpException(error);
     }
   }
 
@@ -94,7 +93,7 @@ export class CustomerService {
     try {
       return await this.apiService.get(`/admin/customers/summary`);
     } catch (error) {
-      throw new BadRequestException(extractErrorMessage(error));
+      throwHttpException(error);
     }
   }
 
@@ -102,7 +101,7 @@ export class CustomerService {
     try {
       return await this.apiService.get(`/admin/customers/metrics`);
     } catch (error) {
-      throw new BadRequestException(extractErrorMessage(error));
+      throwHttpException(error);
     }
   }
 }

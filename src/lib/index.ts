@@ -1,4 +1,3 @@
 export { ORDER_TYPE, SORT_ORDER } from './constants';
-
 export { excludeObjectKeys } from './objects';
-export { extractErrorMessage } from './errors';
+export { extractErrorMessage, throwHttpException } from './errors';
