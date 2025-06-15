@@ -9,6 +9,8 @@ import {
   UpdateVendorDto,
 } from './vendor.dto';
 import { ApiService } from 'src/lib/apiCalls';
+import { extractErrorMessage } from 'src/lib';
+
 @Injectable()
 export class VendorService {
   constructor(private readonly apiService: ApiService) {}
@@ -24,7 +26,7 @@ export class VendorService {
         newCreateVendor,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -38,7 +40,7 @@ export class VendorService {
         updateVendorDto,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -46,7 +48,7 @@ export class VendorService {
     try {
       return await this.apiService.get('/admin/vendors', query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -54,7 +56,7 @@ export class VendorService {
     try {
       return await this.apiService.get(`/admin/vendors/${vendorId}`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -64,7 +66,7 @@ export class VendorService {
         approve,
       });
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -77,14 +79,14 @@ export class VendorService {
         createVendorCategoryDto,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
   async getVendorCategories(query: GetVendorSubCategoriesDto): Promise<any> {
     try {
       return await this.apiService.get('/admin/vendors/category', query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -97,7 +99,7 @@ export class VendorService {
         createVendorSubCategoryDto,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -111,7 +113,7 @@ export class VendorService {
         query,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -151,7 +153,7 @@ export class VendorService {
     try {
       return await this.apiService.get('/admin/vendors/top', query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -159,7 +161,7 @@ export class VendorService {
     try {
       return await this.apiService.get('/vendors/category/top', query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -167,7 +169,7 @@ export class VendorService {
     try {
       return await this.apiService.get(`/admin/vendors/summary`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -175,7 +177,7 @@ export class VendorService {
     try {
       return await this.apiService.get(`/admin/vendors/metrics`, query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 }

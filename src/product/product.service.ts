@@ -4,6 +4,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { ApiService } from 'src/lib/apiCalls';
+import { extractErrorMessage } from 'src/lib';
 import {
   CreateProductDto,
   GetProductPaginationDto,
@@ -24,7 +25,7 @@ export class ProductService {
         createProductDto,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -38,7 +39,7 @@ export class ProductService {
         updateProductDto,
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -46,7 +47,7 @@ export class ProductService {
     try {
       return await this.apiService.get('/admin/products', query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -54,7 +55,7 @@ export class ProductService {
     try {
       return await this.apiService.get(`/admin/products/${productId}`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -72,7 +73,7 @@ export class ProductService {
         );
       }
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -80,14 +81,14 @@ export class ProductService {
     try {
       return await this.apiService.post('/admin/products/category', { name });
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
   async getProductCategories(query: GetProductPaginationDto): Promise<any> {
     try {
       return await this.apiService.get('/admin/products/categories', query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -105,11 +106,7 @@ export class ProductService {
         console.error('Core API connection failed:', error.message);
         throw new InternalServerErrorException();
       }
-
-      const errorMessage =
-        error.response?.data?.error?.message || error.message;
-      console.error({ errorMessage });
-      throw new BadRequestException(errorMessage);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -123,10 +120,7 @@ export class ProductService {
         query,
       );
     } catch (error) {
-      const errorMessage =
-        error.response?.data?.error?.message || error.message;
-      console.error({ errorMessage });
-      throw new BadRequestException(errorMessage);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -134,7 +128,7 @@ export class ProductService {
     try {
       return await this.apiService.delete(`/admin/products/${productId}`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -142,7 +136,7 @@ export class ProductService {
     try {
       return await this.apiService.get('/admin/products/top', query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -150,7 +144,7 @@ export class ProductService {
     try {
       return await this.apiService.get('/products/category/top', query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -158,7 +152,7 @@ export class ProductService {
     try {
       return await this.apiService.get(`/admin/products/summary`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 
@@ -166,7 +160,7 @@ export class ProductService {
     try {
       return await this.apiService.get(`/admin/products/metrics`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throw new BadRequestException(extractErrorMessage(error));
     }
   }
 }
