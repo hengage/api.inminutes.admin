@@ -41,7 +41,11 @@ export class HttpExceptionFilter implements ExceptionFilter {
       message:
         typeof exceptionResponse === 'string'
           ? exceptionResponse
-          : (exceptionResponse as HttpException).message,
+          : typeof exceptionResponse === 'object' &&
+              exceptionResponse !== null &&
+              'message' in exceptionResponse
+            ? exceptionResponse.message
+            : 'An unexpected error occurred',
     });
   }
 }
