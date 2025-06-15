@@ -11,7 +11,7 @@ export const JwtConstant = {
 };
 
 export const OTPConstant = {
-  LIFE_SPAN: 60 * 60 * 1000, // 1 hour
+  LIFE_SPAN: 24 * 60 * 60 * 1000, // 24 hours
   RESET_OTP: null,
   RESET_TIMESTAMP: 0,
   OTP_LENGTH: 5,

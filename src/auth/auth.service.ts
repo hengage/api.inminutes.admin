@@ -11,6 +11,7 @@ import { Msgs } from 'src/lib/messages';
 import { BrevoService } from 'src/notifications/email/brevo.service';
 import { ConfigService } from '@nestjs/config';
 import { generateOTP, checkOTPValidity } from './auth.lib';
+import { excludeObjectKeys } from 'src/lib';
 
 @Injectable()
 export class AuthService {
@@ -30,7 +31,7 @@ export class AuthService {
     }
     const data = await this.adminService.create(createAdminData);
 
-    const { otp } = generateOTP();
+    const otp = generateOTP();
     await this.adminService.saveOTP(createAdminData.email, otp);
 
     await this.brevoService.sendOtpEmail({
@@ -50,7 +51,7 @@ export class AuthService {
       throw new ConflictException(Msgs.ADMIN_NOT_FOUND(email));
     }
 
-    const { otp } = generateOTP();
+    const otp = generateOTP();
     await this.adminService.saveOTP(admin.email, otp.toString());
 
     await this.brevoService.sendOtpEmail({
@@ -92,7 +93,10 @@ export class AuthService {
     return {
       message: 'Login succesful',
       success: true,
-      data: { admin, token },
+      data: {
+        admin: excludeObjectKeys(admin, ['otp', 'otpTimestamp']),
+        token,
+      },
     };
   }
 
