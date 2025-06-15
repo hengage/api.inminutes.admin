@@ -53,7 +53,7 @@ export class GetOrdersQueryDto {
 
   @IsOptional()
   @IsEnum(SORT_ORDER)
-  sort?: SORT_ORDER;
+  sortOrder?: SORT_ORDER;
 
   @IsOptional()
   @Transform(({ value }) => value === 'true' || value === true)

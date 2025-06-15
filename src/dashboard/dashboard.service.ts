@@ -1,4 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { throwHttpException } from 'src/lib';
 import { ApiService } from 'src/lib/apiCalls';
 
 @Injectable()
@@ -9,7 +10,7 @@ export class DashboardService {
     try {
       return await this.apiService.get('/admin/dashboard', query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -17,7 +18,7 @@ export class DashboardService {
     try {
       return await this.apiService.get('/admin/dashboard/graph', query);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 }

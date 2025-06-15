@@ -1,4 +1,5 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
+import { throwHttpException } from 'src/lib';
 import { ApiService } from 'src/lib/apiCalls';
 import { GetOrdersQueryDto } from './order.dto';
 @Injectable()
@@ -9,8 +10,7 @@ export class OrderService {
     try {
       return await this.apiService.get('/admin/orders', query);
     } catch (error) {
-      console.log('ERROR', error);
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -18,9 +18,10 @@ export class OrderService {
     try {
       return await this.apiService.get(`/admin/orders/${orderId}`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
+
   async assignOrderToRider(orderId: string, riderId: string): Promise<any> {
     try {
       return await this.apiService.patch(
@@ -28,7 +29,7 @@ export class OrderService {
         { riderId },
       );
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -38,7 +39,7 @@ export class OrderService {
         status,
       });
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 
@@ -46,7 +47,7 @@ export class OrderService {
     try {
       return await this.apiService.delete(`/admin/orders/${orderId}/delete`);
     } catch (error) {
-      throw new BadRequestException(error.message);
+      throwHttpException(error);
     }
   }
 }
