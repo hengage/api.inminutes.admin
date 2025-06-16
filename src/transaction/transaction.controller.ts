@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { TransactionService } from './transaction.service';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { GetTransactionsQueryDto } from './transaction.dto';
 
 @Controller('transaction')
 @UseGuards(AuthGuard)
@@ -19,30 +20,8 @@ export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
   @Get('list')
-  async getTransactions(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-    @Query('search') search: string = '',
-    @Query('fromDate') fromDate: Date,
-    @Query('toDate') toDate: Date,
-    @Query('reason') reason: string,
-    @Query('status') status: string,
-    @Query('type') type: string,
-    @Query('lowestAmount') lowestAmount: string,
-    @Query('highestAmount') highestAmount: string,
-  ) {
-    return this.transactionService.getTransactions(
-      page,
-      limit,
-      search,
-      reason,
-      fromDate,
-      toDate,
-      status,
-      type,
-      lowestAmount,
-      highestAmount
-    );
+  async getTransactions(@Query() query: GetTransactionsQueryDto) {
+    return this.transactionService.getTransactions(query);
   }
 
   @Get(':transactionId')
