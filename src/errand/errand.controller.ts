@@ -12,6 +12,7 @@ import {
 } from '@nestjs/common';
 import { ErrandService } from './errand.service';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { GetErrandsQueryDto } from './errand.dto';
 
 @Controller('errand')
 @UseGuards(AuthGuard)
@@ -19,24 +20,8 @@ export class ErrandController {
   constructor(private readonly errandService: ErrandService) {}
 
   @Get('list')
-  async getErrands(
-    @Query('page') page: number = 1,
-    @Query('limit') limit: number = 10,
-    @Query('search') search: string = '',
-    @Query('startDate') startDate: Date,
-    @Query('endDate') endDate: Date,
-    @Query('reason') type: string = '',
-    @Query('status') status: string = '',
-  ) {
-    return this.errandService.getErrands(
-      page,
-      limit,
-      search,
-      startDate,
-      endDate,
-      type,
-      status,
-    );
+  async getErrands(@Query() query: GetErrandsQueryDto) {
+    return this.errandService.getErrands(query);
   }
 
   @Get(':errandId')

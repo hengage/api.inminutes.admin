@@ -1,22 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { throwHttpException } from 'src/lib';
 import { ApiService } from 'src/lib/apiCalls';
+import { GetErrandsQueryDto } from './errand.dto';
 @Injectable()
 export class ErrandService {
   constructor(private readonly apiService: ApiService) {}
 
-  async getErrands(
-    page: number = 1,
-    limit: number = 10,
-    search: string = '',
-    startDate: Date,
-    endDate: Date,
-    type: string = '',
-    status: string = '',
-  ): Promise<any> {
+  async getErrands(query: GetErrandsQueryDto): Promise<any> {
     try {
-      const params = { page, limit, search, startDate, endDate, type, status };
-      return await this.apiService.get('/admin/errands', params);
+      return await this.apiService.get('/admin/errands', query);
     } catch (error) {
       throwHttpException(error);
     }

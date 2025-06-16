@@ -31,3 +31,30 @@ export enum SORT_ORDER {
   ASC = 'asc',
   DESC = 'desc',
 }
+
+export enum TRANSACTION_STATUS {
+  ONGOING = 'ongoing',
+  PENDING = 'pending',
+  APPROVED = 'approved',
+  SUCCESS = 'success',
+  PROCESSING = 'processing',
+  FAILED = 'failed',
+  REVERSED = 'reversed',
+  ABANDONED = 'abandoned',
+}
+
+export enum TRANSACTION_TYPE {
+  CREDIT = 'credit',
+  DEBIT = 'debit',
+}
+
+export enum ERRAND_STATUS {
+  PENDING = 'pending',
+  RIDER_ASSIGNED = 'rider assigned',
+  PICKED_UP = 'picked up',
+  IN_TRANSIT = 'in transit',
+  NEARBY = 'nearby',
+  ARRIVED_DELIVERY_LOCATION = 'arrived delivery location',
+  DELIVERED = 'delivered',
+  CANCELLED = 'cancelled',
+}

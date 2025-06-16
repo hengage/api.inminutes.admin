@@ -1,36 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { throwHttpException } from 'src/lib';
 import { ApiService } from 'src/lib/apiCalls';
+import { GetTransactionsQueryDto } from './transaction.dto';
 @Injectable()
 export class TransactionService {
   constructor(private readonly apiService: ApiService) {}
 
-  async getTransactions(
-    page: number = 1,
-    limit: number = 10,
-    search: string,
-    reason: string,
-    fromDate: Date,
-    toDate: Date,
-    status: string,
-    type: string,
-    lowestAmount: string,
-    highestAmount: string,
-  ): Promise<any> {
+  async getTransactions(query: GetTransactionsQueryDto): Promise<any> {
     try {
-      const params = {
-        page,
-        limit,
-        search,
-        fromDate,
-        toDate,
-        reason,
-        status,
-        type,
-        lowestAmount,
-        highestAmount,
-      };
-      return await this.apiService.get('/admin/transactions', params);
+      return await this.apiService.get('/admin/transactions', query);
     } catch (error) {
       throwHttpException(error);
     }
