@@ -5,6 +5,7 @@ import {
   IsNumber,
   IsBoolean,
   IsEnum,
+  IsNotEmpty,
 } from 'class-validator';
 import { ORDER_TYPE, SORT_ORDER } from 'src/lib';
 
@@ -59,4 +60,16 @@ export class GetOrdersQueryDto {
   @Transform(({ value }) => value === 'true' || value === true)
   @IsBoolean()
   onlyOngoing?: boolean;
+}
+
+export class AssignRiderDto {
+  @IsNotEmpty()
+  @IsString()
+  riderId: string;
+}
+
+export class UpdateOrderStatusDto {
+  @IsNotEmpty()
+  @IsString()
+  status: string;
 }

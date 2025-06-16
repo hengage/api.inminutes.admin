@@ -9,10 +9,14 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { GetOrdersQueryDto } from './order.dto';
+import {
+  AssignRiderDto,
+  GetOrdersQueryDto,
+  UpdateOrderStatusDto,
+} from './order.dto';
 import { OrderService } from './order.service';
 
-@Controller('order')
+@Controller('orders')
 @UseGuards(AuthGuard)
 export class OrderController {
   constructor(private readonly orderService: OrderService) {}
@@ -26,20 +30,23 @@ export class OrderController {
   async getOrderDetails(@Param('orderId') orderId: string) {
     return this.orderService.getOrderDetails(orderId);
   }
-  @Patch(':orderId/assign')
+  @Patch(':orderId/assign-rider')
   async getOrderToRider(
     @Param('orderId') orderId: string,
-    @Body('riderId') riderId: string,
+    @Body() assignRiderDto: AssignRiderDto,
   ) {
-    return this.orderService.assignOrderToRider(orderId, riderId);
+    return this.orderService.assignOrderToRider(
+      orderId,
+      assignRiderDto.riderId,
+    );
   }
 
   @Patch(':orderId/status')
   async updateStatus(
     @Param('orderId') orderId: string,
-    @Body('approve') status: string,
+    @Body() updateStatusDto: UpdateOrderStatusDto,
   ) {
-    return this.orderService.updateStatus(orderId, status);
+    return this.orderService.updateStatus(orderId, updateStatusDto.status);
   }
 
   @Delete(':orderId')
