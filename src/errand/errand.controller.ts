@@ -1,25 +1,23 @@
 import {
-  Controller,
-  Get,
-  Post,
-  Put,
   Body,
-  Param,
-  Query,
-  BadRequestException,
-  UseGuards,
+  Controller,
   Delete,
+  Get,
+  Param,
+  Put,
+  Query,
+  UseGuards,
 } from '@nestjs/common';
-import { ErrandService } from './errand.service';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { GetErrandsQueryDto } from './errand.dto';
+import { ErrandService } from './errand.service';
 
-@Controller('errand')
+@Controller('errands')
 @UseGuards(AuthGuard)
 export class ErrandController {
   constructor(private readonly errandService: ErrandService) {}
 
-  @Get('list')
+  @Get('')
   async getErrands(@Query() query: GetErrandsQueryDto) {
     return this.errandService.getErrands(query);
   }
