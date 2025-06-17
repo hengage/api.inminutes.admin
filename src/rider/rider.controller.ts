@@ -17,6 +17,7 @@ import {
   CreateRiderDto,
   CreateTimeSlotDto,
   GetDeliveriesQueryDto,
+  GetNearbyRidersQueryDto,
   GetRidersQueryDto,
   GetTimeSlotQueryDto,
   GetWorkAreasQueryDto,
@@ -108,10 +109,17 @@ export class RiderController {
   async deleteTimeSlot(@Param() id: string) {
     return this.riderService.deleteTimeSlot(id);
   }
+
+  @Get('nearby-working')
+  async getNearyByRiders(@Query() query: GetNearbyRidersQueryDto) {
+    return this.riderService.getNearByRiders(query);
+  }
+
   @Get(':riderId')
   async getRiderWalletDetails(@Param('riderId') riderId: string) {
     return this.riderService.getRiderWalletDetails(riderId);
   }
+
   @Delete(':riderId')
   async delete(@Param('riderId') riderId: string) {
     return await this.riderService.delete(riderId);

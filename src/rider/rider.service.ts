@@ -6,6 +6,7 @@ import {
   CreateRiderDto,
   CreateTimeSlotDto,
   GetDeliveriesQueryDto,
+  GetNearbyRidersQueryDto,
   GetRidersQueryDto,
   GetTimeSlotQueryDto,
   GetWorkAreasQueryDto,
@@ -127,6 +128,14 @@ export class RiderService {
         `/admin/work-areas/${workAreaId}/sessions/${sessionsId}/riders`,
         query,
       );
+    } catch (error) {
+      throwHttpException(error);
+    }
+  }
+
+  async getNearByRiders(query: GetNearbyRidersQueryDto): Promise<any> {
+    try {
+      return await this.apiService.get(`/admin/riders/nearby-working`, query);
     } catch (error) {
       throwHttpException(error);
     }

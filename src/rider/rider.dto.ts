@@ -5,7 +5,6 @@ import {
   IsBoolean,
   IsDateString,
   IsEmail,
-  IsEnum,
   IsInt,
   IsNotEmpty,
   IsNumber,
@@ -14,7 +13,6 @@ import {
   MaxLength,
   MinLength,
 } from 'class-validator';
-import { AdminRole } from 'src/lib/constants';
 
 export class CreateRiderDto {
   @MinLength(2)
@@ -116,7 +114,7 @@ export class AddWorkAreaDto {
   name: string;
 
   @IsArray()
-  coordinates: [Number, Number];
+  coordinates: GeoCoordinates;
 
   @IsNumber()
   maxSlotsRequired: number;
@@ -143,4 +141,21 @@ export class CreateTimeSlotDto {
   @IsOptional()
   @IsString()
   status?: string;
+}
+
+export class GetNearbyRidersQueryDto {
+  @IsNotEmpty()
+  @IsNumber()
+  @Type(() => Number)
+  lng: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  @Type(() => Number)
+  lat: number;
+
+  @IsOptional()
+  @IsNumber()
+  @Type(() => Number)
+  distanceInKM?: number = 5; // Default 5km
 }
