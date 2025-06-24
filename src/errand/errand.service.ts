@@ -39,4 +39,15 @@ export class ErrandService {
       throwHttpException(error);
     }
   }
+
+  async assignToRider(errandId: string, riderId: string): Promise<any> {
+    try {
+      return await this.apiService.patch(
+        `/admin/errands/${errandId}/assign-rider`,
+        { riderId },
+      );
+    } catch (error) {
+      throwHttpException(error);
+    }
+  }
 }

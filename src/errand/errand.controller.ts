@@ -4,12 +4,13 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Put,
   Query,
   UseGuards,
 } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { GetErrandsQueryDto } from './errand.dto';
+import { AssignRiderDto, GetErrandsQueryDto } from './errand.dto';
 import { ErrandService } from './errand.service';
 
 @Controller('errands')
@@ -38,5 +39,13 @@ export class ErrandController {
   @Delete(':errandId')
   async delete(@Param('errandId') errandId: string) {
     return this.errandService.delete(errandId);
+  }
+
+  @Patch(':orderId/assign-rider')
+  async assignToRider(
+    @Param('orderId') orderId: string,
+    @Body() assignRiderDto: AssignRiderDto,
+  ) {
+    return this.errandService.assignToRider(orderId, assignRiderDto.riderId);
   }
 }
