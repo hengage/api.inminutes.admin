@@ -6,7 +6,6 @@ import {
   Body,
   Param,
   Query,
-  BadRequestException,
   UseGuards,
   Delete,
   ValidationPipe,
@@ -24,9 +23,8 @@ import {
   UpdateRiderDto,
 } from './rider.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
-import { query } from 'express';
 
-@Controller('rider')
+@Controller('riders')
 @UseGuards(AuthGuard)
 export class RiderController {
   constructor(private readonly riderService: RiderService) {}
@@ -44,7 +42,7 @@ export class RiderController {
     return await this.riderService.updateRider(updateRiderDto, riderId);
   }
 
-  @Get('list')
+  @Get('')
   async getRiders(@Query(ValidationPipe) query: GetRidersQueryDto) {
     return await this.riderService.getRiders(query);
   }
@@ -69,6 +67,7 @@ export class RiderController {
   async addWorkArea(@Body() addWorkAreaBody: AddWorkAreaDto) {
     return await this.riderService.addWorkArea(addWorkAreaBody);
   }
+
   @Get('/work-area/list')
   async getWorkAreas(@Query(ValidationPipe) query: GetWorkAreasQueryDto) {
     return await this.riderService.getWorkAreas(query);
@@ -81,6 +80,7 @@ export class RiderController {
   ) {
     return await this.riderService.getWorkAreaSession(workAreaId, query);
   }
+
   @Get('/work-area/:workAreaId/session/:sessionId/rider-list')
   async getBookedRidersPerSession(
     @Param('workAreaId') workAreaId: string,
@@ -93,19 +93,23 @@ export class RiderController {
       query,
     );
   }
-  @Post('times-slot')
+
+  @Post('time-slot')
   async createTimeSlot(@Body() createTimeSlotDto: CreateTimeSlotDto) {
     return this.riderService.insertTimeSlot(createTimeSlotDto);
   }
-  @Get('times-slot')
+
+  @Get('time-slot')
   async getTimeSlots(@Query() query: GetTimeSlotQueryDto) {
     return this.riderService.getTimeSlots(query);
   }
-  @Get('times-slot/:id')
+
+  @Get('time-slot/:id')
   async getTimeSlot(@Param() id: string) {
     return this.riderService.getTimeSlot(id);
   }
-  @Delete('times-slot/:id')
+
+  @Delete('time-slot/:id')
   async deleteTimeSlot(@Param() id: string) {
     return this.riderService.deleteTimeSlot(id);
   }
