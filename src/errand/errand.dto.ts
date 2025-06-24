@@ -1,5 +1,12 @@
 import { Transform, Type } from 'class-transformer';
-import { IsDate, IsNumber, IsOptional, IsString, IsBoolean } from 'class-validator';
+import {
+  IsDate,
+  IsNumber,
+  IsOptional,
+  IsString,
+  IsBoolean,
+  IsNotEmpty,
+} from 'class-validator';
 import { ORDER_TYPE } from 'src/lib';
 import { ERRAND_STATUS } from 'src/lib/constants';
 
@@ -48,4 +55,10 @@ export class GetErrandsQueryDto {
   @Transform(({ value }) => value === 'true' || value === true)
   @IsBoolean()
   onlyOngoing?: boolean;
+}
+
+export class AssignRiderDto {
+  @IsNotEmpty()
+  @IsString()
+  riderId: string;
 }
