@@ -30,8 +30,9 @@ export class OrderController {
   async getOrderDetails(@Param('orderId') orderId: string) {
     return this.orderService.getOrderDetails(orderId);
   }
+
   @Patch(':orderId/assign-rider')
-  async getOrderToRider(
+  async assignToRider(
     @Param('orderId') orderId: string,
     @Body() assignRiderDto: AssignRiderDto,
   ) {
