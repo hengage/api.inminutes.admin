@@ -115,9 +115,14 @@ export class RiderController {
     return this.riderService.getNearByRiders(query);
   }
 
-  @Get(':riderId')
-  async getRiderWalletDetails(@Param('riderId') riderId: string) {
+  @Get(':riderId/wallet')
+  async getRiderWallet(@Param('riderId') riderId: string) {
     return this.riderService.getRiderWalletDetails(riderId);
+  }
+
+  @Get(':riderId')
+  async getRiderDetails(@Param('riderId') riderId: string) {
+    return this.riderService.getRiderDetails(riderId);
   }
 
   @Delete(':riderId')
