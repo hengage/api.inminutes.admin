@@ -47,14 +47,6 @@ export class RiderController {
     return await this.riderService.getRiders(query);
   }
 
-  @Get('/:rider/deliveries')
-  async getRiderDeliveries(
-    @Param('rider') rider: string,
-    @Query(ValidationPipe) query: GetDeliveriesQueryDto,
-  ) {
-    return await this.riderService.getRiderDeliveries(rider, query);
-  }
-
   @Put(':riderId/approval')
   async approveOrDisapprove(
     @Param('riderId') riderId: string,
