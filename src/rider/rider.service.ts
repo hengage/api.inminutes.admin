@@ -50,19 +50,6 @@ export class RiderService {
       throwHttpException(error);
     }
   }
-  async getRiderDeliveries(
-    rider: string,
-    query: GetDeliveriesQueryDto,
-  ): Promise<any> {
-    try {
-      return await this.apiService.get(
-        `/admin/rider/${rider}/deliveries`,
-        query,
-      );
-    } catch (error) {
-      throwHttpException(error);
-    }
-  }
 
   async getRiderDetails(riderId: string): Promise<any> {
     try {
