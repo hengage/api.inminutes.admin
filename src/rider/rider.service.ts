@@ -1,18 +1,17 @@
 import { Injectable } from '@nestjs/common';
+import { generateRandomPassword } from 'src/auth';
 import { throwHttpException } from 'src/lib';
 import { ApiService } from 'src/lib/apiCalls';
 import {
   AddWorkAreaDto,
   CreateRiderDto,
   CreateTimeSlotDto,
-  GetDeliveriesQueryDto,
   GetNearbyRidersQueryDto,
   GetRidersQueryDto,
   GetTimeSlotQueryDto,
   GetWorkAreasQueryDto,
   UpdateRiderDto,
 } from './rider.dto';
-import { generateRandomPassword } from 'src/auth';
 @Injectable()
 export class RiderService {
   constructor(private readonly apiService: ApiService) {}

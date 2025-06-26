@@ -27,18 +27,6 @@ export class CreateRiderDto {
   @IsNotEmpty()
   displayName: string;
 
-  // @MinLength(2)
-  // @MaxLength(50)
-  // @IsString()
-  // @IsNotEmpty()
-  // businessLogo: string;
-
-  // @MinLength(2)
-  // @MaxLength(50)
-  // @IsString()
-  // //   @IsNotEmpty()
-  // businessAddress: string;
-
   @MinLength(2)
   @MaxLength(50)
   @IsString()
@@ -97,6 +85,10 @@ export class GetRidersQueryDto extends GetWorkAreasQueryDto {
   @IsOptional()
   @IsString()
   accountStatus?: string;
+
+  @IsOptional()
+  @IsString()
+  approvalStatus?: string;
 }
 
 export class GetDeliveriesQueryDto extends GetWorkAreasQueryDto {
