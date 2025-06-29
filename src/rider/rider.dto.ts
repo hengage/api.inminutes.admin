@@ -62,9 +62,11 @@ export class GetWorkAreasQueryDto {
   @Type(() => Number)
   @IsInt()
   limit?: number = 10;
+}
 
+export class GetWorkAreasSessionsQueryDto {
   @IsDateString()
-  @IsOptional()
+  @IsNotEmpty()
   date?: Date;
 }
 

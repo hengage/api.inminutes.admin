@@ -10,6 +10,7 @@ import {
   GetRidersQueryDto,
   GetTimeSlotQueryDto,
   GetWorkAreasQueryDto,
+  GetWorkAreasSessionsQueryDto,
   UpdateRiderDto,
 } from './rider.dto';
 @Injectable()
@@ -92,7 +93,7 @@ export class RiderService {
 
   async getWorkAreaSession(
     workAreaId: string,
-    query: GetWorkAreasQueryDto,
+    query: GetWorkAreasSessionsQueryDto,
   ): Promise<any> {
     try {
       return await this.apiService.get(
@@ -130,42 +131,6 @@ export class RiderService {
   async delete(riderId: string): Promise<any> {
     try {
       return await this.apiService.delete(`/admin/riders/${riderId}/delete`);
-    } catch (error) {
-      throwHttpException(error);
-    }
-  }
-
-  async insertTimeSlot(data: CreateTimeSlotDto): Promise<any> {
-    try {
-      return await this.apiService.post(`/admin/work-areas/time-slot`, data);
-    } catch (error) {
-      throwHttpException(error);
-    }
-  }
-
-  async getTimeSlots(query: GetTimeSlotQueryDto): Promise<any> {
-    try {
-      return await this.apiService.get(`/admin/work-areas/time-slot`, query);
-    } catch (error) {
-      throwHttpException(error);
-    }
-  }
-
-  async getTimeSlot(timeSlotId: string): Promise<any> {
-    try {
-      return await this.apiService.get(
-        `/admin/work-areas/time-slot/${timeSlotId}`,
-      );
-    } catch (error) {
-      throwHttpException(error);
-    }
-  }
-
-  async deleteTimeSlot(timeSlotId: string): Promise<any> {
-    try {
-      return await this.apiService.delete(
-        `/admin/work-areas/time-slot/${timeSlotId}`,
-      );
     } catch (error) {
       throwHttpException(error);
     }

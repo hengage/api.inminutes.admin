@@ -20,6 +20,7 @@ import {
   GetRidersQueryDto,
   GetTimeSlotQueryDto,
   GetWorkAreasQueryDto,
+  GetWorkAreasSessionsQueryDto,
   UpdateRiderDto,
 } from './rider.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
@@ -55,25 +56,25 @@ export class RiderController {
     return await this.riderService.approveOrDisapprove(riderId, approve);
   }
 
-  @Post('/work-area/add')
+  @Post('/work-areas')
   async addWorkArea(@Body() addWorkAreaBody: AddWorkAreaDto) {
     return await this.riderService.addWorkArea(addWorkAreaBody);
   }
 
-  @Get('/work-area/list')
+  @Get('/work-areas')
   async getWorkAreas(@Query(ValidationPipe) query: GetWorkAreasQueryDto) {
     return await this.riderService.getWorkAreas(query);
   }
 
-  @Get('/work-area/:workAreaId/session/list')
+  @Get('/work-areas/:workAreaId/sessions')
   async getWorkAreaSession(
     @Param('workAreaId') workAreaId: string,
-    @Query(ValidationPipe) query: GetWorkAreasQueryDto,
+    @Query(ValidationPipe) query: GetWorkAreasSessionsQueryDto,
   ) {
     return await this.riderService.getWorkAreaSession(workAreaId, query);
   }
 
-  @Get('/work-area/:workAreaId/session/:sessionId/rider-list')
+  @Get('/work-areas/:workAreaId/sessions/:sessionId/riders')
   async getBookedRidersPerSession(
     @Param('workAreaId') workAreaId: string,
     @Param('sessionId') sessionId: string,
@@ -84,26 +85,6 @@ export class RiderController {
       sessionId,
       query,
     );
-  }
-
-  @Post('time-slot')
-  async createTimeSlot(@Body() createTimeSlotDto: CreateTimeSlotDto) {
-    return this.riderService.insertTimeSlot(createTimeSlotDto);
-  }
-
-  @Get('time-slot')
-  async getTimeSlots(@Query() query: GetTimeSlotQueryDto) {
-    return this.riderService.getTimeSlots(query);
-  }
-
-  @Get('time-slot/:id')
-  async getTimeSlot(@Param() id: string) {
-    return this.riderService.getTimeSlot(id);
-  }
-
-  @Delete('time-slot/:id')
-  async deleteTimeSlot(@Param() id: string) {
-    return this.riderService.deleteTimeSlot(id);
   }
 
   @Get('nearby-working')
