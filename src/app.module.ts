@@ -38,6 +38,9 @@ import { MediaService } from './media/media.service';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { DashboardController } from './dashboard/dashboard.controller';
 import { DashboardService } from './dashboard/dashboard.service';
+import { MetricsModule } from './metrics/metrics.module';
+import { MetricsService } from './metrics/metrics.service';
+import { MetricsController } from './metrics/metrics.controller';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -56,6 +59,7 @@ import { DashboardService } from './dashboard/dashboard.service';
     RiderModule,
     ErrandModule,
     DashboardModule,
+    MetricsModule,
   ],
 
   controllers: [
@@ -70,7 +74,8 @@ import { DashboardService } from './dashboard/dashboard.service';
     AuthController,
     AdminController,
     MediaController,
-    DashboardController
+    DashboardController,
+    MetricsController,
   ],
   providers: [
     AppService,
@@ -86,7 +91,8 @@ import { DashboardService } from './dashboard/dashboard.service';
     ErrandService,
     MediaService,
     JwtService,
-    DashboardService
+    DashboardService,
+    MetricsService,
   ],
 })
 export class AppModule {}
