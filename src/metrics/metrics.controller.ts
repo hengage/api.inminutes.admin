@@ -21,4 +21,14 @@ export class MetricsController {
   async getTopVendorsCategories() {
     return this.metricsService.getTopVendorsCategories();
   }
+
+  @Get('/riders/summary')
+  async getRidersSummary() {
+    return this.metricsService.getRidersSummary();
+  }
+
+  @Get('/riders/top')
+  async getTopRiders() {
+    return this.metricsService.getTopRiders();
+  }
 }

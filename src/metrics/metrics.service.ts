@@ -33,4 +33,20 @@ export class MetricsService {
       throwHttpException(error);
     }
   }
+
+  async getRidersSummary() {
+    try {
+      return await this.apiService.get(`${this.MODULE_URL}/riders/summary`);
+    } catch (error) {
+      throwHttpException(error);
+    }
+  }
+
+  async getTopRiders() {
+    try {
+      return await this.apiService.get(`${this.MODULE_URL}/riders/top`);
+    } catch (error) {
+      throwHttpException(error);
+    }
+  }
 }
