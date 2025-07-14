@@ -31,4 +31,29 @@ export class MetricsController {
   async getTopRiders() {
     return this.metricsService.getTopRiders();
   }
+
+  @Get('/products/summary')
+  async getProductsSummary() {
+    return this.metricsService.getProductsSummary();
+  }
+
+  @Get('/products/top')
+  async getTopProducts() {
+    return this.metricsService.getTopProducts();
+  }
+
+  @Get('/products/categories/top')
+  async getTopProductsCategories() {
+    return this.metricsService.getTopProductsCatgeories();
+  }
+
+  @Get('customers/summary')
+  async getCustomersSummary() {
+    return this.metricsService.getCustomersSummary();
+  }
+
+  @Get('customers/top')
+  async getTopCustomers() {
+    return this.metricsService.getTopCustomers();
+  }
 }
