@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Get } from '@nestjs/common';
+import { Controller, UseGuards, Get, Query } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { MetricsService } from './metrics.service';
 
@@ -22,6 +22,11 @@ export class MetricsController {
     return this.metricsService.getTopVendorsCategories();
   }
 
+  @Get('/vendors/chart')
+  async getVendorsChart(@Query() query: DateFilterQuery) {
+    return this.metricsService.getVendorsChart(query);
+  }
+
   @Get('/riders/summary')
   async getRidersSummary() {
     return this.metricsService.getRidersSummary();
@@ -30,6 +35,11 @@ export class MetricsController {
   @Get('/riders/top')
   async getTopRiders() {
     return this.metricsService.getTopRiders();
+  }
+
+  @Get('/riders/chart')
+  async getRidersChart(@Query() query: DateFilterQuery) {
+    return this.metricsService.getRidersChart(query);
   }
 
   @Get('/products/summary')
@@ -47,6 +57,11 @@ export class MetricsController {
     return this.metricsService.getTopProductsCatgeories();
   }
 
+  @Get('/products/chart')
+  async getProductsChart(@Query() query: DateFilterQuery) {
+    return this.metricsService.getProductsChart(query);
+  }
+
   @Get('customers/summary')
   async getCustomersSummary() {
     return this.metricsService.getCustomersSummary();
@@ -55,5 +70,10 @@ export class MetricsController {
   @Get('customers/top')
   async getTopCustomers() {
     return this.metricsService.getTopCustomers();
+  }
+
+  @Get('/customers/chart')
+  async getCustomersChart(@Query() query: DateFilterQuery) {
+    return this.metricsService.getCustomersChart(query);
   }
 }

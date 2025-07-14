@@ -34,6 +34,17 @@ export class MetricsService {
     }
   }
 
+  async getVendorsChart(query: DateFilterQuery) {
+    try {
+      return await this.apiService.get(
+        `${this.MODULE_URL}/vendors/chart`,
+        query,
+      );
+    } catch (error) {
+      throwHttpException(error);
+    }
+  }
+
   async getRidersSummary() {
     try {
       return await this.apiService.get(`${this.MODULE_URL}/riders/summary`);
@@ -45,6 +56,17 @@ export class MetricsService {
   async getTopRiders() {
     try {
       return await this.apiService.get(`${this.MODULE_URL}/riders/top`);
+    } catch (error) {
+      throwHttpException(error);
+    }
+  }
+
+  async getRidersChart(query: DateFilterQuery) {
+    try {
+      return await this.apiService.get(
+        `${this.MODULE_URL}/riders/chart`,
+        query,
+      );
     } catch (error) {
       throwHttpException(error);
     }
@@ -76,6 +98,17 @@ export class MetricsService {
     }
   }
 
+  async getProductsChart(query: DateFilterQuery) {
+    try {
+      return await this.apiService.get(
+        `${this.MODULE_URL}/products/chart`,
+        query,
+      );
+    } catch (error) {
+      throwHttpException(error);
+    }
+  }
+
   async getCustomersSummary() {
     try {
       return await this.apiService.get(`${this.MODULE_URL}/customers/summary`);
@@ -87,6 +120,17 @@ export class MetricsService {
   async getTopCustomers() {
     try {
       return await this.apiService.get(`${this.MODULE_URL}/customers/top`);
+    } catch (error) {
+      throwHttpException(error);
+    }
+  }
+
+  async getCustomersChart(query: DateFilterQuery) {
+    try {
+      return await this.apiService.get(
+        `${this.MODULE_URL}/customers/chart`,
+        query,
+      );
     } catch (error) {
       throwHttpException(error);
     }
